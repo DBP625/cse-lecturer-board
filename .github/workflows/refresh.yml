@@ -1,0 +1,46 @@
+name: Refresh notices
+
+# Runs the feed reader on a schedule and whenever you click "Run workflow".
+# Google crawls the sources; this just turns your Google Alerts feed into
+# notices.json, which the board reads. No Claude involved.
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"    # every 6 hours (UTC)
+  workflow_dispatch: {}        # adds a manual "Run workflow" button
+
+permissions:
+  contents: write              # lets the action commit notices.json
+
+concurrency:
+  group: refresh-notices
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build notices.json
+        env:
+          FEED_URLS: ${{ secrets.FEED_URLS }}
+        run: python feed_to_json.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "notice-board-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add notices.json
+          if git diff --cached --quiet; then
+            echo "No changes to notices.json."
+          else
+            git commit -m "Auto-refresh notices ($(date -u +%FT%TZ))"
+            git push
+          fi

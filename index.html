@@ -1,0 +1,942 @@
+<title>CSE Lecturer Notice Board — BD Private Universities</title>
+<style>
+  :root{
+    --ground:#F6F7F3;
+    --surface:#FDFDFB;
+    --ink:#1C2420;
+    --muted:#5C6B62;
+    --line:#D9DED7;
+    --accent:#0E6A4F;
+    --accent-soft:#E3EFE9;
+    --urgent:#BE3A34;
+    --urgent-soft:#F6E4E2;
+    --watch:#A9741C;
+    --watch-soft:#F3ECDC;
+    --closed:#8A948D;
+    --pin:#B08A2E;
+    --shadow:0 1px 2px rgba(28,36,32,.06),0 4px 14px rgba(28,36,32,.05);
+    --serif:"Palatino Linotype","Iowan Old Style",Palatino,Georgia,"Noto Serif Bengali",serif;
+    --sans:"Segoe UI",system-ui,-apple-system,"Noto Sans Bengali","Nirmala UI",sans-serif;
+    --mono:"Cascadia Mono",Consolas,"SF Mono",monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --ground:#101613; --surface:#18201B; --ink:#E6EBE6; --muted:#93A29A;
+      --line:#2A342E; --accent:#4CA783; --accent-soft:#1D3229;
+      --urgent:#E0685E; --urgent-soft:#3A211F; --watch:#CFA14E; --watch-soft:#332A18;
+      --closed:#6C7972; --pin:#CFA14E;
+      --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#101613; --surface:#18201B; --ink:#E6EBE6; --muted:#93A29A;
+    --line:#2A342E; --accent:#4CA783; --accent-soft:#1D3229;
+    --urgent:#E0685E; --urgent-soft:#3A211F; --watch:#CFA14E; --watch-soft:#332A18;
+    --closed:#6C7972; --pin:#CFA14E;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
+  }
+  :root[data-theme="light"]{
+    --ground:#F6F7F3; --surface:#FDFDFB; --ink:#1C2420; --muted:#5C6B62;
+    --line:#D9DED7; --accent:#0E6A4F; --accent-soft:#E3EFE9;
+    --urgent:#BE3A34; --urgent-soft:#F6E4E2; --watch:#A9741C; --watch-soft:#F3ECDC;
+    --closed:#8A948D; --pin:#B08A2E;
+    --shadow:0 1px 2px rgba(28,36,32,.06),0 4px 14px rgba(28,36,32,.05);
+  }
+  *{box-sizing:border-box}
+  html{background:var(--ground)}
+  body{
+    margin:0; background:var(--ground); color:var(--ink);
+    font-family:var(--sans); font-size:15px; line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent)}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 20px 80px}
+
+  /* ---------- header ---------- */
+  header.masthead{padding:34px 0 18px; border-bottom:3px double var(--line); margin-bottom:0}
+  .eyebrow{font-family:var(--sans); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); font-weight:600}
+  .eyebrow .bn{letter-spacing:0; text-transform:none; font-size:13px; color:var(--muted); font-weight:400}
+  h1{font-family:var(--serif); font-size:clamp(26px,4vw,38px); line-height:1.15; margin:.25em 0 .3em; text-wrap:balance; font-weight:700}
+  .standfirst{color:var(--muted); max-width:62ch; margin:0}
+  .verified{display:flex; flex-wrap:wrap; align-items:center; gap:9px; margin-top:12px; font-size:12.5px; color:var(--muted)}
+  .verified .dot{width:8px;height:8px;border-radius:50%;background:var(--accent); flex:none}
+  .verified .dot.warn{background:var(--watch)}
+  .verified .dot.stale{background:var(--urgent)}
+  .refresh-btn{
+    font:600 12px var(--sans); color:var(--accent); background:var(--accent-soft);
+    border:1px solid var(--accent); border-radius:6px; padding:4px 11px; cursor:pointer;
+  }
+  .refresh-btn:hover{background:var(--accent); color:#fff}
+  .refresh-btn.copied{background:var(--accent); color:#fff}
+  .refresh-hint{font-size:11.5px; font-style:italic}
+
+  /* ---------- auto-alerts ---------- */
+  .alerts-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(285px,1fr)); gap:14px}
+  .alert-card{position:relative; background:var(--surface); border:1px solid var(--line); border-top:3px solid var(--accent); border-radius:11px; padding:15px 16px 14px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:8px}
+  .alert-card .an{position:absolute; top:11px; right:14px; font-family:var(--serif); font-weight:700; font-size:21px; color:var(--line)}
+  .alert-card h3{margin:0; font-family:var(--serif); font-size:16.5px; padding-right:26px}
+  .alert-card p{margin:0; font-size:13px}
+  .alert-card p strong,.alert-card p em{color:var(--ink); font-style:normal}
+  .btns{display:flex; flex-wrap:wrap; gap:8px; margin-top:auto; padding-top:2px}
+  .abtn{font:600 12.5px var(--sans); text-decoration:none; background:var(--accent); color:#fff; padding:7px 12px; border-radius:7px}
+  .abtn.ghost{background:transparent; color:var(--accent); border:1px solid var(--accent)}
+  .abtn:hover{opacity:.9}
+  .qlist{display:grid; gap:6px}
+  .qcopy{font:500 11.5px var(--mono); text-align:left; cursor:pointer; background:var(--ground); border:1px solid var(--line); border-radius:7px; padding:7px 9px; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .qcopy:hover{border-color:var(--accent)}
+  .qcopy.copied{border-color:var(--accent); color:var(--accent)}
+  .alerts-foot{font-size:12.5px; color:var(--muted); margin:12px 0 0; font-style:italic}
+
+  /* ---------- live postings (GitHub Pages autonomous feed) ---------- */
+  #liveSec{display:none}
+  .live-stamp{font-size:12px; color:var(--muted); display:inline-flex; align-items:center; gap:6px}
+  .live-stamp .ldot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+  .live-stamp .ldot.warn{background:var(--watch)} .live-stamp .ldot.stale{background:var(--urgent)}
+  .live-list{display:grid; grid-template-columns:repeat(auto-fill,minmax(330px,1fr)); gap:12px}
+  .live-item{background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:10px; padding:12px 15px; box-shadow:var(--shadow)}
+  .live-item h3{margin:0 0 5px; font-family:var(--serif); font-size:15px; line-height:1.25}
+  .live-item h3 a{text-decoration:none}
+  .live-item h3 a:hover{text-decoration:underline}
+  .live-meta{display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-bottom:6px}
+  .live-src{font:600 11px var(--mono); color:var(--muted); background:var(--ground); border:1px solid var(--line); border-radius:4px; padding:2px 7px}
+  .live-date{font:600 11px var(--mono); color:var(--muted)}
+  .live-dl{font:600 11px var(--mono); color:var(--urgent); border:1px dashed var(--urgent); border-radius:4px; padding:2px 7px}
+  .live-snip{font-size:12.5px; color:var(--muted); margin:0}
+  .live-empty{color:var(--muted); font-size:13px; font-style:italic; padding:6px 2px}
+
+  /* ---------- toolbar ---------- */
+  .toolbar{
+    position:sticky; top:0; z-index:20; background:var(--ground);
+    padding:12px 0 10px; border-bottom:1px solid var(--line);
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+  }
+  .search{
+    flex:1 1 220px; min-width:200px; display:flex; align-items:center; gap:8px;
+    background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:7px 12px;
+  }
+  .search input{
+    border:0; outline:0; background:transparent; color:var(--ink);
+    font:inherit; width:100%;
+  }
+  .search svg{flex:none; opacity:.55}
+  .chips{display:flex; flex-wrap:wrap; gap:6px}
+  .chip{
+    font:600 12.5px var(--sans); letter-spacing:.02em; cursor:pointer;
+    padding:6px 12px; border-radius:999px; border:1px solid var(--line);
+    background:var(--surface); color:var(--muted);
+  }
+  .chip[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:#fff}
+  :root[data-theme="dark"] .chip[aria-pressed="true"],
+  .dark-chip-fix{color:#fff}
+  .chip:focus-visible,.search input:focus-visible,button:focus-visible,select:focus-visible,a:focus-visible,input[type=checkbox]:focus-visible{
+    outline:2px solid var(--accent); outline-offset:2px;
+  }
+  .tally{font-size:12.5px; color:var(--muted); margin-left:auto; white-space:nowrap}
+  .tally strong{color:var(--ink)}
+
+  /* ---------- closing-soon rail ---------- */
+  .rail{margin:26px 0 8px}
+  .rail-head{display:flex; align-items:baseline; gap:12px; margin-bottom:12px}
+  .rail-head h2{margin:0}
+  h2{font-family:var(--serif); font-size:21px; font-weight:700; margin:0}
+  .rail-cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px}
+  .urgent-card{
+    background:var(--surface); border:1px solid var(--urgent); border-left-width:5px;
+    border-radius:10px; padding:14px 16px; box-shadow:var(--shadow); position:relative;
+  }
+  .urgent-card.reported{border-color:var(--watch); }
+  .stamp{
+    position:absolute; top:12px; right:12px; transform:rotate(-3deg);
+    font:700 11.5px/1.1 var(--mono); letter-spacing:.04em; text-transform:uppercase;
+    color:var(--urgent); border:1.5px dashed var(--urgent); border-radius:4px; padding:4px 8px;
+    font-variant-numeric:tabular-nums; text-align:center;
+  }
+  .urgent-card.reported .stamp{color:var(--watch); border-color:var(--watch)}
+  .urgent-card h3{margin:0 0 2px; font-family:var(--serif); font-size:17px; padding-right:92px}
+  .urgent-card .sub{font-size:12.5px; color:var(--muted); margin-bottom:8px}
+  .urgent-card p{margin:0 0 10px; font-size:13.5px}
+  .btn{
+    display:inline-block; font:600 13px var(--sans); text-decoration:none;
+    background:var(--accent); color:#fff; padding:7px 14px; border-radius:7px;
+  }
+  .btn.ghost{background:transparent; color:var(--accent); border:1px solid var(--accent); margin-left:6px}
+
+  /* ---------- sections & cards ---------- */
+  section.region{margin-top:34px}
+  .region-head{display:flex; align-items:baseline; gap:10px; border-bottom:1px solid var(--line); padding-bottom:8px; margin-bottom:14px}
+  .region-head .count{font-size:12.5px; color:var(--muted)}
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(330px,1fr)); gap:14px}
+  .card{
+    background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--closed);
+    border-radius:10px; padding:14px 16px 12px; box-shadow:var(--shadow);
+    display:flex; flex-direction:column; gap:8px; transition:transform .12s ease;
+  }
+  @media (prefers-reduced-motion: no-preference){ .card:hover{transform:translateY(-2px)} }
+  .card[data-state="open"]{border-left-color:var(--urgent)}
+  .card[data-state="reported"]{border-left-color:var(--watch)}
+  .card[data-state="rolling"]{border-left-color:var(--accent)}
+  .card[data-state="watch"]{border-left-color:var(--closed)}
+  .card-top{display:flex; align-items:flex-start; gap:8px}
+  .card h3{margin:0; font-family:var(--serif); font-size:16.5px; line-height:1.25; flex:1}
+  .pin-btn{
+    flex:none; background:none; border:0; cursor:pointer; font-size:16px; line-height:1;
+    color:var(--line); padding:2px;
+  }
+  .pin-btn[aria-pressed="true"]{color:var(--pin)}
+  .meta{display:flex; flex-wrap:wrap; gap:6px; align-items:center}
+  .tag{font:600 11px var(--sans); letter-spacing:.05em; text-transform:uppercase; padding:3px 8px; border-radius:4px}
+  .tag.city{background:transparent; border:1px solid var(--line); color:var(--muted)}
+  .tag.open{background:var(--urgent-soft); color:var(--urgent)}
+  .tag.reported{background:var(--watch-soft); color:var(--watch)}
+  .tag.rolling{background:var(--accent-soft); color:var(--accent)}
+  .tag.watch{background:transparent; border:1px solid var(--line); color:var(--closed)}
+  .tag.deadline{font-family:var(--mono); font-variant-numeric:tabular-nums; background:transparent; border:1px dashed var(--urgent); color:var(--urgent); text-transform:none; letter-spacing:0}
+  .tag.deadline.past{border-color:var(--closed); color:var(--closed); text-decoration:line-through}
+  .card p{margin:0; font-size:13.5px}
+  .card p.how{color:var(--muted); font-size:13px}
+  .card p.how strong{color:var(--ink); font-weight:600}
+  .signal{font-size:11.5px; color:var(--muted); font-style:italic}
+  .links{display:flex; flex-wrap:wrap; gap:10px; font-size:13px}
+  .links a{font-weight:600; text-decoration:none; border-bottom:1px solid transparent}
+  .links a:hover{border-bottom-color:var(--accent)}
+  .card-foot{display:flex; gap:8px; align-items:center; border-top:1px dashed var(--line); padding-top:9px; margin-top:2px}
+  .card-foot label{font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; font-weight:600}
+  .status-sel{
+    font:600 12.5px var(--sans); color:var(--ink); background:var(--ground);
+    border:1px solid var(--line); border-radius:6px; padding:5px 8px; flex:1; max-width:190px;
+  }
+  .status-sel.st-applied{border-color:var(--accent); color:var(--accent)}
+  .status-sel.st-interview,.status-sel.st-offer{border-color:var(--pin); color:var(--pin)}
+
+  /* compact list */
+  .compact{display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:8px; margin-top:6px}
+  .compact a{
+    display:flex; justify-content:space-between; gap:8px; align-items:baseline;
+    background:var(--surface); border:1px solid var(--line); border-radius:8px;
+    padding:9px 12px; text-decoration:none; color:var(--ink); font-size:13.5px; font-weight:600;
+  }
+  .compact a span{color:var(--muted); font-weight:400; font-size:12px; font-family:var(--mono)}
+  .compact a:hover{border-color:var(--accent)}
+
+  /* feeds */
+  .feeds{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:10px; margin-top:6px}
+  .feed{
+    background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:11px 14px;
+  }
+  .feed a{font-weight:700; text-decoration:none; font-size:14px}
+  .feed p{margin:3px 0 0; font-size:12.5px; color:var(--muted)}
+
+  /* cheat sheet */
+  .sheet{display:grid; grid-template-columns:1.2fr 1fr; gap:22px; margin-top:10px}
+  @media (max-width:760px){ .sheet{grid-template-columns:1fr} }
+  .bars{display:grid; gap:10px}
+  .bar{
+    background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:11px 14px;
+    display:grid; grid-template-columns:118px 1fr; gap:12px; align-items:baseline;
+  }
+  .bar b{font-family:var(--mono); font-size:13px; color:var(--accent); font-variant-numeric:tabular-nums}
+  .bar span{font-size:13.5px}
+  .checklist{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:14px 16px}
+  .checklist h3{margin:0 0 4px; font-family:var(--serif); font-size:16px}
+  .checklist .hint{font-size:12px; color:var(--muted); margin:0 0 10px}
+  .checklist ul{list-style:none; margin:0; padding:0; display:grid; gap:7px}
+  .checklist li{display:flex; gap:9px; align-items:flex-start; font-size:13.5px}
+  .checklist input{accent-color:var(--accent); margin-top:3px; width:15px; height:15px; flex:none}
+  .checklist li.done label{text-decoration:line-through; color:var(--muted)}
+  .checklist label{cursor:pointer}
+  .progress{font:600 12px var(--mono); color:var(--accent); margin-top:10px}
+
+  /* salary tiers */
+  .tiers{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; margin-top:6px}
+  .tier{background:var(--surface); border:1px solid var(--line); border-top:3px solid var(--accent); border-radius:10px; padding:14px 16px}
+  .tier-name{font:600 11px var(--sans); letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+  .tier-range{font-family:var(--serif); font-size:27px; font-weight:700; color:var(--accent); font-variant-numeric:tabular-nums; margin:2px 0 4px}
+  .tier-range span{font-family:var(--sans); font-size:12px; font-weight:400; color:var(--muted)}
+  .tier p{margin:4px 0 0; font-size:13px}
+  .paynotes{display:grid; gap:10px; margin-top:14px}
+
+  /* preparation gates */
+  .gates{list-style:none; margin:6px 0 0; padding:0; display:grid; gap:12px}
+  .gates > li{display:grid; grid-template-columns:46px 1fr; gap:14px; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:15px 17px}
+  .gate-no{
+    font-family:var(--serif); font-size:22px; font-weight:700; color:var(--accent);
+    border:1.5px dashed var(--accent); border-radius:8px; width:44px; height:44px;
+    display:flex; align-items:center; justify-content:center; transform:rotate(-2deg);
+  }
+  .gates h3{margin:0 0 3px; font-family:var(--serif); font-size:16.5px}
+  .gates p{margin:0 0 7px; font-size:13.5px}
+  .gates ul{margin:0; padding-left:17px; display:grid; gap:4px}
+  .gates ul li{font-size:13px}
+  @media (max-width:560px){ .gates > li{grid-template-columns:1fr} .gate-no{width:38px;height:38px;font-size:18px} }
+
+  .empty{color:var(--muted); font-size:13.5px; font-style:italic; padding:16px 4px}
+  footer.small{margin-top:44px; border-top:1px solid var(--line); padding-top:14px; font-size:12px; color:var(--muted); max-width:72ch}
+  .foot-bn{font-family:var(--serif)}
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <div class="eyebrow">শিক্ষক নিয়োগ · নোটিশ বোর্ড &nbsp;<span class="bn">CSE Lecturer openings, one board</span></div>
+    <h1>CSE Lecturer Notice Board — Private Universities of Bangladesh</h1>
+    <p class="standfirst">Every recruitment portal in one place: what is open right now, what runs on rolling CV drops, and which boards to re-check weekly. Your application status and pins save in this browser.</p>
+    <div class="verified">
+      <span class="dot" id="staleDot"></span>
+      <span id="staleText">Portals verified by live check on <strong>23 July 2026</strong>.</span>
+      <button class="refresh-btn" id="copyRefresh" title="Copies a ready-made refresh instruction — paste it into any Claude Code chat and the board gets re-verified and republished to this same link">⟳ Copy refresh request</button>
+      <span class="refresh-hint" id="refreshHint">manual refresh — or set the auto-alerts below to get emailed automatically ↓</span>
+    </div>
+  </header>
+
+  <div class="toolbar" id="toolbar">
+    <div class="search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      <input id="q" type="search" placeholder="Search university, city, keyword…" aria-label="Search universities">
+    </div>
+    <div class="chips" id="regionChips" role="group" aria-label="Filter by region">
+      <button class="chip" data-region="all" aria-pressed="true">All regions</button>
+      <button class="chip" data-region="ctg" aria-pressed="false">Chattogram</button>
+      <button class="chip" data-region="dhk" aria-pressed="false">Dhaka</button>
+      <button class="chip" data-region="syl" aria-pressed="false">Sylhet &amp; beyond</button>
+    </div>
+    <div class="chips" id="stateChips" role="group" aria-label="Filter by status">
+      <button class="chip" data-mode="any" aria-pressed="true">Any status</button>
+      <button class="chip" data-mode="live" aria-pressed="false">Open &amp; rolling</button>
+      <button class="chip" data-mode="mine" aria-pressed="false">Tracked by me</button>
+    </div>
+    <div class="tally" id="tally"></div>
+  </div>
+
+  <div class="rail" id="railWrap">
+    <div class="rail-head">
+      <h2>⏰ Closing soon</h2>
+      <span class="count" id="railNote"></span>
+    </div>
+    <div class="rail-cards" id="rail"></div>
+  </div>
+
+  <section class="region" id="alertsSec">
+    <div class="region-head"><h2>🔔 Never miss a new circular — set these once</h2><span class="count">they watch Bdjobs, LinkedIn &amp; the news for “Lecturer CSE” and email you · ~5 min, then it runs itself</span></div>
+    <div class="alerts-grid">
+      <div class="alert-card">
+        <div class="an">1</div>
+        <h3>LinkedIn job alert</h3>
+        <p>Opens a Bangladesh lecturer search. On that page, flip the <strong>“Set alert”</strong> toggle → you get emailed on every new match. NSU, BRACU, Metropolitan &amp; others post here.</p>
+        <div class="btns">
+          <a class="abtn" href="https://www.linkedin.com/jobs/search/?keywords=Lecturer%20Computer%20Science&location=Bangladesh" target="_blank" rel="noopener">“Computer Science” ↗</a>
+          <a class="abtn ghost" href="https://www.linkedin.com/jobs/search/?keywords=Lecturer%20CSE&location=Bangladesh" target="_blank" rel="noopener">“CSE” ↗</a>
+        </div>
+      </div>
+      <div class="alert-card">
+        <div class="an">2</div>
+        <h3>Bdjobs job alert</h3>
+        <p>The main pipe — most private-uni circulars cross-post here. Make a free account, then <strong>My Bdjobs → Job Alert</strong> for category <em>Education/Training</em> + keyword <em>Lecturer</em>.</p>
+        <div class="btns">
+          <a class="abtn" href="https://bdjobs.com/h/jobs/?fcatId=4" target="_blank" rel="noopener">Open Education jobs ↗</a>
+        </div>
+      </div>
+      <div class="alert-card">
+        <div class="an">3</div>
+        <h3>Google Alerts</h3>
+        <p>Catches newspapers &amp; trackers a job-board misses. Open Google Alerts, paste each query, set <em>“At most once a day”</em>:</p>
+        <div class="qlist">
+          <button class="qcopy" data-q='lecturer &quot;computer science&quot; university Bangladesh' title="Copy this query">📋 lecturer &quot;computer science&quot; university Bangladesh</button>
+          <button class="qcopy" data-q='&quot;lecturer&quot; (CSE OR &quot;computer science&quot;) Bangladesh (circular OR vacancy OR &quot;job opening&quot;)' title="Copy this query">📋 “lecturer” (CSE OR “computer science”) Bangladesh (circular OR vacancy…)</button>
+          <button class="qcopy" data-q='lecturer CSE (site:bdjobs.com OR site:bdgovtjob.net OR site:eduresultbd.com)' title="Copy this query">📋 lecturer CSE (site:bdjobs.com OR bdgovtjob.net OR eduresultbd.com)</button>
+        </div>
+        <div class="btns"><a class="abtn" href="https://www.google.com/alerts" target="_blank" rel="noopener">Open Google Alerts ↗</a></div>
+      </div>
+    </div>
+    <p class="alerts-foot">Set once, they run forever — no code, nothing to maintain. This board stays your reference for <em>where</em> to apply, salary &amp; process; the alerts tell you <em>when</em> something new opens.</p>
+  </section>
+
+  <section class="region" id="liveSec">
+    <div class="region-head"><h2>🆕 Latest postings — live feed</h2><span class="live-stamp" id="liveStamp"></span></div>
+    <div class="live-list" id="liveWrap"></div>
+    <p class="alerts-foot">Auto-fetched from your Google Alerts feed by a GitHub Action — refreshes on its own, no Claude in the loop. Headlines only; open the linked circular for exact terms &amp; deadline.</p>
+  </section>
+
+  <div id="sections"></div>
+
+  <section class="region" id="moreSec">
+    <div class="region-head"><h2>More portals to keep on the radar</h2><span class="count">root sites — find “Career / Notice” in their menus</span></div>
+    <div class="compact">
+      <a href="https://iubat.edu" target="_blank" rel="noopener">IUBAT <span>iubat.edu</span></a>
+      <a href="https://uttarauniversity.edu.bd" target="_blank" rel="noopener">Uttara University <span>uttarauniversity.edu.bd</span></a>
+      <a href="https://nub.ac.bd/nub/job" target="_blank" rel="noopener">Northern University BD <span>nub.ac.bd · live job page</span></a>
+      <a href="https://ndub.edu.bd" target="_blank" rel="noopener">Notre Dame University BD <span>ndub.edu.bd</span></a>
+      <a href="https://vu.edu.bd" target="_blank" rel="noopener">Varendra University <span>vu.edu.bd · Rajshahi</span></a>
+    </div>
+  </section>
+
+  <section class="region">
+    <div class="region-head"><h2>Feeds that catch circulars first</h2><span class="count">most BD university circulars surface here before anywhere else</span></div>
+    <div class="feeds">
+      <div class="feed"><a href="https://bdjobs.com/h/jobs/?fcatId=4" target="_blank" rel="noopener">Bdjobs — Education &amp; Training</a><p>The main pipe. Search “Lecturer CSE” inside the category; most private-uni circulars cross-post here.</p></div>
+      <div class="feed"><a href="https://bdgovtjob.net/category/university-job-circular/" target="_blank" rel="noopener">BD Govt Job — University circulars</a><p>Tracker blog that mirrors public + private university circulars with deadlines.</p></div>
+      <div class="feed"><a href="https://eduresultbd.com/university-job-circular/" target="_blank" rel="noopener">EduResultBD — University job circulars</a><p>Second tracker; useful cross-check when a deadline is ambiguous.</p></div>
+      <div class="feed"><a href="https://www.linkedin.com/jobs/search/?keywords=lecturer%20computer%20science&amp;location=Bangladesh" target="_blank" rel="noopener">LinkedIn — “Lecturer Computer Science”, Bangladesh</a><p>NSU, BRACU, Metropolitan and others post here. Set a job alert on this exact search.</p></div>
+      <div class="feed"><a href="https://tbsgraduates.net/" target="_blank" rel="noopener">TBS Graduates</a><p>The Business Standard’s job board — East Delta, AUST and UAP notices have appeared here.</p></div>
+      <div class="feed"><a href="http://www.ugc.gov.bd/" target="_blank" rel="noopener">UGC Bangladesh</a><p>The approved private-university list (~115). Use it to expand this board beyond the majors.</p></div>
+    </div>
+  </section>
+
+  <section class="region">
+    <div class="region-head"><h2>Salary reality — Lecturer grade</h2><span class="count">circulars print “attractive remuneration”; these are the numbers behind it</span></div>
+    <div class="tiers">
+      <div class="tier">
+        <div class="tier-name">Top tier</div>
+        <div class="tier-range">৳ 48–75k<span> /month entry</span></div>
+        <p>BRAC, NSU, IUB, EWU, UIU, AIUB. Glassdoor pegs a BRACU Lecturer at ~65k base (58–74k with extras, comp rated 4.3/5 from 34 reviews); a listings site cites IUB entry at 50–70k plus development funds, insurance, sabbaticals. NSU pays at the top of this band.</p>
+      </div>
+      <div class="tier">
+        <div class="tier-name">Established mid-tier</div>
+        <div class="tier-range">৳ 35–50k<span> /month entry</span></div>
+        <p>AUST, UAP, Daffodil, Green, BUBT, Southeast, Stamford, Eastern, ULAB. Circulars say “negotiable”; Green’s spells out the pattern — medical, provident fund, two festival bonuses, Fri–Sat off, yearly review, and “initial higher salary for outstanding academic and research records”. That last clause is your CGPA + publication working for you.</p>
+      </div>
+      <div class="tier">
+        <div class="tier-name">Regional &amp; newer</div>
+        <div class="tier-range">৳ 25–40k<span> /month entry</span></div>
+        <p>Premier, Southern, Port City, CIU, USTC, BGC Trust, Metropolitan, Leading, NEUB, WUB — mostly “as per university pay scale”. Market-wide, salary surveys put the average BD lecturer near 38.5k with a spread of roughly 18–61k.</p>
+      </div>
+    </div>
+    <div class="paynotes">
+      <div class="bar"><b>2 bonuses/yr</b><span>Two festival bonuses are standard everywhere; provident fund and gratuity usually unlock after confirmation (6–12 months probation).</span></div>
+      <div class="bar"><b>+ side income</b><span>Evening/weekend-program classes, exam-script remuneration, invigilation, and project supervision commonly add ৳5–20k a month on top of base at mid-tier universities.</span></div>
+      <div class="bar"><b>Ladder pay</b><span>The jumps are steep: BRACU’s Glassdoor gap is Lecturer ~65k → Senior Lecturer ~130k. Promotion, not negotiation, is where lecturer pay really moves.</span></div>
+      <div class="bar"><b>Name a number</b><span>Since circulars hide pay, the viva board will ask your expectation. Anchor on your tier’s band — and quote its upper half if your CGPA and thesis publication back you up.</span></div>
+    </div>
+  </section>
+
+  <section class="region">
+    <div class="region-head"><h2>The bar, and your paperwork</h2><span class="count">what these circulars keep asking for</span></div>
+    <div class="sheet">
+      <div class="bars">
+        <div class="bar"><b>CGPA ≥ 3.50</b><span>The standard floor at both B.Sc. and M.Sc. level (UIU, BUBT, SEU, Stamford, East Delta, Metropolitan). NEUB accepted 3.25. Top-tier boards say “excellent academic record” instead — they mean higher.</span></div>
+        <div class="bar"><b>SSC/HSC ≥ 4.00</b><span>Most circulars want GPA 4.00+ at both; BUBT asks 4.50. A few top boards quietly prefer straight 5.00s.</span></div>
+        <div class="bar"><b>M.Sc. + papers</b><span>A Master’s and at least one publication move you from “eligible” to “shortlisted” almost everywhere. Fresh B.Sc. graduates do get hired — on CGPA, thesis work, and referees.</span></div>
+        <div class="bar"><b>0 yrs OK</b><span>Lecturer grade takes fresh graduates at most boards (UIU says it outright; Eastern “prefers” 2–3 yrs; experience is a tiebreaker, not a gate). The ladder after entry: Senior Lecturer ≈ 2 yrs + a journal paper (Stamford states it); Assistant Professor ≈ 3 yrs + ~3 recognized publications — 2 yrs with an M.Phil., 1 with a PhD, and some boards now demand Scopus-indexed. East Delta’s adjunct call is the fastest first classroom.</span></div>
+        <div class="bar"><b>Age ≤ 35</b><span>Appears at some boards (NEUB states it; others imply it for Lecturer grade). Not an issue now — just don’t sit on applications.</span></div>
+        <div class="bar"><b>2 cycles/yr</b><span>Hiring clusters before semesters: roughly May–Aug for Fall intake, Oct–Jan for Spring. Missing a circular usually means a ~6-month wait, so the weekly check matters.</span></div>
+        <div class="bar"><b>Sunday papers</b><span>Several boards (Daffodil, Premier, NEUB) still print circulars in Prothom Alo / Ittefaq first. The feed trackers above catch most of these within a day or two.</span></div>
+      </div>
+      <div class="checklist" id="checklist">
+        <h3>Document kit — ready before the next circular</h3>
+        <p class="hint">Ticks save in this browser.</p>
+        <ul>
+          <li><input type="checkbox" id="ck0"><label for="ck0">CV as PDF, one page of teaching/research highlights up top</label></li>
+          <li><input type="checkbox" id="ck1"><label for="ck1">Cover letter template you can re-tailor per university in 15 minutes</label></li>
+          <li><input type="checkbox" id="ck2"><label for="ck2">Teaching statement / SOP — BRACU and NSU ask for it explicitly</label></li>
+          <li><input type="checkbox" id="ck3"><label for="ck3">Scanned certificates + transcripts, SSC through B.Sc., as one PDF</label></li>
+          <li><input type="checkbox" id="ck4"><label for="ck4">Publication list + thesis abstract (your RAG QA work is the headline)</label></li>
+          <li><input type="checkbox" id="ck5"><label for="ck5">2–3 referees with emails — thesis supervisor first; warn them they’ll be contacted</label></li>
+          <li><input type="checkbox" id="ck6"><label for="ck6">Passport photos + NID scan — hard-copy boards (NEUB, Premier) still want them</label></li>
+        </ul>
+        <div class="progress" id="ckProgress"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="region">
+    <div class="region-head"><h2>Preparation — the four gates</h2><span class="count">how private-uni lecturer selection actually runs (from candidate interview reports: DIU, UIU, Green, BUBT, Eastern, Northern)</span></div>
+    <ol class="gates">
+      <li>
+        <span class="gate-no">১</span>
+        <div>
+          <h3>Paper screen</h3>
+          <p>HR and the department head filter on the CGPA floors and file completeness before a human reads a word of your prose. Sloppy files die here, not at the viva.</p>
+          <ul>
+            <li>Tailor the CV per university — name the exact courses you can teach from their catalogue (Programming, Discrete Math, DSA, DBMS, AI…).</li>
+            <li>Attach a publication list even if it holds one item; your thesis paper leads it.</li>
+            <li>Follow the circular’s format to the letter — bank draft, photo count, subject line. NEUB and Premier still want hard copies.</li>
+            <li>Referee #1 = your thesis supervisor, already warned they’ll be emailed.</li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <span class="gate-no">২</span>
+        <div>
+          <h3>Written test</h3>
+          <p>Common at mid-tier boards; reported formats run ~40 marks subject + ~20 marks English. The subject part is 1st/2nd-year core — the courses they’re hiring you to teach.</p>
+          <ul>
+            <li>Re-solve your own freshman/sophomore finals: C/OOP, data structures &amp; algorithms, DBMS, operating systems, networking, discrete math, digital logic.</li>
+            <li>English section = grammar + short composition. Twenty easy marks if you don’t skip prep.</li>
+            <li>Top-tier boards often skip the written test and go straight to presentation + interview (UIU’s stated flow).</li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <span class="gate-no">৩</span>
+        <div>
+          <h3>Demo class</h3>
+          <p>Five to twenty minutes teaching before the department — topic your choice or assigned from the freshman syllabus. This is the gate that actually decides most hires.</p>
+          <ul>
+            <li>Structure that works: hook (why care) → definition → worked example on the board → recap + one question to the room.</li>
+            <li>Pick a topic you can teach with a marker, no slides needed — recursion, normalization, TCP handshake, binary search trees.</li>
+            <li>Deliver in English; most private classrooms run on it. Practice on juniors and time yourself — running over reads as unprepared.</li>
+            <li>Panels interrupt deliberately to test composure. Pause, answer, continue.</li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <span class="gate-no">৪</span>
+        <div>
+          <h3>Viva board</h3>
+          <p>VC/Pro-VC, Dean, and Head across the table. Subject depth plus fit — and the salary question lands here.</p>
+          <ul>
+            <li>Prepare crisp answers for: which courses can you take (say yes to labs), why teaching over industry, where’s your research going.</li>
+            <li>Your thesis is the research answer — a RAG + fine-tuning system for Bangla education is current, fundable, and demonstrably yours. Rehearse a 2-minute version.</li>
+            <li>Carry the full hard-copy file: certificates SSC→B.Sc., NID, photos, publication reprints.</li>
+            <li>Salary expectation: name your tier’s band (see above), upper half if your record carries it.</li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+    <div class="paynotes" style="margin-top:14px">
+      <div class="bar"><b>Meanwhile</b><span>Between circulars: get the thesis paper submitted/published, set up Google Scholar + ORCID, keep LinkedIn current (universities do check), and plan the M.Sc. — the Assistant-Professor track needs it. Adjunct/TA posts (East Delta, open now) put “university teaching” on the CV within a semester.</span></div>
+    </div>
+  </section>
+
+  <footer class="small">
+    Compiled from live portal checks and circular trackers on 23 July 2026 for a CUET CSE graduate targeting Lecturer posts. Status stripes: <b style="color:var(--urgent)">red</b> = dated circular open, <b style="color:var(--watch)">amber</b> = reported/verify, <b style="color:var(--accent)">green</b> = rolling CV drop, grey = watch the portal. <span class="foot-bn">শুভকামনা।</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var TODAY = new Date();
+  var VERIFIED = "2026-07-23"; // bumped on every republish
+  var ARTIFACT_URL = "https://claude.ai/code/artifact/2692002e-ff8e-494b-8ff8-8b9c98b7c669";
+  var REFRESH_PROMPT =
+    "Refresh the board. My 'CSE Lecturer Notice Board' artifact lives at "+ARTIFACT_URL+" . "+
+    "Web-search each university's faculty career page for live CSE lecturer circulars and deadlines: "+
+    "IIUC, East Delta, Premier, Southern, Port City, CIU, USTC, BGC Trust (Chattogram); "+
+    "BRAC, North South, AIUB, IUB, East West, UIU, AUST, Daffodil, UAP, Green, BUBT, Southeast, Stamford, Eastern, WUB, ULAB (Dhaka); "+
+    "Metropolitan, Leading, NEUB (Sylhet). "+
+    "Update each card's state (open/reported/rolling/watch), deadlines and signal lines, bump the VERIFIED date, "+
+    "keep the design, the salary/preparation sections, and localStorage keys unchanged, and republish to the SAME artifact URL by passing it as `url`.";
+
+  /* ---------------- data ---------------- */
+  // state: open (dated circular, live) | reported (aggregator-reported, verify) | rolling (standing CV drop) | watch (portal to re-check)
+  var UNIS = [
+    // ---- Chattogram ----
+    {id:"iiuc", name:"International Islamic University Chittagong (IIUC)", city:"Kumira, Chattogram", region:"ctg", state:"open", deadline:"2026-07-28",
+      copy:"2 Lecturer (CSE) posts live now — this circular lists male candidates only. A parallel Asst/Assoc Professor call wants AI/ML/NLP/IoT/SWE/CV/Security people.",
+      how:"Download the <strong>Application Form for Academic Post</strong> from the details page and submit before the deadline.",
+      signal:"Verified live 23 Jul 2026 · opened 19 Jul",
+      links:[["Career board","https://web.iiuc.ac.bd/home/career"],["Lecturer circular","https://web.iiuc.ac.bd/career/details/75"]]},
+    {id:"edu", name:"East Delta University", city:"Chattogram", region:"ctg", state:"rolling",
+      copy:"Adjunct Faculty (CSE) open on a rolling basis. Full-time rounds run roughly yearly — the last Lecturer→Professor round closed 15 Aug 2025. House bar: CGPA ≥3.50, SSC/HSC ≥4.00. Any lobbying disqualifies you (their words).",
+      how:"Email cover letter + CV + teaching philosophy + research interests, <strong>PDF only</strong>, to recruitment@eastdelta.edu.bd.",
+      signal:"Verified 23 Jul 2026",
+      links:[["Academic vacancies","https://www.eastdelta.edu.bd/career-opportunities/academic-vacancies"]]},
+    {id:"premier", name:"Premier University", city:"Chattogram", region:"ctg", state:"watch",
+      copy:"Circulars publish via newspaper + site; the Sep 2025 round included Computer Science and closed 29 Sep 2025 — cadence looks annual.",
+      how:"Apply per circular (often a hard-copy package). The tracker link mirrors each new circular.",
+      signal:"Last CSE-inclusive round: Sep 2025",
+      links:[["puc.ac.bd","https://puc.ac.bd/"],["Circular tracker","https://bdgovtjob.net/premier-university-job-circular/"]]},
+    {id:"portcity", name:"Port City International University", city:"Chattogram", region:"ctg", state:"watch",
+      copy:"Occasional faculty circulars; no dedicated careers feed — check the notice board on the site.",
+      how:"Watch the site notice board; apply per circular.",
+      signal:"No live circular found 23 Jul 2026",
+      links:[["portcity.edu.bd","https://www.portcity.edu.bd/"]]},
+    {id:"ciu", name:"Chittagong Independent University (CIU)", city:"Chattogram", region:"ctg", state:"watch",
+      copy:"CSE sits under the School of Science &amp; Engineering; faculty calls appear on the site and Bdjobs.",
+      how:"Watch site + Bdjobs education category.",
+      signal:"No live circular found 23 Jul 2026",
+      links:[["ciu.edu.bd","https://ciu.edu.bd/"]]},
+    {id:"southern", name:"Southern University Bangladesh", city:"Mehedibag, Chattogram", region:"ctg", state:"watch",
+      copy:"CS department under way since 1998. Last-known Lecturer bar: CGPA ≥3.50 (or First Class) in B.Sc./M.Sc., SSC/HSC ≥4.00. No standing careers page — circulars go out via notice/newspaper.",
+      how:"Per last circular: application + photo + Tk 100 bank draft to HR, Academic Building II, Mehedibag. Confirm current process at info@southern.ac.bd before sending.",
+      signal:"Site live 23 Jul 2026 · no careers section — ask HR directly",
+      links:[["southern.edu.bd","https://southern.edu.bd/"]]},
+    {id:"ustc", name:"University of Science &amp; Technology Chittagong (USTC)", city:"Chattogram", region:"ctg", state:"watch",
+      copy:"Runs CSE under the Faculty of Science, Engineering &amp; Technology; circulars are sporadic.",
+      how:"Watch the site notice section.",
+      signal:"No live circular found 23 Jul 2026",
+      links:[["ustc.ac.bd","https://ustc.ac.bd/"]]},
+    {id:"bgc", name:"BGC Trust University Bangladesh", city:"Chandanaish, Chattogram", region:"ctg", state:"watch",
+      copy:"CSE department hires via periodic circulars printed and posted on-site.",
+      how:"Watch the site; apply per circular.",
+      signal:"No live circular found 23 Jul 2026",
+      links:[["bgctub.ac.bd","https://bgctub.ac.bd/"]]},
+
+    // ---- Dhaka ----
+    {id:"aiub", name:"American International University–Bangladesh (AIUB)", city:"Kuratoli, Dhaka", region:"dhk", state:"reported", deadline:"2026-08-01",
+      copy:"Job trackers report an open Faculty of Science &amp; Technology call (Computer Science, Physics, Math — Lecturer through Professor) with a ~1 Aug deadline. Confirm on the portal before you count on it.",
+      how:"Create a profile and apply on <strong>career.aiub.edu</strong>; faculty circulars route through the same portal.",
+      signal:"Reported by circular trackers · not yet confirmed on-portal",
+      links:[["Career portal","https://career.aiub.edu"],["Career page","https://www.aiub.edu/about/career"]]},
+    {id:"bracu", name:"BRAC University", city:"Merul Badda, Dhaka", region:"dhk", state:"rolling",
+      copy:"CSE keeps a standing call: Lecturer through Professor, all CS fields. Top-ranked private (QS); expects an excellent record and reads the SOP seriously.",
+      how:"Apply online with cover letter/SOP, CV, and <strong>two professional references</strong>.",
+      signal:"Standing CSE call page live 23 Jul 2026 (portal blocks robots — open in browser)",
+      links:[["Career portal","https://career.bracu.ac.bd"],["CSE positions page","https://www.bracu.ac.bd/academic-positions-cse"]]},
+    {id:"nsu", name:"North South University", city:"Bashundhara, Dhaka", region:"dhk", state:"watch",
+      copy:"CSE/ECE hires most cycles; the last CSE faculty circular round closed 1 Mar 2026. Expect the next around the Fall intake.",
+      how:"Download the faculty application form and email the package to HR as the circular directs.",
+      signal:"Careers page live · CSE circular recurs",
+      links:[["Career at NSU","https://www.northsouth.edu/career-at-nsu/"],["Sample CSE circular (PDF)","https://www.northsouth.edu/newassets/images/IT/Job%20Opening_CSE%20Faculty_202.pdf"]]},
+    {id:"iub", name:"Independent University, Bangladesh (IUB)", city:"Bashundhara, Dhaka", region:"dhk", state:"watch",
+      copy:"Posts “Lecturer A” calls in CSE — wants a Master's in CSE/EEE/ECE or related; strong B.Sc. records have entered at Lecturer grade.",
+      how:"Circulars publish as PDFs on iub.ac.bd; apply per circular.",
+      signal:"Recent Lecturer-A (CSE) circular on site",
+      links:[["iub.ac.bd","https://iub.ac.bd/"],["Lecturer-A CSE circular (PDF)","https://iub.ac.bd/document/lecturer-acse-99d52c36-f9fd-4436-8ec7-91d19d0a1b23.pdf"]]},
+    {id:"ewu", name:"East West University", city:"Aftabnagar, Dhaka", region:"dhk", state:"watch",
+      copy:"Runs semester cycles — the Fall 2026 full-time teaching call closed 28 Jun 2026. The Spring call usually lands Nov–Dec.",
+      how:"Apply via <strong>jobs.ewubd.edu</strong> when a cycle opens; some circulars also want a hard-copy package to the VC's office.",
+      signal:"Verified 23 Jul 2026 · Fall-2026 round just closed",
+      links:[["Career archive","https://ewubd.edu/career-archive"],["Jobs portal","https://jobs.ewubd.edu"]]},
+    {id:"uiu", name:"United International University (UIU)", city:"Madani Ave, Dhaka", region:"dhk", state:"watch",
+      copy:"CSE Lecturer bar: 4-yr B.Sc./M.Sc. in CSE, CGPA ≥3.50 — below that is auto-rejected. Last CSE round closed 1 May 2026; the portal is alive (other departments close 30 Jul), so the next CSE call will land there. Runs ~2 CSE rounds a year.",
+      how:"<strong>Online only</strong> via jobsapply.uiu.ac.bd — hard copies refused. Shortlist → presentation session → interview.",
+      signal:"Verified 23 Jul 2026 · portal active",
+      links:[["Career","https://www.uiu.ac.bd/career/"],["Jobs portal","https://jobsapply.uiu.ac.bd/"],["Last CSE lecturer post","https://www.uiu.ac.bd/career/lecturer-cse-2/"]]},
+    {id:"aust", name:"Ahsanullah University of Science &amp; Technology (AUST)", city:"Tejgaon, Dhaka", region:"dhk", state:"watch",
+      copy:"Periodic Lecturer circulars in CSE (Grade-I/II). Strong engineering reputation; CUET profiles read well here.",
+      how:"Fill the online faculty form, upload documents, then email the generated CV to the Registrar (per circular). If the form URL 404s, start at aust.edu.",
+      signal:"Form URL from last circular",
+      links:[["CSE department","https://www.aust.edu/cse"],["Online faculty application","https://www.aust.edu/apply_online/faculty_position"]]},
+    {id:"diu", name:"Daffodil International University", city:"Ashulia, Dhaka", region:"dhk", state:"rolling",
+      copy:"Big CSE intake historically. Keeps a standing online teacher-application pool; circulars also print in Prothom Alo.",
+      how:"Drop your CV in the standing <strong>teacher application form</strong> — HR pulls from the pool when a round runs.",
+      signal:"Portal live 23 Jul 2026",
+      links:[["Teacher application","https://career.daffodilvarsity.edu.bd/?app=home&cmd=Req_teacher"],["Career home","https://career.daffodilvarsity.edu.bd/"]]},
+    {id:"uap", name:"University of Asia Pacific (UAP)", city:"Farmgate, Dhaka", region:"dhk", state:"watch",
+      copy:"Ran Lecturer (CSE) and Asst Professor (CSE) circulars in May 2026 — cycles recur. 26 full-time CSE faculty, 12 with PhDs.",
+      how:"Apply per circular on the vacancy page; Bdjobs cross-posts.",
+      signal:"Last CSE circular: May 2026",
+      links:[["Vacancies","https://www.uap-bd.edu/vacancy.php"],["CSE department","https://cse.uap-bd.edu/"]]},
+    {id:"green", name:"Green University of Bangladesh", city:"Purbachal (Rupganj)", region:"dhk", state:"rolling",
+      copy:"Frequent Lecturer-CSE circulars (last seen: 2 posts). Bar: 3 first divisions; Master's + publications preferred. Queries: query.hr@green.edu.bd.",
+      how:"Standing <strong>online application form</strong> on the career portal.",
+      signal:"Portal live 23 Jul 2026",
+      links:[["Career portal","https://career.green.edu.bd/"],["Available jobs","https://career.green.edu.bd/available-jobs/"]]},
+    {id:"bubt", name:"Bangladesh University of Business &amp; Technology (BUBT)", city:"Mirpur-2, Dhaka", region:"dhk", state:"watch",
+      copy:"House bar is explicit: CGPA ≥3.50 in both degrees, SSC/HSC ≥4.50. CSE circulars post on the career page and Bdjobs.",
+      how:"Apply per circular.",
+      signal:"Career page live",
+      links:[["Career","https://www.bubt.edu.bd/page/career"]]},
+    {id:"seu", name:"Southeast University", city:"Tejgaon, Dhaka", region:"dhk", state:"watch",
+      copy:"Last CSE Lecturer round closed 31 Mar 2026; bar CGPA ≥3.50 + SSC/HSC ≥4.00. Recruitment is free — they warn against anyone asking fees.",
+      how:"Online portal at jobs.seu.edu.bd.",
+      signal:"Portal live 23 Jul 2026",
+      links:[["Jobs portal","https://jobs.seu.edu.bd/"]]},
+    {id:"stamford", name:"Stamford University Bangladesh", city:"Siddheswari, Dhaka", region:"dhk", state:"watch",
+      copy:"Runs Senior Lecturer / Lecturer (CSE, Math, Physics) calls. Bar ≥3.50 CGPA, ≥4.00 SSC/HSC; Senior grade wants 2 yrs + a journal paper.",
+      how:"Apply per circular on the career page.",
+      signal:"Career page live",
+      links:[["Career","https://stamforduniversity.edu.bd/index.php/stamford/career"]]},
+    {id:"wub", name:"World University of Bangladesh (WUB)", city:"Uttara, Dhaka", region:"dhk", state:"reported",
+      copy:"Financial Express reports <strong>3 Lecturer (CSE) posts</strong> — specializations Data Science and Cyber Security (your RAG/LLM profile maps to the first). Publication date unclear; verify the circular is still live before building on it.",
+      how:"Per circular via the university site; check the notice/career section.",
+      signal:"Reported via Financial Express · recency unverified",
+      links:[["FE report","https://thefinancialexpress.com.bd/jobs-and-opportunities/jobs-open-at-the-world-university-of-bangladesh-for-lecturer-of-cse"],["wub.edu.bd","https://wub.edu.bd"]]},
+    {id:"eastern", name:"Eastern University", city:"Ashulia, Dhaka", region:"dhk", state:"watch",
+      copy:"Ran a Lecturer (CSE) circular around May 2026 (via Bdjobs). Bar: 4-yr Hons/Master's with 3 First Classes; 2–3 yrs teaching preferred. Load: ~4 sections, 12–15 contact hrs/week. Current site openings are admin-only (closed 12 Jul 2026).",
+      how:"Download the application form from the career page, email to <strong>jobs@easternuni.edu.bd</strong> — or hard copy to the Registrar, Ashulia Model Town, Savar.",
+      signal:"Career page live 23 Jul 2026 · last CSE circular ~May 2026",
+      links:[["Career","https://www.easternuni.edu.bd/career"],["Lecturer (CSE) circular (PDF)","https://www.easternuni.edu.bd/assets/Career/Lecturer%20(CSE).pdf"]]},
+    {id:"ulab", name:"University of Liberal Arts Bangladesh (ULAB)", city:"Mohammadpur, Dhaka", region:"dhk", state:"watch",
+      copy:"CSE department hires via the HR faculty-search portal; many posts skew senior, but Lecturer calls do appear.",
+      how:"HR portal (returned a 522 error at check time — retry).",
+      signal:"Site down at check · 23 Jul 2026",
+      links:[["Faculty search","https://hr.ulab.edu.bd/jobs-ulab/faculty-search"]]},
+
+    // ---- Sylhet & beyond ----
+    {id:"metro", name:"Metropolitan University", city:"Sylhet", region:"syl", state:"watch",
+      copy:"Has hired 16-lecturer batches (CSE included). CSE bar: B.Sc./M.Sc. in CSE/CS with CGPA ≥3.50.",
+      how:"Circulars on site + LinkedIn; apply per circular.",
+      signal:"No live circular found 23 Jul 2026",
+      links:[["metrouni.edu.bd","https://metrouni.edu.bd/"]]},
+    {id:"leading", name:"Leading University", city:"Sylhet", region:"syl", state:"watch",
+      copy:"CSE under the School of Applied Sciences &amp; Technology; periodic circulars.",
+      how:"Watch the site notice board.",
+      signal:"No live circular found 23 Jul 2026",
+      links:[["lus.ac.bd","https://lus.ac.bd/"]]},
+    {id:"neub", name:"North East University Bangladesh (NEUB)", city:"Sylhet", region:"syl", state:"watch",
+      copy:"Last round: 3 Lecturer (CSE/EEE) posts, CGPA ≥3.25 both degrees, age ≤35 — closed 20 Dec 2025. Keeps an active career section.",
+      how:"<strong>Hard-copy package to the Registrar</strong>: CV + 2 referees + cover letter + certificates + 2 photos.",
+      signal:"Career section live · last CSE round Dec 2025",
+      links:[["Career","https://www.neub.edu.bd/career"],["Last CSE/EEE circular","https://www.neub.edu.bd/career/1095-lecturer-department-of-cse-cse-eee"]]}
+  ];
+
+  var REGION_LABEL = {ctg:"Chattogram — your side of the country", dhk:"Dhaka — the big cluster", syl:"Sylhet &amp; beyond"};
+  var REGION_ORDER = ["ctg","dhk","syl"];
+  var STATE_TAG = {open:"Circular open", reported:"Reported — verify", rolling:"Rolling CV drop", watch:"Watch portal"};
+  var STATUSES = ["Not started","Preparing docs","Applied","Interview","Offer","Passed on"];
+
+  /* ---------------- storage ---------------- */
+  var KEY="cse-lecturer-board-v1";
+  function load(){ try{ return JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ return {}; } }
+  function save(s){ try{ localStorage.setItem(KEY, JSON.stringify(s)); }catch(e){} }
+  var store = load();          // { uni:{status,pin}, checks:{ck0:true} }
+  store.unis = store.unis||{}; store.checks = store.checks||{};
+
+  /* ---------------- helpers ---------------- */
+  function esc(s){ return s; } // copy strings are authored, contain intentional entities
+  function daysLeft(iso){
+    var d = new Date(iso+"T23:59:59");
+    return Math.ceil((d - TODAY)/86400000);
+  }
+  function fmtDate(iso){
+    var d = new Date(iso+"T12:00:00");
+    return d.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});
+  }
+  function deadlineTag(u){
+    if(!u.deadline) return "";
+    var n = daysLeft(u.deadline);
+    if(n < 0) return '<span class="tag deadline past">was '+fmtDate(u.deadline)+'</span>';
+    var word = n===0 ? "today!" : (n===1 ? "1 day left" : n+" days left");
+    return '<span class="tag deadline">'+fmtDate(u.deadline)+" · "+word+"</span>";
+  }
+
+  /* ---------------- closing-soon rail ---------------- */
+  function renderRail(){
+    var rail = document.getElementById("rail");
+    var soon = UNIS.filter(function(u){ return u.deadline && daysLeft(u.deadline)>=0 && daysLeft(u.deadline)<=21; });
+    soon.sort(function(a,b){ return daysLeft(a.deadline)-daysLeft(b.deadline); });
+    document.getElementById("railNote").innerHTML = soon.length ? "dated circulars with a live deadline" : "";
+    if(!soon.length){
+      rail.innerHTML = '<div class="empty">No dated circular in its final three weeks right now — the rolling boards below stay open, and the feeds section catches new circulars.</div>';
+      return;
+    }
+    rail.innerHTML = soon.map(function(u){
+      var n = daysLeft(u.deadline);
+      var stampTxt = (n===0?"TODAY":n+" DAY"+(n===1?"":"S"))+"<br>"+fmtDate(u.deadline).replace(/ /g,"&nbsp;");
+      return '<div class="urgent-card'+(u.state==="reported"?" reported":"")+'">'+
+        '<div class="stamp">'+stampTxt+'</div>'+
+        '<h3>'+esc(u.name)+'</h3>'+
+        '<div class="sub">'+esc(u.city)+(u.state==="reported"?" · reported by trackers — verify on portal":"")+'</div>'+
+        '<p>'+esc(u.copy)+'</p>'+
+        '<a class="btn" href="'+u.links[0][1]+'" target="_blank" rel="noopener">'+u.links[0][0]+' ↗</a>'+
+        (u.links[1]?'<a class="btn ghost" href="'+u.links[1][1]+'" target="_blank" rel="noopener">'+u.links[1][0]+' ↗</a>':"")+
+      '</div>';
+    }).join("");
+  }
+
+  /* ---------------- filters ---------------- */
+  var region="all", mode="any", query="";
+  function matches(u){
+    if(region!=="all" && u.region!==region) return false;
+    if(mode==="live" && !(u.state==="open"||u.state==="rolling"||u.state==="reported")) return false;
+    if(mode==="mine"){
+      var t = store.unis[u.id];
+      if(!(t && (t.pin || (t.status && t.status!=="Not started")))) return false;
+    }
+    if(query){
+      var hay = (u.name+" "+u.city+" "+u.copy+" "+u.how).toLowerCase();
+      if(hay.indexOf(query)===-1) return false;
+    }
+    return true;
+  }
+
+  /* ---------------- cards ---------------- */
+  var stateRank = {open:0, reported:1, rolling:2, watch:3};
+  function renderSections(){
+    var host = document.getElementById("sections");
+    var html = "";
+    var shown = 0;
+    REGION_ORDER.forEach(function(rg){
+      var list = UNIS.filter(function(u){ return u.region===rg && matches(u); });
+      if(!list.length) return;
+      list.sort(function(a,b){
+        var pa = store.unis[a.id]&&store.unis[a.id].pin?0:1;
+        var pb = store.unis[b.id]&&store.unis[b.id].pin?0:1;
+        if(pa!==pb) return pa-pb;
+        return stateRank[a.state]-stateRank[b.state];
+      });
+      shown += list.length;
+      html += '<section class="region"><div class="region-head"><h2>'+REGION_LABEL[rg]+'</h2><span class="count">'+list.length+' board'+(list.length===1?"":"s")+'</span></div><div class="grid">'+
+        list.map(cardHTML).join("")+'</div></section>';
+    });
+    host.innerHTML = html || '<div class="empty" style="margin-top:26px">Nothing matches — clear the search or filters.</div>';
+    wireCards();
+    renderTally(shown);
+  }
+
+  function cardHTML(u){
+    var t = store.unis[u.id]||{};
+    var status = t.status||"Not started";
+    var selCls = status==="Applied"?"st-applied":(status==="Interview"?"st-interview":(status==="Offer"?"st-offer":""));
+    return '<article class="card" data-state="'+u.state+'" data-id="'+u.id+'">'+
+      '<div class="card-top"><h3>'+esc(u.name)+'</h3>'+
+      '<button class="pin-btn" aria-pressed="'+(t.pin?"true":"false")+'" title="Pin to top of section" aria-label="Pin '+u.id+'">★</button></div>'+
+      '<div class="meta"><span class="tag city">'+esc(u.city)+'</span>'+
+      '<span class="tag '+u.state+'">'+STATE_TAG[u.state]+'</span>'+deadlineTag(u)+'</div>'+
+      '<p>'+esc(u.copy)+'</p>'+
+      '<p class="how">'+u.how+'</p>'+
+      '<div class="links">'+u.links.map(function(l){return '<a href="'+l[1]+'" target="_blank" rel="noopener">'+l[0]+' ↗</a>';}).join("")+'</div>'+
+      '<div class="signal">'+esc(u.signal)+'</div>'+
+      '<div class="card-foot"><label for="st-'+u.id+'">My status</label>'+
+      '<select class="status-sel '+selCls+'" id="st-'+u.id+'">'+
+        STATUSES.map(function(s){return '<option'+(s===status?" selected":"")+'>'+s+'</option>';}).join("")+
+      '</select></div>'+
+    '</article>';
+  }
+
+  function wireCards(){
+    Array.prototype.forEach.call(document.querySelectorAll(".card"), function(card){
+      var id = card.getAttribute("data-id");
+      card.querySelector(".pin-btn").addEventListener("click", function(){
+        store.unis[id] = store.unis[id]||{};
+        store.unis[id].pin = !store.unis[id].pin;
+        save(store); renderSections();
+      });
+      card.querySelector(".status-sel").addEventListener("change", function(e){
+        store.unis[id] = store.unis[id]||{};
+        store.unis[id].status = e.target.value;
+        save(store); renderSections();
+      });
+    });
+  }
+
+  function renderTally(shown){
+    var open = UNIS.filter(function(u){return u.state==="open" && (!u.deadline||daysLeft(u.deadline)>=0);}).length;
+    var rep  = UNIS.filter(function(u){return u.state==="reported";}).length;
+    var roll = UNIS.filter(function(u){return u.state==="rolling";}).length;
+    var applied = Object.keys(store.unis).filter(function(k){var s=store.unis[k].status;return s&&s!=="Not started";}).length;
+    document.getElementById("tally").innerHTML =
+      "<strong>"+shown+"</strong> shown · <strong>"+open+"</strong> open · <strong>"+rep+"</strong> reported · <strong>"+roll+"</strong> rolling · tracking <strong>"+applied+"</strong>";
+  }
+
+  /* ---------------- toolbar wiring ---------------- */
+  function wireChips(groupId, attr, setter){
+    var group = document.getElementById(groupId);
+    Array.prototype.forEach.call(group.querySelectorAll(".chip"), function(ch){
+      ch.addEventListener("click", function(){
+        Array.prototype.forEach.call(group.querySelectorAll(".chip"), function(o){o.setAttribute("aria-pressed","false");});
+        ch.setAttribute("aria-pressed","true");
+        setter(ch.getAttribute(attr));
+        renderSections();
+      });
+    });
+  }
+  wireChips("regionChips","data-region",function(v){region=v;});
+  wireChips("stateChips","data-mode",function(v){mode=v;});
+  document.getElementById("q").addEventListener("input", function(e){
+    query = e.target.value.trim().toLowerCase(); renderSections();
+  });
+
+  /* ---------------- checklist ---------------- */
+  (function(){
+    var boxes = document.querySelectorAll("#checklist input[type=checkbox]");
+    function refresh(){
+      var done=0;
+      Array.prototype.forEach.call(boxes,function(b){
+        b.parentElement.classList.toggle("done", b.checked);
+        if(b.checked) done++;
+      });
+      document.getElementById("ckProgress").textContent = done+" / "+boxes.length+" ready";
+    }
+    Array.prototype.forEach.call(boxes,function(b){
+      b.checked = !!store.checks[b.id];
+      b.addEventListener("change",function(){
+        store.checks[b.id]=b.checked; save(store); refresh();
+      });
+    });
+    refresh();
+  })();
+
+  /* ---------------- staleness + refresh request ---------------- */
+  (function(){
+    var age = Math.floor((TODAY - new Date(VERIFIED+"T12:00:00"))/86400000);
+    var dot = document.getElementById("staleDot");
+    var txt = document.getElementById("staleText");
+    var when = fmtDate(VERIFIED);
+    if(age <= 0){
+      txt.innerHTML = "Portals verified by live check <strong>today, "+when+"</strong>.";
+    } else if(age < 7){
+      txt.innerHTML = "Portals verified <strong>"+when+"</strong> — "+age+" day"+(age===1?"":"s")+" ago.";
+    } else if(age < 14){
+      dot.className = "dot warn";
+      txt.innerHTML = "Portals verified <strong>"+when+"</strong> — "+age+" days ago. Getting stale; worth a refresh.";
+    } else {
+      dot.className = "dot stale";
+      txt.innerHTML = "Portals verified <strong>"+when+"</strong> — "+age+" days ago. <strong>Overdue for a refresh</strong> — new circulars may have come and gone.";
+    }
+    var btn = document.getElementById("copyRefresh");
+    function fallbackCopy(){
+      var ta = document.createElement("textarea");
+      ta.value = REFRESH_PROMPT;
+      ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand("copy"); }catch(e){}
+      document.body.removeChild(ta);
+    }
+    btn.addEventListener("click", function(){
+      var done = function(){
+        btn.classList.add("copied");
+        btn.textContent = "✓ Copied — now paste it to Claude";
+        setTimeout(function(){
+          btn.classList.remove("copied");
+          btn.textContent = "⟳ Copy refresh request";
+        }, 4000);
+      };
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(REFRESH_PROMPT).then(done, function(){ fallbackCopy(); done(); });
+      } else { fallbackCopy(); done(); }
+    });
+  })();
+
+  /* ---------------- Google Alert query copy buttons ---------------- */
+  (function(){
+    var btns = document.querySelectorAll(".qcopy");
+    function fb(text){
+      var ta=document.createElement("textarea"); ta.value=text;
+      ta.style.position="fixed"; ta.style.opacity="0";
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand("copy"); }catch(e){}
+      document.body.removeChild(ta);
+    }
+    Array.prototype.forEach.call(btns, function(b){
+      b.addEventListener("click", function(){
+        var q=b.getAttribute("data-q"), orig=b.innerHTML;
+        var done=function(){
+          b.classList.add("copied");
+          b.textContent="✓ copied — paste into Google Alerts";
+          setTimeout(function(){ b.classList.remove("copied"); b.innerHTML=orig; }, 2600);
+        };
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(q).then(done, function(){ fb(q); done(); });
+        } else { fb(q); done(); }
+      });
+    });
+  })();
+
+  /* ---------------- live feed (notices.json from the GitHub Action) ---------------- */
+  (function(){
+    var sec = document.getElementById("liveSec");
+    if(!sec) return;
+    function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+    fetch("notices.json", {cache:"no-store"}).then(function(r){
+      if(!r.ok) throw 0; return r.json();
+    }).then(function(data){
+      var items = (data && data.items) || [];
+      var gen = data && data.generated ? new Date(data.generated) : null;
+      var ageH = gen ? (Date.now()-gen.getTime())/3600000 : null;
+      var cls = ageH===null ? "" : (ageH>48 ? "stale" : (ageH>12 ? "warn" : ""));
+      var ago = ageH===null ? "unknown" : (ageH<1 ? "just now" : (ageH<24 ? Math.round(ageH)+"h ago" : Math.round(ageH/24)+"d ago"));
+      document.getElementById("liveStamp").innerHTML = '<span class="ldot '+cls+'"></span> updated '+ago+' · '+items.length+' live';
+      var wrap = document.getElementById("liveWrap");
+      if(!items.length){
+        wrap.innerHTML = '<div class="live-empty">Feed is connected and running — no new CSE/lecturer postings in it right now. New matches will show up here automatically.</div>';
+      } else {
+        wrap.innerHTML = items.map(function(it){
+          return '<div class="live-item">'+
+            '<div class="live-meta"><span class="live-src">'+esc(it.source||"link")+'</span>'+
+            (it.published?'<span class="live-date">'+esc(it.published)+'</span>':'')+
+            (it.deadline?'<span class="live-dl">deadline '+esc(it.deadline)+'</span>':'')+'</div>'+
+            '<h3><a href="'+esc(it.url)+'" target="_blank" rel="noopener">'+esc(it.title||it.url)+' ↗</a></h3>'+
+            (it.snippet?'<p class="live-snip">'+esc(it.snippet)+'</p>':'')+
+          '</div>';
+        }).join("");
+      }
+      sec.style.display = "block";
+    }).catch(function(){ /* no notices.json (e.g. the published artifact) — leave the section hidden */ });
+  })();
+
+  renderRail();
+  renderSections();
+})();
+</script>
