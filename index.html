@@ -57,6 +57,10 @@
   }
   a{color:var(--accent)}
   .wrap{max-width:1180px; margin:0 auto; padding:0 20px 80px}
+  .topnav{display:flex; flex-wrap:wrap; gap:8px; padding-top:16px; align-items:center}
+  .topnav a{font:600 12.5px var(--sans); text-decoration:none; color:var(--muted); background:var(--surface); border:1px solid var(--line); border-radius:999px; padding:6px 13px; white-space:nowrap}
+  .topnav a:hover{border-color:var(--accent); color:var(--accent)}
+  .topnav a.here{background:var(--accent); border-color:var(--accent); color:#fff}
 
   /* ---------- header ---------- */
   header.masthead{padding:34px 0 18px; border-bottom:3px double var(--line); margin-bottom:0}
@@ -283,6 +287,13 @@
 <body>
 
 <div class="wrap">
+  <nav class="topnav">
+    <a href="https://dbp625.github.io/cse-lecturer-board/" class="here" aria-current="page">📌 Notice board</a>
+    <a href="https://dbp625.github.io/cse-lecturer-board/prep-roadmap.html">🎯 Prep roadmap</a>
+    <a href="https://dbp625.github.io/cse-lecturer-board/reading-roadmap.html">📖 Reading roadmap</a>
+    <a href="https://dbp625.github.io/cse-lecturer-board/topic-checklist.html">✅ Topic checklist</a>
+  </nav>
+
   <header class="masthead">
     <div class="eyebrow">শিক্ষক নিয়োগ · নোটিশ বোর্ড &nbsp;<span class="bn">CSE Lecturer openings, one board</span></div>
     <h1>CSE Lecturer Notice Board — Private Universities of Bangladesh</h1>

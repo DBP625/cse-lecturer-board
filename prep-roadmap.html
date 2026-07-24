@@ -1,0 +1,366 @@
+<title>CSE Lecturer Prep Roadmap — built from your CUET drive</title>
+<style>
+  :root{
+    --ground:#F6F7F3; --surface:#FDFDFB; --ink:#1C2420; --muted:#5C6B62;
+    --line:#D9DED7; --accent:#0E6A4F; --accent-soft:#E3EFE9;
+    --urgent:#BE3A34; --urgent-soft:#F6E4E2; --watch:#A9741C; --watch-soft:#F3ECDC;
+    --pin:#B08A2E;
+    --shadow:0 1px 2px rgba(28,36,32,.06),0 4px 14px rgba(28,36,32,.05);
+    --serif:"Palatino Linotype","Iowan Old Style",Palatino,Georgia,"Noto Serif Bengali",serif;
+    --sans:"Segoe UI",system-ui,-apple-system,"Noto Sans Bengali","Nirmala UI",sans-serif;
+    --mono:"Cascadia Mono",Consolas,"SF Mono",monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --ground:#101613; --surface:#18201B; --ink:#E6EBE6; --muted:#93A29A;
+      --line:#2A342E; --accent:#4CA783; --accent-soft:#1D3229;
+      --urgent:#E0685E; --urgent-soft:#3A211F; --watch:#CFA14E; --watch-soft:#332A18;
+      --pin:#CFA14E; --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#101613; --surface:#18201B; --ink:#E6EBE6; --muted:#93A29A;
+    --line:#2A342E; --accent:#4CA783; --accent-soft:#1D3229;
+    --urgent:#E0685E; --urgent-soft:#3A211F; --watch:#CFA14E; --watch-soft:#332A18;
+    --pin:#CFA14E; --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
+  }
+  :root[data-theme="light"]{
+    --ground:#F6F7F3; --surface:#FDFDFB; --ink:#1C2420; --muted:#5C6B62;
+    --line:#D9DED7; --accent:#0E6A4F; --accent-soft:#E3EFE9;
+    --urgent:#BE3A34; --urgent-soft:#F6E4E2; --watch:#A9741C; --watch-soft:#F3ECDC;
+    --pin:#B08A2E; --shadow:0 1px 2px rgba(28,36,32,.06),0 4px 14px rgba(28,36,32,.05);
+  }
+  *{box-sizing:border-box}
+  html{background:var(--ground)}
+  body{margin:0; background:var(--ground); color:var(--ink); font-family:var(--sans); font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased}
+  a{color:var(--accent)}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 20px 80px}
+  .topnav{display:flex; flex-wrap:wrap; gap:8px; padding-top:16px; align-items:center}
+  .topnav a{font:600 12.5px var(--sans); text-decoration:none; color:var(--muted); background:var(--surface); border:1px solid var(--line); border-radius:999px; padding:6px 13px; white-space:nowrap}
+  .topnav a:hover{border-color:var(--accent); color:var(--accent)}
+  .topnav a.here{background:var(--accent); border-color:var(--accent); color:#fff}
+  header.masthead{padding:34px 0 18px; border-bottom:3px double var(--line)}
+  .eyebrow{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); font-weight:600}
+  .eyebrow .bn{letter-spacing:0; text-transform:none; font-size:13px; color:var(--muted); font-weight:400}
+  h1{font-family:var(--serif); font-size:clamp(25px,4vw,36px); line-height:1.15; margin:.25em 0 .3em; text-wrap:balance; font-weight:700}
+  .standfirst{color:var(--muted); max-width:64ch; margin:0}
+  h2{font-family:var(--serif); font-size:21px; font-weight:700; margin:0}
+  section{margin-top:34px}
+  .sec-head{display:flex; align-items:baseline; gap:10px; border-bottom:1px solid var(--line); padding-bottom:8px; margin-bottom:14px; flex-wrap:wrap}
+  .sec-head .count{font-size:12.5px; color:var(--muted)}
+  a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+  /* asset cards */
+  .assets{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:12px}
+  .asset{background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:10px; padding:13px 15px; box-shadow:var(--shadow)}
+  .asset h3{margin:0 0 4px; font-family:var(--serif); font-size:15.5px}
+  .asset p{margin:0 0 8px; font-size:13px}
+  .asset a{font-size:13px; font-weight:600; text-decoration:none}
+  .asset a:hover{text-decoration:underline}
+
+  /* eligibility checker */
+  .checker{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 18px; box-shadow:var(--shadow)}
+  .inputs{display:flex; flex-wrap:wrap; gap:14px; margin-bottom:6px}
+  .inputs label{display:flex; flex-direction:column; gap:4px; font-size:12px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.05em}
+  .inputs input{
+    font:600 16px var(--mono); color:var(--ink); background:var(--ground);
+    border:1px solid var(--line); border-radius:7px; padding:8px 10px; width:130px;
+    font-variant-numeric:tabular-nums;
+  }
+  .privacy{font-size:11.5px; color:var(--muted); font-style:italic; margin:2px 0 12px}
+  .elig-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(215px,1fr)); gap:8px}
+  .elig{display:flex; justify-content:space-between; align-items:center; gap:8px; border:1px solid var(--line); border-radius:8px; padding:8px 11px; font-size:13px; background:var(--ground)}
+  .elig b{font-weight:600}
+  .elig .req{font-size:11px; color:var(--muted); font-family:var(--mono)}
+  .elig .verdict{font:700 10.5px var(--sans); letter-spacing:.05em; text-transform:uppercase; padding:3px 8px; border-radius:4px; white-space:nowrap}
+  .elig.pass{border-color:var(--accent)} .elig.pass .verdict{background:var(--accent-soft); color:var(--accent)}
+  .elig.miss{border-color:var(--urgent)} .elig.miss .verdict{background:var(--urgent-soft); color:var(--urgent)}
+  .elig.unk .verdict{background:transparent; border:1px solid var(--line); color:var(--muted)}
+  .elig-note{font-size:12px; color:var(--muted); margin-top:10px}
+
+  /* drill table */
+  .tablewrap{overflow-x:auto; background:var(--surface); border:1px solid var(--line); border-radius:10px}
+  table{border-collapse:collapse; width:100%; min-width:760px; font-size:13px}
+  th{font:600 11px var(--sans); letter-spacing:.06em; text-transform:uppercase; color:var(--muted); text-align:left; padding:10px 12px; border-bottom:1px solid var(--line)}
+  td{padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  td.day{font-family:var(--mono); font-weight:700; color:var(--accent); white-space:nowrap; font-variant-numeric:tabular-nums}
+  td .code{font-family:var(--mono); font-size:11.5px; color:var(--muted)}
+  tr.rest td{background:var(--accent-soft)}
+  td a{font-weight:600; text-decoration:none}
+  td a:hover{text-decoration:underline}
+
+  /* demo topics + checklist */
+  .demo3{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:12px}
+  .topic{background:var(--surface); border:1px solid var(--line); border-top:3px solid var(--accent); border-radius:10px; padding:13px 15px}
+  .topic h3{margin:0 0 4px; font-family:var(--serif); font-size:16px}
+  .topic .src{font:600 11px var(--mono); color:var(--muted)}
+  .topic p{margin:6px 0 0; font-size:13px}
+  .loop{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-top:12px}
+  .loop h3{margin:0 0 8px; font-family:var(--serif); font-size:16px}
+  .loop ul{list-style:none; margin:0; padding:0; display:grid; gap:7px}
+  .loop li{display:flex; gap:9px; align-items:flex-start; font-size:13.5px}
+  .loop input{accent-color:var(--accent); margin-top:3px; width:15px; height:15px; flex:none}
+  .loop li.done label{text-decoration:line-through; color:var(--muted)}
+  .loop label{cursor:pointer}
+  .progress{font:600 12px var(--mono); color:var(--accent); margin-top:10px}
+
+  /* viva pack */
+  .viva{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  @media (max-width:760px){ .viva{grid-template-columns:1fr} }
+  .card{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:14px 16px; box-shadow:var(--shadow)}
+  .card h3{margin:0 0 6px; font-family:var(--serif); font-size:16px}
+  .card p, .card li{font-size:13.5px}
+  .card ul{margin:0; padding-left:17px; display:grid; gap:5px}
+  .pitch{border-left:4px solid var(--accent); font-family:var(--serif); font-size:14.5px; padding:10px 14px; background:var(--accent-soft); border-radius:0 8px 8px 0; margin:8px 0 0}
+  .tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px}
+  .tag{font:600 11.5px var(--sans); padding:4px 10px; border-radius:999px; border:1px solid var(--line); background:var(--ground)}
+  .tag.hot{border-color:var(--accent); color:var(--accent)}
+
+  footer.small{margin-top:44px; border-top:1px solid var(--line); padding-top:14px; font-size:12px; color:var(--muted); max-width:74ch}
+</style>
+
+<div class="wrap">
+  <nav class="topnav">
+    <a href="https://dbp625.github.io/cse-lecturer-board/">📌 Notice board</a>
+    <a href="https://dbp625.github.io/cse-lecturer-board/prep-roadmap.html" class="here" aria-current="page">🎯 Prep roadmap</a>
+    <a href="https://dbp625.github.io/cse-lecturer-board/reading-roadmap.html">📖 Reading roadmap</a>
+    <a href="https://dbp625.github.io/cse-lecturer-board/topic-checklist.html">✅ Topic checklist</a>
+  </nav>
+
+  <header class="masthead">
+    <div class="eyebrow">প্রস্তুতি · রোডম্যাপ &nbsp;<span class="bn">built from your CUET CSE&#8217;20 drive, 23 Jul 2026</span></div>
+    <h1>CSE Lecturer Prep Roadmap</h1>
+    <p class="standfirst">Everything below is mapped to material you already own — your semester Questions folders, your Jobs stash, your thesis. Companion to the <a href="https://claude.ai/code/artifact/2692002e-ff8e-494b-8ff8-8b9c98b7c669">notice board</a>: that page tells you <em>where</em> to apply, this one makes you ready when they call.</p>
+  </header>
+
+  <section>
+    <div class="sec-head"><h2>Step 0 — you already own the question bank</h2><span class="count">direct links into your own Drive</span></div>
+    <div class="assets">
+      <div class="asset">
+        <h3>Your CUET previous-year questions</h3>
+        <p>Every semester folder carries a <strong>Questions</strong> folder — 19-batch and 20-batch term finals included. This is the closest thing to a private-uni written-test bank that exists.</p>
+        <a href="https://drive.google.com/drive/folders/1Fd_rf5cwteUm2NPogntrhS1DqBRVDnVo" target="_blank" rel="noopener">2-1 Questions ↗</a> ·
+        <a href="https://drive.google.com/drive/folders/1H28sJjLwAAZjYnT7LBCgHh-zqvD-5Gnc" target="_blank" rel="noopener">2-2 ↗</a> ·
+        <a href="https://drive.google.com/drive/folders/1oy-Sr8Iks5TnmjmjrDfhxtLu1uMYWmsD" target="_blank" rel="noopener">3-1 ↗</a> ·
+        <a href="https://drive.google.com/drive/folders/1NRxSO8Fok_t4Ks5VedZqzinX7d9aLvgt" target="_blank" rel="noopener">3-2 ↗</a>
+      </div>
+      <div class="asset">
+        <h3>Jobs / C.S.E stash</h3>
+        <p><strong>Compact IT Written.pdf</strong> is your BD written-format primer; the S.W.E. interview Q&amp;A doubles as viva prep for systems questions.</p>
+        <a href="https://drive.google.com/drive/folders/1avh_7lkwLwPvB3LayaQgN4iSElmMqhHo" target="_blank" rel="noopener">Open Jobs/C.S.E ↗</a>
+      </div>
+      <div class="asset">
+        <h3>CV format, dept-approved</h3>
+        <p>The <strong>CV Format (Provath sir)</strong> folder in 4-2 is the layout your own department endorses — start the paper-screen file from it.</p>
+        <a href="https://drive.google.com/drive/folders/1mR2P6t3Q5pOApilhIcfoczh7c9LNulyt" target="_blank" rel="noopener">Open CV Format ↗</a>
+      </div>
+      <div class="asset">
+        <h3>M.Sc. folder — the parallel track</h3>
+        <p>You collected CUET PG circulars for the July-2024 and July-2025 sessions. The <strong>July-2026 cycle is due about now</strong> — the Assistant-Professor ladder needs that M.Sc., and lecturer + part-time M.Sc. is the standard BD combination.</p>
+        <a href="https://drive.google.com/drive/folders/1Npjen6LmeGxnKCxKRFCbKskFlpMsUlDj" target="_blank" rel="noopener">Open M.S.C ↗</a>
+      </div>
+      <div class="asset">
+        <h3>One outside supplement</h3>
+        <p>GATE CS previous questions, sorted by subject with solutions — for MCQ volume your term finals don&#8217;t provide. Free.</p>
+        <a href="https://gateoverflow.in" target="_blank" rel="noopener">gateoverflow.in ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Step 1 — eligibility, in numbers</h2><span class="count">type your three numbers; they stay in this browser only</span></div>
+    <div class="checker">
+      <div class="inputs">
+        <label>CGPA (/4.00)<input id="inCgpa" type="number" step="0.01" min="2" max="4" placeholder="e.g. 3.62"></label>
+        <label>SSC GPA (/5.00)<input id="inSsc" type="number" step="0.01" min="1" max="5" placeholder="e.g. 5.00"></label>
+        <label>HSC GPA (/5.00)<input id="inHsc" type="number" step="0.01" min="1" max="5" placeholder="e.g. 5.00"></label>
+      </div>
+      <p class="privacy">Saved to localStorage on your machine — never sent anywhere. The published circular floors below are exact; blank = university states no public floor.</p>
+      <div class="elig-grid" id="eligGrid"></div>
+      <p class="elig-note" id="eligNote">Enter your numbers above and each board flips to <b>clear</b> / <b>below floor</b>. “No stated floor” boards (BRAC, NSU, IUB, EWU, AIUB, IIUC…) read the whole record instead — CGPA + thesis + referees.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Step 2 — the 14-day drill</h2><span class="count">AM ≈ 90 min solving · PM ≈ 45 min teach-sheet; each row links your own folder</span></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Day</th><th>Subject (your course)</th><th>AM — solve</th><th>PM — teach sheet</th></tr></thead>
+        <tbody>
+          <tr><td class="day">1</td><td>Data Structures <span class="code">CSE-241</span></td><td><a href="https://drive.google.com/drive/folders/1Fd_rf5cwteUm2NPogntrhS1DqBRVDnVo" target="_blank" rel="noopener">2-1 Questions</a> + 25 GATE MCQs</td><td>Arrays vs linked lists · stacks/queues · BST ops</td></tr>
+          <tr><td class="day">2</td><td>Algorithms <span class="code">CSE-243</span></td><td><a href="https://drive.google.com/drive/folders/1H28sJjLwAAZjYnT7LBCgHh-zqvD-5Gnc" target="_blank" rel="noopener">2-2 Questions</a> + GATE</td><td>Big-O · sorting table · greedy vs DP in one page</td></tr>
+          <tr><td class="day">3</td><td>DBMS <span class="code">CSE-251</span></td><td><a href="https://drive.google.com/drive/folders/1H28sJjLwAAZjYnT7LBCgHh-zqvD-5Gnc" target="_blank" rel="noopener">2-2 Questions</a> + GATE</td><td>Normalization 1NF→BCNF with one worked schema · SQL joins</td></tr>
+          <tr><td class="day">4</td><td>Operating Systems <span class="code">CSE-335</span></td><td><a href="https://drive.google.com/drive/folders/1oy-Sr8Iks5TnmjmjrDfhxtLu1uMYWmsD" target="_blank" rel="noopener">3-1 Questions</a> + GATE</td><td>Process vs thread · scheduling · deadlock conditions</td></tr>
+          <tr><td class="day">5</td><td>Networks <span class="code">CSE-311/313</span></td><td><a href="https://drive.google.com/drive/folders/1NRxSO8Fok_t4Ks5VedZqzinX7d9aLvgt" target="_blank" rel="noopener">3-2 Questions</a> + GATE</td><td>OSI vs TCP/IP · handshake · subnetting drill</td></tr>
+          <tr><td class="day">6</td><td>C / OOP <span class="code">CSE-141/143</span></td><td><a href="https://drive.google.com/drive/folders/1cstnmmGBHOx9f4bRc77EnZYvxR15ZO0A" target="_blank" rel="noopener">1-2 Questions</a> — write code on paper</td><td>Pointers · recursion trace · 4 OOP pillars with code</td></tr>
+          <tr class="rest"><td class="day">7</td><td colspan="2">Mock written #1 — 60 min, closed book: 5 questions self-set from days 1–6</td><td>+ English: one paragraph (&#8220;Role of ICT in education&#8221;)</td></tr>
+          <tr><td class="day">8</td><td>Discrete Math <span class="code">CSE-111</span></td><td><a href="https://drive.google.com/drive/folders/1cstnmmGBHOx9f4bRc77EnZYvxR15ZO0A" target="_blank" rel="noopener">1-2 Questions</a> + GATE</td><td>Sets/relations · graph basics · induction template</td></tr>
+          <tr><td class="day">9</td><td>Digital Logic <span class="code">CSE-221</span></td><td><a href="https://drive.google.com/drive/folders/1Fd_rf5cwteUm2NPogntrhS1DqBRVDnVo" target="_blank" rel="noopener">2-1 Questions</a> + GATE</td><td>K-map · flip-flops · adder design</td></tr>
+          <tr><td class="day">10</td><td>Theory of Computing <span class="code">CSE-331</span></td><td><a href="https://drive.google.com/drive/folders/1oy-Sr8Iks5TnmjmjrDfhxtLu1uMYWmsD" target="_blank" rel="noopener">3-1 Questions</a></td><td>DFA/NFA · CFG · decidability one-pager</td></tr>
+          <tr><td class="day">11</td><td>AI + ML <span class="code">CSE-345/445</span></td><td><a href="https://drive.google.com/drive/folders/1NRxSO8Fok_t4Ks5VedZqzinX7d9aLvgt" target="_blank" rel="noopener">3-2</a> / <a href="https://drive.google.com/drive/folders/1KXovGyaJT0_R6njDAMKxvaLZfyFn2A_P" target="_blank" rel="noopener">4-1 Questions</a></td><td>Search · overfitting · your thesis as the applied example</td></tr>
+          <tr><td class="day">12</td><td>English + format</td><td>Compact IT Written.pdf English section</td><td>Grammar drill · translation · formal application letter</td></tr>
+          <tr class="rest"><td class="day">13</td><td colspan="2">Mock written #2 — full format: 40 marks subject + 20 English, 90 min</td><td>Mark it yourself against your notes</td></tr>
+          <tr class="rest"><td class="day">14</td><td colspan="2">Demo-class dress rehearsal — full 15-min run, recorded, in front of at least one human</td><td>Watch the recording; fix the top 2 flaws</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Step 3 — demo class: three topics, rehearsed cold</h2><span class="count">the gate that decides hires — from your strongest-covered courses</span></div>
+    <div class="demo3">
+      <div class="topic">
+        <h3>Recursion, traced live</h3>
+        <div class="src">from CSE-141/241</div>
+        <p>Factorial → call-stack drawing → one pitfall (missing base case). Marker-only, crowd-pleaser, impossible to bluff — panels love it.</p>
+      </div>
+      <div class="topic">
+        <h3>Normalization to 3NF</h3>
+        <div class="src">from CSE-251</div>
+        <p>One messy student-course table on the board, decomposed step by step. Shows database teaching chops — the single most-taught CSE service course.</p>
+      </div>
+      <div class="topic">
+        <h3>TCP 3-way handshake</h3>
+        <div class="src">from CSE-311</div>
+        <p>Sequence diagram + a &#8220;what if SYN is lost?&#8221; question to the room. Gives the panel a natural interruption point — which you&#8217;ll be ready for.</p>
+      </div>
+    </div>
+    <div class="loop" id="rehearsal">
+      <h3>Rehearsal loop — tick as you go</h3>
+      <ul>
+        <li><input type="checkbox" id="rh0"><label for="rh0">Teach sheet written for all 3 topics (from Step 2 PM work)</label></li>
+        <li><input type="checkbox" id="rh1"><label for="rh1">Each topic once alone at a wall/whiteboard, timed ≤ 12 min</label></li>
+        <li><input type="checkbox" id="rh2"><label for="rh2">One full run recorded on phone — watched, two fixes noted</label></li>
+        <li><input type="checkbox" id="rh3"><label for="rh3">One run in front of juniors/friends with a planted interruption</label></li>
+        <li><input type="checkbox" id="rh4"><label for="rh4">English-only delivery verified — no Bangla fallback mid-example</label></li>
+        <li><input type="checkbox" id="rh5"><label for="rh5">Opening 30 seconds memorized word-for-word (hook + roadmap of the mini-lecture)</label></li>
+      </ul>
+      <div class="progress" id="rhProgress"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Step 4 — viva pack</h2><span class="count">what the board across the table will actually ask</span></div>
+    <div class="viva">
+      <div class="card">
+        <h3>The 2-minute research pitch</h3>
+        <p>Memorize the spine, not a script:</p>
+        <div class="pitch">&#8220;My thesis built a retrieval-augmented QA framework for Bangla primary-level textbooks — 18 NCTB books indexed, hybrid dense + keyword retrieval, and three QLoRA-fine-tuned LLMs compared. Adding retrieval to the fine-tuned model raised Token-F1 by 56% and cut hallucinated contradictions by 59%. I deployed it as a working chatbot. I want to extend this line — trustworthy Bangla-language AI for education.&#8221;</div>
+        <p style="margin-top:8px">Then stop talking. Let them ask.</p>
+      </div>
+      <div class="card">
+        <h3>&#8220;Which courses can you take?&#8221;</h3>
+        <p>From your own transcript of coverage — lead with:</p>
+        <div class="tags">
+          <span class="tag hot">Structured Programming</span><span class="tag hot">OOP</span><span class="tag hot">Data Structures</span><span class="tag hot">Algorithms</span><span class="tag hot">DBMS</span><span class="tag hot">AI / ML</span>
+          <span class="tag">Operating Systems</span><span class="tag">Networks</span><span class="tag">Discrete Math</span><span class="tag">Theory of Computing</span><span class="tag">DLD</span><span class="tag">+ every sessional/lab</span>
+        </div>
+        <p style="margin-top:8px">Say yes to labs unprompted — departments are chronically short on sessional coverage and it signals a team player.</p>
+      </div>
+      <div class="card">
+        <h3>The other five questions</h3>
+        <ul>
+          <li><b>Why teaching over industry?</b> Answer with evidence: the thesis was education-focused by choice; you built a learning tool, not an ad system.</li>
+          <li><b>Research plan?</b> Extend the thesis: Bangla educational NLP, RAG evaluation, low-resource LLMs. Name a venue you&#8217;d target.</li>
+          <li><b>M.Sc. plans?</b> &#8220;Enrolling part-time at CUET in the coming session&#8221; — you have the circulars; boards want to hear the ladder plan.</li>
+          <li><b>Salary expectation?</b> Name your tier&#8217;s band from the notice board — upper half if your CGPA + publication back it.</li>
+          <li><b>Availability?</b> Immediate. Fresh graduate, defended 15 July — no notice period is a genuine advantage over employed candidates.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Before any interview call</h3>
+        <ul>
+          <li>Thesis paper submitted to a venue — &#8220;under review&#8221; transforms the publication answer.</li>
+          <li>Google Scholar + ORCID live, LinkedIn current.</li>
+          <li>Supervisor (and one more faculty referee) warned by email that calls may come.</li>
+          <li>Hard-copy file assembled per the <a href="https://claude.ai/code/artifact/2692002e-ff8e-494b-8ff8-8b9c98b7c669">board&#8217;s document checklist</a> — certificates SSC→B.Sc., NID, photos, publication reprint.</li>
+          <li>One printed copy of the demo-class teach sheets riding in the same folder — walking in with them is its own signal.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="small">
+    Built 23 July 2026 from the CUET CSE&#8217;20 shared drive (curriculum via the dept CGPA calculator; Questions folders verified per semester) + the salary/process research on the companion notice board. Grades were not found in the drive — the eligibility checker above runs entirely in your browser once you type them. <span style="font-family:var(--serif)">এগিয়ে যাও।</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="cse-prep-roadmap-v1";
+  function load(){ try{ return JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ return {}; } }
+  function save(s){ try{ localStorage.setItem(KEY, JSON.stringify(s)); }catch(e){} }
+  var store = load(); store.nums = store.nums||{}; store.checks = store.checks||{};
+
+  /* ---- eligibility ---- */
+  // floors: [name, cgpaMin, sscMin, hscMin, note]  null = no stated floor
+  var FLOORS = [
+    ["UIU", 3.50, null, null, "stated hard filter"],
+    ["BUBT", 3.50, 4.50, 4.50, ""],
+    ["Southeast", 3.50, 4.00, 4.00, ""],
+    ["Stamford", 3.50, 4.00, 4.00, ""],
+    ["East Delta", 3.50, 4.00, 4.00, ""],
+    ["Metropolitan", 3.50, null, null, ""],
+    ["Southern", 3.50, 4.00, 4.00, "or First Class"],
+    ["NEUB", 3.25, 4.00, 4.00, ""],
+    ["Eastern", 3.00, null, null, "“3 First Classes” rule"],
+    ["Green", 3.00, null, null, "“3 first divisions” rule"],
+    ["BRAC", null, null, null, "no stated floor — whole record"],
+    ["NSU", null, null, null, "no stated floor"],
+    ["IUB", null, null, null, "no stated floor"],
+    ["East West", null, null, null, "no stated floor"],
+    ["AIUB", null, null, null, "no stated floor"],
+    ["IIUC", null, null, null, "no stated floor"],
+    ["AUST", null, null, null, "no stated floor"],
+    ["Daffodil", null, null, null, "no stated floor"],
+    ["UAP", null, null, null, "no stated floor"],
+    ["Premier", null, null, null, "no stated floor"]
+  ];
+  var grid = document.getElementById("eligGrid");
+  var inputs = {cgpa:document.getElementById("inCgpa"), ssc:document.getElementById("inSsc"), hsc:document.getElementById("inHsc")};
+  function renderElig(){
+    var c = parseFloat(inputs.cgpa.value), s = parseFloat(inputs.ssc.value), h = parseFloat(inputs.hsc.value);
+    var have = !isNaN(c);
+    grid.innerHTML = FLOORS.map(function(f){
+      var name=f[0], cm=f[1], sm=f[2], hm=f[3], note=f[4];
+      var req = cm===null ? "no floor" : ("≥"+cm.toFixed(2)+(sm?" · S/H ≥"+sm.toFixed(1):""));
+      var cls="unk", verdict="record-based";
+      if(cm!==null){
+        if(!have){ cls="unk"; verdict="enter CGPA"; }
+        else{
+          var ok = c>=cm && (sm===null||isNaN(s)||s>=sm) && (hm===null||isNaN(h)||h>=hm);
+          var pending = (sm!==null && (isNaN(s)||isNaN(h)));
+          cls = ok ? "pass":"miss";
+          verdict = ok ? (pending?"clear (CGPA)":"clear") : "below floor";
+        }
+      }
+      return '<div class="elig '+cls+'"><span><b>'+name+'</b><br><span class="req">'+req+(note?" · "+note:"")+'</span></span><span class="verdict">'+verdict+'</span></div>';
+    }).join("");
+  }
+  Object.keys(inputs).forEach(function(k){
+    inputs[k].value = store.nums[k]||"";
+    inputs[k].addEventListener("input", function(){
+      store.nums[k]=inputs[k].value; save(store); renderElig();
+    });
+  });
+  renderElig();
+
+  /* ---- rehearsal checklist ---- */
+  var boxes = document.querySelectorAll("#rehearsal input[type=checkbox]");
+  function refresh(){
+    var done=0;
+    Array.prototype.forEach.call(boxes,function(b){
+      b.parentElement.classList.toggle("done", b.checked);
+      if(b.checked) done++;
+    });
+    document.getElementById("rhProgress").textContent = done+" / "+boxes.length+" rehearsal steps done";
+  }
+  Array.prototype.forEach.call(boxes,function(b){
+    b.checked = !!store.checks[b.id];
+    b.addEventListener("change",function(){ store.checks[b.id]=b.checked; save(store); refresh(); });
+  });
+  refresh();
+})();
+</script>

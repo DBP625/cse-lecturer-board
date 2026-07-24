@@ -1,0 +1,343 @@
+<title>What to Read — CSE Lecturer written + viva, mapped to your Drive</title>
+<style>
+  :root{
+    --ground:#F5F6F2; --surface:#FDFDFB; --ink:#1B231F; --muted:#5B6A61;
+    --line:#D8DDD6; --accent:#0E6A4F; --accent-soft:#E2EEE8;
+    --t1:#BE3A34; --t1-soft:#F6E4E2; --t2:#A9741C; --t2-soft:#F3ECDC; --t3:#3E6C86; --t3-soft:#E1ECF2;
+    --written:#0E6A4F; --viva:#7A4CA0; --viva-soft:#EDE6F4; --demo:#B08A2E; --demo-soft:#F5EDD8;
+    --shadow:0 1px 2px rgba(27,35,31,.06),0 4px 14px rgba(27,35,31,.05);
+    --serif:"Palatino Linotype","Iowan Old Style",Palatino,Georgia,"Noto Serif Bengali",serif;
+    --sans:"Segoe UI",system-ui,-apple-system,"Noto Sans Bengali","Nirmala UI",sans-serif;
+    --mono:"Cascadia Mono",Consolas,"SF Mono",monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --ground:#0F1512; --surface:#171F1A; --ink:#E5EAE5; --muted:#92A199;
+      --line:#28322C; --accent:#4CA783; --accent-soft:#1C3128;
+      --t1:#E0685E; --t1-soft:#3A211F; --t2:#CFA14E; --t2-soft:#332A18; --t3:#7FB0CC; --t3-soft:#1B2A33;
+      --written:#4CA783; --viva:#B79AD6; --viva-soft:#281D33; --demo:#CFA14E; --demo-soft:#332A18;
+      --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0F1512; --surface:#171F1A; --ink:#E5EAE5; --muted:#92A199;
+    --line:#28322C; --accent:#4CA783; --accent-soft:#1C3128;
+    --t1:#E0685E; --t1-soft:#3A211F; --t2:#CFA14E; --t2-soft:#332A18; --t3:#7FB0CC; --t3-soft:#1B2A33;
+    --written:#4CA783; --viva:#B79AD6; --viva-soft:#281D33; --demo:#CFA14E; --demo-soft:#332A18;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
+  }
+  :root[data-theme="light"]{
+    --ground:#F5F6F2; --surface:#FDFDFB; --ink:#1B231F; --muted:#5B6A61;
+    --line:#D8DDD6; --accent:#0E6A4F; --accent-soft:#E2EEE8;
+    --t1:#BE3A34; --t1-soft:#F6E4E2; --t2:#A9741C; --t2-soft:#F3ECDC; --t3:#3E6C86; --t3-soft:#E1ECF2;
+    --written:#0E6A4F; --viva:#7A4CA0; --viva-soft:#EDE6F4; --demo:#B08A2E; --demo-soft:#F5EDD8;
+    --shadow:0 1px 2px rgba(27,35,31,.06),0 4px 14px rgba(27,35,31,.05);
+  }
+  *{box-sizing:border-box}
+  html{background:var(--ground)}
+  body{margin:0; background:var(--ground); color:var(--ink); font-family:var(--sans); font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased}
+  a{color:var(--accent)}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 20px 80px}
+  .topnav{display:flex; flex-wrap:wrap; gap:8px; padding-top:16px; align-items:center}
+  .topnav a{font:600 12.5px var(--sans); text-decoration:none; color:var(--muted); background:var(--surface); border:1px solid var(--line); border-radius:999px; padding:6px 13px; white-space:nowrap}
+  .topnav a:hover{border-color:var(--accent); color:var(--accent)}
+  .topnav a.here{background:var(--accent); border-color:var(--accent); color:#fff}
+  header.masthead{padding:34px 0 18px; border-bottom:3px double var(--line)}
+  .eyebrow{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); font-weight:600}
+  .eyebrow .bn{letter-spacing:0; text-transform:none; font-size:13px; color:var(--muted); font-weight:400}
+  h1{font-family:var(--serif); font-size:clamp(25px,4vw,37px); line-height:1.14; margin:.25em 0 .3em; text-wrap:balance; font-weight:700}
+  .standfirst{color:var(--muted); max-width:66ch; margin:0}
+  h2{font-family:var(--serif); font-size:21px; font-weight:700; margin:0}
+  section{margin-top:32px}
+  .sec-head{display:flex; align-items:baseline; gap:10px; border-bottom:1px solid var(--line); padding-bottom:8px; margin-bottom:14px; flex-wrap:wrap}
+  .sec-head .count{font-size:12.5px; color:var(--muted)}
+  a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+  /* strategy callout */
+  .strategy{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:18px 20px; box-shadow:var(--shadow)}
+  .strategy .lead{font-family:var(--serif); font-size:16.5px; margin:0 0 12px}
+  .ladder{display:grid; gap:8px; counter-reset:step}
+  .rung{display:grid; grid-template-columns:30px 1fr; gap:12px; align-items:baseline; padding:9px 12px; background:var(--ground); border:1px solid var(--line); border-radius:8px}
+  .rung .n{font-family:var(--serif); font-weight:700; color:var(--accent); font-size:17px}
+  .rung b{font-weight:600}
+  .rung .file{font-family:var(--mono); font-size:12px; color:var(--muted)}
+  .split{display:flex; flex-wrap:wrap; gap:14px; margin-top:14px}
+  .splitcard{flex:1 1 240px; background:var(--ground); border:1px solid var(--line); border-radius:8px; padding:12px 14px}
+  .splitcard h4{margin:0 0 4px; font:600 11px var(--sans); letter-spacing:.06em; text-transform:uppercase; color:var(--muted)}
+  .splitcard .big{font-family:var(--serif); font-size:19px; font-weight:700; color:var(--accent)}
+  .splitcard p{margin:4px 0 0; font-size:12.5px}
+
+  /* toolbar */
+  .toolbar{position:sticky; top:0; z-index:20; background:var(--ground); padding:12px 0 10px; border-bottom:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:26px}
+  .chips{display:flex; flex-wrap:wrap; gap:6px}
+  .chip{font:600 12.5px var(--sans); cursor:pointer; padding:6px 12px; border-radius:999px; border:1px solid var(--line); background:var(--surface); color:var(--muted)}
+  .chip[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:#fff}
+  .tally{font-size:12.5px; color:var(--muted); margin-left:auto}
+  .tally strong{color:var(--ink)}
+
+  /* subject grid */
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:14px; margin-top:16px}
+  .subj{background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--t1); border-radius:11px; padding:15px 16px 13px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:9px}
+  .subj[data-tier="2"]{border-left-color:var(--t2)}
+  .subj[data-tier="3"]{border-left-color:var(--t3)}
+  .subj-top{display:flex; align-items:flex-start; gap:8px}
+  .subj-top h3{margin:0; font-family:var(--serif); font-size:16.5px; line-height:1.2; flex:1}
+  .sem{font:600 10.5px var(--mono); color:var(--muted); background:var(--ground); border:1px solid var(--line); border-radius:5px; padding:3px 7px; white-space:nowrap}
+  .code{font-family:var(--mono); font-size:11.5px; color:var(--muted); font-weight:400}
+  .goaltags{display:flex; flex-wrap:wrap; gap:5px}
+  .gt{font:700 10px var(--sans); letter-spacing:.05em; text-transform:uppercase; padding:3px 8px; border-radius:4px}
+  .gt.w{background:var(--accent-soft); color:var(--written)}
+  .gt.v{background:var(--viva-soft); color:var(--viva)}
+  .gt.d{background:var(--demo-soft); color:var(--demo)}
+  .block-label{font:600 10.5px var(--sans); letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin-top:2px}
+  .files{list-style:none; margin:0; padding:0; display:grid; gap:5px}
+  .files li{display:grid; grid-template-columns:18px 1fr; gap:7px; font-size:12.8px; align-items:baseline}
+  .files .rank{font-family:var(--mono); font-weight:700; color:var(--accent); font-size:11px}
+  .files .fn{font-family:var(--mono); font-size:11.8px; color:var(--ink)}
+  .files .fn em{font-family:var(--sans); font-style:normal; color:var(--muted); font-size:11.5px}
+  .topics{font-size:12.8px; margin:0}
+  .topics b{font-weight:600}
+  .hook{font-size:12.3px; color:var(--muted); font-style:italic; border-top:1px dashed var(--line); padding-top:8px; margin-top:2px}
+  .hook strong{color:var(--ink); font-style:normal}
+  .subj-foot{display:flex; gap:8px; align-items:center; margin-top:auto; padding-top:9px}
+  .open{font:600 12px var(--sans); text-decoration:none; color:var(--accent); border:1px solid var(--accent); border-radius:6px; padding:5px 10px}
+  .open:hover{background:var(--accent); color:#fff}
+  .studied{display:flex; align-items:center; gap:6px; font-size:11.5px; color:var(--muted); cursor:pointer; margin-left:auto}
+  .studied input{accent-color:var(--accent); width:15px; height:15px}
+
+  /* order timeline */
+  .order{display:grid; gap:10px}
+  .wave{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:13px 16px; display:grid; grid-template-columns:130px 1fr; gap:14px; align-items:baseline}
+  @media (max-width:620px){ .wave{grid-template-columns:1fr} }
+  .wave .tag{font:700 12px var(--sans); color:var(--accent); font-family:var(--serif); font-size:15px}
+  .wave .tag span{display:block; font-family:var(--mono); font-size:11px; color:var(--muted); font-weight:400; letter-spacing:0}
+  .wave p{margin:0; font-size:13px}
+  .wave .subs{font-family:var(--mono); font-size:12px; color:var(--ink)}
+
+  .skipbox{background:var(--t1-soft); border:1px solid var(--t1); border-radius:10px; padding:13px 16px; margin-top:12px; font-size:13px}
+  .skipbox b{color:var(--t1)}
+
+  footer.small{margin-top:44px; border-top:1px solid var(--line); padding-top:14px; font-size:12px; color:var(--muted); max-width:76ch}
+  .xlinks{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px}
+  .xlinks a{font-size:12.5px; text-decoration:none; font-weight:600; border:1px solid var(--line); border-radius:7px; padding:6px 11px; background:var(--surface)}
+</style>
+
+<div class="wrap">
+  <nav class="topnav">
+    <a href="https://dbp625.github.io/cse-lecturer-board/">📌 Notice board</a>
+    <a href="https://dbp625.github.io/cse-lecturer-board/prep-roadmap.html">🎯 Prep roadmap</a>
+    <a href="https://dbp625.github.io/cse-lecturer-board/reading-roadmap.html" class="here" aria-current="page">📖 Reading roadmap</a>
+    <a href="https://dbp625.github.io/cse-lecturer-board/topic-checklist.html">✅ Topic checklist</a>
+  </nav>
+
+  <header class="masthead">
+    <div class="eyebrow">কী পড়তে হবে · রিডিং রোডম্যাপ &nbsp;<span class="bn">every file below is already in your CUET drive</span></div>
+    <h1>What to Read — Written Exam &amp; Viva</h1>
+    <p class="standfirst">I opened all eight semesters. Your notes are unusually well-organized — most subjects already hold a <em>Term-Final Q&amp;A</em>, a <em>Suggestions</em> sheet, and question banks spanning a decade of batches. This maps each subject to <strong>exactly which of your own files to open, in order</strong> — no re-reading textbooks cover to cover.</p>
+  </header>
+
+  <section>
+    <div class="sec-head"><h2>The method — why your Drive beats any textbook</h2></div>
+    <div class="strategy">
+      <p class="lead">Private-uni written tests reward recall of core courses, not depth. Your folders are already sorted by exam-value — so read them in that order, per subject:</p>
+      <div class="ladder">
+        <div class="rung"><span class="n">1</span><div><b>Term-Final Q&amp;A + Suggestions first.</b> These compress years of real questions into the answers that actually come up. You have them for OS, TOC, Data Com, Microprocessor, SAD, SWE. <span class="file">e.g. “O.S. - Term Final-Q&amp;A.pdf”, “Suggesstions.pdf”</span></div></div>
+        <div class="rung"><span class="n">2</span><div><b>Section-wise / chapter-wise question banks next.</b> They reveal the exam’s own weighting — where the marks concentrate. <span class="file">e.g. “C.N. Questions (sectionwise).pdf”, “S.W.E. (chapterwise).pdf”</span></div></div>
+        <div class="rung"><span class="n">3</span><div><b>Multi-batch question PDFs to spot repeats.</b> The same 20–30 questions recur across batches; mark the ones that appear 3+ times. <span class="file">e.g. “Questions (22-18,16-14,12,11,09,08).pdf”</span></div></div>
+        <div class="rung"><span class="n">4</span><div><b>Notes folder before Slides.</b> Notes are already exam-distilled; slides move at teaching pace. Open Slides only for a topic the notes leave fuzzy.</div></div>
+      </div>
+      <div class="split">
+        <div class="splitcard"><h4>Written test shape</h4><div class="big">~40 + 20</div><p>≈40 marks core-CS subject + ≈20 marks English. Your subject prep = the Tier 1–2 cards below. English lives on the prep-roadmap page.</p></div>
+        <div class="splitcard"><h4>Tier 1 = the demo overlap</h4><div class="big">5 subjects</div><p>Data Structures, Algorithms, DBMS, OS, Networks — highest written yield <em>and</em> your demo-class topics come from here. Spend most hours in this tier.</p></div>
+        <div class="splitcard"><h4>Viva ≠ written</h4><div class="big">AI + ML</div><p>The board probes your specialization. AI/ML files (incl. “Top 50 ML Interview Q&amp;A”) plus your thesis carry the viva — even though they’re low-priority for the written test.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="toolbar">
+    <div class="chips" id="tierChips" role="group" aria-label="Filter by tier">
+      <button class="chip" data-tier="all" aria-pressed="true">All subjects</button>
+      <button class="chip" data-tier="1" aria-pressed="false">Tier 1 · core</button>
+      <button class="chip" data-tier="2" aria-pressed="false">Tier 2 · frequent</button>
+      <button class="chip" data-tier="3" aria-pressed="false">Tier 3 · viva/depth</button>
+    </div>
+    <div class="chips" id="goalChips" role="group" aria-label="Filter by goal">
+      <button class="chip" data-goal="all" aria-pressed="true">Any goal</button>
+      <button class="chip" data-goal="w" aria-pressed="false">Written</button>
+      <button class="chip" data-goal="d" aria-pressed="false">Demo class</button>
+      <button class="chip" data-goal="v" aria-pressed="false">Viva</button>
+    </div>
+    <div class="tally" id="tally"></div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <section>
+    <div class="sec-head"><h2>Reading order — if you have two weeks</h2><span class="count">stack it so the demo-overlap subjects get your freshest hours</span></div>
+    <div class="order">
+      <div class="wave"><div class="tag">Wave 1<span>days 1–6</span></div><div><p class="subs">Data Structures · Algorithms · DBMS · Operating Systems · Computer Networks · (OOP/Programming)</p><p style="margin-top:5px">The Tier-1 five + programming. Each: Q&amp;A → section-wise bank → notes. These are also your three demo topics (BST, 3NF, TCP handshake), so teaching-sheet them as you go.</p></div></div>
+      <div class="wave"><div class="tag">Wave 2<span>days 7–11</span></div><div><p class="subs">Discrete Math · DLD · Theory of Computing · Computer Architecture · Software Engineering</p><p style="margin-top:5px">Tier 2. SWE and TOC are pure Q&amp;A-skim (huge answer banks, little derivation) — fast marks. DLD/CA need the worked problems.</p></div></div>
+      <div class="wave"><div class="tag">Wave 3<span>days 12–14</span></div><div><p class="subs">Data Communication · SAD · Microprocessors → then AI · Machine Learning</p><p style="margin-top:5px">Skim the Term-Final Q&amp;A for the first three. Then pivot to viva: AI + ML + your thesis. Read “Top 50 ML Interview Q&amp;A” slowly — it doubles as viva rehearsal.</p></div></div>
+    </div>
+    <div class="skipbox">
+      <b>Don’t spend written-exam hours here:</b> Chemistry, Physics, Math (calculus/vector), ME Drawing, Economics, Sociology, Accounting, Engineering Management, DSP, Electrical Drives. They’re in your Drive but never on a CSE lecturer test. Discrete Math is the one “math” that counts — it’s CS.
+    </div>
+  </section>
+
+  <footer class="small">
+    Built 23 July 2026 by reading every CSE-core folder in your CUET CSE’20 drive (1-1 → 4-2). File names quoted are the real ones in your folders; “open” buttons jump to that course folder in Drive. Tier = written-exam yield; goal tags mark what each subject feeds. Pairs with your other two pages.
+    <div class="xlinks">
+      <a href="https://claude.ai/code/artifact/2692002e-ff8e-494b-8ff8-8b9c98b7c669" target="_blank" rel="noopener">📌 Notice board — where to apply</a>
+      <a href="https://claude.ai/code/artifact/bd1795f6-e46e-419d-b83b-26181f5b46a4" target="_blank" rel="noopener">🎯 Prep roadmap — 14-day plan &amp; viva pack</a>
+    </div>
+    <span style="font-family:var(--serif); display:block; margin-top:10px">পড়া শুরু করো — গোছানো আছে সব।</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="cse-reading-roadmap-v1";
+  function load(){ try{ return JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ return {}; } }
+  function save(s){ try{ localStorage.setItem(KEY, JSON.stringify(s)); }catch(e){} }
+  var store = load(); store.studied = store.studied||{};
+  var FOLD = "https://drive.google.com/drive/folders/";
+
+  // tier: 1 core / 2 frequent / 3 viva-depth ; goals: w written, d demo, v viva
+  var SUBJ = [
+    {id:"ds", name:"Data Structures", code:"CSE-241", sem:"2-1", tier:1, goals:["w","d","v"], fold:"1EOs0re5XgAnKcgtlQdNrp1nSLK5x64CV",
+      files:[["1","Lecture Notes Data Structures CSC-214.pdf","— the whole course, distilled"],["2","Questions & Ans","folder — solved recurring Qs"],["3","CH1–CH6 slides (15 files)","only where notes are thin"]],
+      topics:"Arrays, linked lists, stacks/queues, <b>trees & BST</b>, heaps, hashing, graph representation, time/space complexity of each op.",
+      hook:"<strong>Demo topic:</strong> BST insert/traverse on the board. <strong>Viva:</strong> “complexity of X?” — memorize the table cold."},
+    {id:"algo", name:"Algorithms", code:"CSE-243", sem:"2-2", tier:1, goals:["w","d","v"], fold:"1CqTJRlbhq7hOkIXFYcW4aYu1kRZsyYe9",
+      files:[["1","ADA Class Note.pdf","+ Algo_Solve.pdf"],["2","Questions (22-18,16-14,12,11,09,08).pdf","— a decade of repeats"],["3","MST + Graph Search/Traversal PDFs","+ Cormen ref chapters C-1…C-4"]],
+      topics:"Asymptotic analysis, recurrences, divide &amp; conquer, <b>greedy vs DP</b>, graph algos (BFS/DFS, Dijkstra, MST), backtracking (N-Queen).",
+      hook:"<strong>Demo topic:</strong> greedy (activity selection) or recursion. <strong>Viva:</strong> Big-O, P vs NP, why DP beats naive recursion."},
+    {id:"dbms", name:"Database Management Systems", code:"CSE-251", sem:"2-2", tier:1, goals:["w","d","v"], fold:"1Hwa_QHVGjnCoRoSYq1pSiy6pUT7vS1BF",
+      files:[["1","Theoretical-Question-Analysis-for-DBMS 2021-2016.pdf","— exam-weighting map"],["2","L-1…L-14 note PDFs","ER → SQL → Normalisation → Transaction → Indexing"],["3","Normalization Practice.pdf + ER PRACTICE.pdf","work these by hand"]],
+      topics:"ER model, relational model, <b>SQL</b>, <b>normalization 1NF→BCNF→4NF</b>, transactions &amp; ACID, indexing/hashing, concurrency.",
+      hook:"<strong>Demo topic:</strong> normalize a messy table to 3NF live — the strongest teaching demo you have. <strong>Viva:</strong> ACID, why normalize."},
+    {id:"os", name:"Operating Systems", code:"CSE-335", sem:"3-1", tier:1, goals:["w","d","v"], fold:"133uRC4Zy2dpkhDMR6YpA20XgZtCcyxRm",
+      files:[["1","O.S. - Term Final-Q&A.pdf","+ its Index file"],["2","O.S. - Questions (20,18-09).pdf","— mark 3×-repeats"],["3","Notes","folder → Slides only if stuck"]],
+      topics:"Processes vs threads, <b>CPU scheduling</b>, synchronization (semaphores, mutex), <b>deadlock</b> (4 conditions), memory mgmt (paging, virtual memory), file systems.",
+      hook:"<strong>Demo topic:</strong> a scheduling algorithm (Round Robin) or deadlock conditions. <strong>Viva:</strong> thread vs process, what is virtual memory."},
+    {id:"cn", name:"Computer Networks", code:"CSE-311", sem:"3-2", tier:1, goals:["w","d","v"], fold:"1OqP9k-OvhqHYJXT_J1c_EttJy6jKpJ9m",
+      files:[["1","Computer Network Q. (Chapterwise) … Most Important Q. … Study Recommendations.pdf","— one file, everything"],["2","C.N. Questions (sectionwise).pdf","+ C.N. (Q&A) (098).pdf"],["3","Routing (Bangla).pdf","if a concept won’t stick"]],
+      topics:"<b>OSI vs TCP/IP layers</b>, IP addressing &amp; <b>subnetting</b>, routing, TCP/UDP, <b>3-way handshake</b>, DNS, congestion &amp; flow control.",
+      hook:"<strong>Demo topic:</strong> TCP 3-way handshake + “what if SYN is lost?”. <strong>Viva:</strong> what happens when you type a URL."},
+    {id:"oop", name:"Object-Oriented Programming", code:"CSE-143", sem:"1-2", tier:1, goals:["w","d","v"], fold:"13qmSo8acaO3oby19B2dGit6oZ1nq5awC",
+      files:[["1","Lesson 2-3 (Intro to OOP) → 19-23 (Inheritance) → 24-27 (Polymorphism)","the pillars, in order"],["2","Lesson 13-17 (Constructors, Operator Overloading)",""],["3","Lesson 32-36 (Templates, Exceptions, Multithreading)",""]],
+      topics:"<b>4 pillars</b> (encapsulation, abstraction, inheritance, polymorphism), constructors/destructors, operator overloading, templates, exception handling, file I/O.",
+      hook:"<strong>Demo topic:</strong> the 4 OOP pillars with a tiny class. <strong>Viva:</strong> overloading vs overriding, virtual functions."},
+    {id:"prog", name:"Structured Programming (C)", code:"CSE-141", sem:"1-1", tier:2, goals:["w","d"], fold:"1Cia_amAdRFAHG25DxO9vmrKhKQBHhF2a",
+      files:[["1","C.S.E.-141 (Question).pdf",""],["2","Chapter-3 & Chapter-5 slides",""],["3","Books & Solution Books","folder"]],
+      topics:"Data types, control structures, <b>functions &amp; recursion</b>, <b>pointers</b>, arrays &amp; strings, structures, file handling.",
+      hook:"<strong>Demo topic:</strong> recursion traced on the board (factorial + call stack) — the classic crowd-pleaser."},
+    {id:"discrete", name:"Discrete Mathematics", code:"CSE-111", sem:"1-2", tier:2, goals:["w","v"], fold:"1o8jhYoMY99m7TkViNyB8-Um0U9eTia7p",
+      files:[["1","Questions (20, 19, 17-07).pdf","— repeats across batches"],["2","Slides","folder"],["3","Books","folder for proof techniques"]],
+      topics:"Sets, relations, functions, <b>propositional logic</b>, <b>proof &amp; induction</b>, counting/combinatorics, graph theory basics, recurrence relations.",
+      hook:"<strong>Viva:</strong> the CS-math bridge — mention it underpins your DSA and algorithm analysis."},
+    {id:"dld", name:"Digital Logic Design", code:"CSE-221", sem:"2-1", tier:2, goals:["w","d"], fold:"1FWNbGCXOwacvjDz8FUJNIcxtykamWuVz",
+      files:[["1","basic logic concept.pdf + basic logic gate.pdf",""],["2","Questions","folder"],["3","Books & Solution Books","folder for K-map drills"]],
+      topics:"Number systems, <b>Boolean algebra</b>, <b>K-maps</b>, combinational circuits (adders, mux/demux), sequential (flip-flops, counters, registers).",
+      hook:"<strong>Demo topic:</strong> K-map simplification or full-adder design — clean, self-contained, board-friendly."},
+    {id:"toc", name:"Theory of Computing", code:"CSE-331", sem:"3-1", tier:2, goals:["w","v"], fold:"12y2JZP9mOS46JAkPlZIwD3RIjvm201GW",
+      files:[["1","T.O.C. - Term Final-Q&A.pdf","+ Index"],["2","T.O.C. - Questions (20-12).pdf",""],["3","Lectures + Notes","folders"]],
+      topics:"<b>Finite automata (DFA/NFA)</b>, regular expressions &amp; languages, <b>context-free grammars</b>, pushdown automata, Turing machines, decidability.",
+      hook:"<strong>Viva:</strong> DFA vs NFA, what makes a language regular. Links directly to Compiler Design."},
+    {id:"ca", name:"Computer Architecture", code:"CSE-321", sem:"3-2", tier:2, goals:["w","v"], fold:"19VZWsIDmPP44Boj5mjTr2eNEdSA8aOt5",
+      files:[["1","C.A.- (Questions- Chapterwise).pdf","+ গুরুত্ব.docx (what’s important)"],["2","C.A. Questions (sectionwise).pdf",""],["3","Notes + Slides","folders"]],
+      topics:"Instruction sets &amp; addressing, <b>pipelining</b> &amp; hazards, <b>memory hierarchy &amp; cache</b>, I/O, intro to parallelism.",
+      hook:"<strong>Viva:</strong> what is pipelining, why cache exists (locality). Pairs with OS on memory."},
+    {id:"swe", name:"Software Engineering", code:"CSE-355", sem:"3-2", tier:2, goals:["w","v"], fold:"19QFFnGDBc4TFz9uZeNhdPVD-w-C-GH-u",
+      files:[["1","Suggesstions.pdf + Set Distribution (Mukta Mam).pdf","— what to expect"],["2","S.W.E. (Q&A 16-23) (Mukta Mam).pdf","— giant answer bank"],["3","S.W.E. Questions (2023-16) (chapterwise).pdf",""]],
+      topics:"<b>SDLC models</b> (waterfall, agile, spiral), requirements engineering, design &amp; UML, <b>testing</b>, SQA, project management, risk.",
+      hook:"<strong>Easy written marks:</strong> almost pure theory Q&amp;A, little derivation. <strong>Viva:</strong> agile vs waterfall, how you’d run a student project."},
+    {id:"datacom", name:"Data Communication", code:"CSE-313", sem:"3-1", tier:3, goals:["w"], fold:"1kg-lGHfuJ3_39kRpPHJA1UF8_mXera-0",
+      files:[["1","Data Com. - Term Final-Q&A.pdf","+ Index"],["2","Questions(18-22).pdf + Questions(20-10).pdf",""],["3","Polynomial Representation.png","for the CRC method"]],
+      topics:"Signals &amp; encoding, <b>error detection (CRC, Hamming, parity)</b>, flow &amp; error control, multiplexing, switching. Feeds into Networks.",
+      hook:"<strong>Written:</strong> CRC and Hamming-code problems are near-guaranteed — drill the worked examples."},
+    {id:"sad", name:"System Analysis & Design", code:"CSE-353", sem:"3-1", tier:3, goals:["w","v"], fold:"1L5N8pEoKZzpi52TWY8QA4Hj3jXYQWuC4",
+      files:[["1","S.A.D. - Term Final-Q&A.pdf","+ index"],["2","Worked Examples + Suggestions","folders"],["3","Questions(23-10).pdf",""]],
+      topics:"SDLC, requirements, <b>DFD</b>, ER modeling, <b>UML diagrams</b>, feasibility, system design. Heavy overlap with SWE — study them together.",
+      hook:"<strong>Viva:</strong> draw a DFD/use-case for a small system. Overlaps DBMS (ER) and SWE."},
+    {id:"mpi", name:"Microprocessors & Interfacing", code:"CSE-333", sem:"3-1", tier:3, goals:["w"], fold:"1344iXU-CEyAMI7mVrby0QUS6PDy3-tsn",
+      files:[["1","Microprocessor - Term Final-Q&A.pdf","+ Interfacing Term-Final Q&A"],["2","Suggestions","folder"],["3","Flag register values.jpg","quick reference"]],
+      topics:"<b>8086 architecture</b>, registers &amp; flags, addressing modes, assembly basics, interfacing (8255 PPI), interrupts.",
+      hook:"<strong>Written:</strong> lower frequency at private unis, but the Term-Final Q&amp;A makes it a fast skim if it’s on the syllabus."},
+    {id:"ai", name:"Artificial Intelligence", code:"CSE-345", sem:"3-2", tier:3, goals:["w","v"], fold:"19OmWDzKxuFPAQY5-DU7QuRjygCNSmxkY",
+      files:[["1","A.I. Questions (sectionwise).pdf","+ A.I. (Questions) (20-10).pdf"],["2","Afroza Ma'am Topic.pdf","+ Notes folder"],["3","Sessional with Python","folder — for demo credibility"]],
+      topics:"<b>Search (BFS/DFS/A*)</b>, adversarial search (minimax, alpha-beta), knowledge representation &amp; logic, intro ML, expert systems.",
+      hook:"<strong>Viva anchor:</strong> the bridge from coursework to your thesis. Be fluent in search + how modern LLM/RAG differs from classical AI."},
+    {id:"ml", name:"Machine Learning", code:"CSE-445", sem:"4-1", tier:3, goals:["v"], fold:"1OM2i0DAzZ0BV5zlduFYj40dfLGQCqV6K",
+      files:[["1","Top 50 Machine Learning Interview Questions & Answers.pdf","— read slowly, it IS viva prep"],["2","ML Year Theory (Q & A) (Murad vai).pdf + Questions (Topicwise).pdf",""],["3","ML Year (Maths).pdf","the stats/linear-algebra backbone"]],
+      topics:"Supervised vs unsupervised, <b>regression &amp; classification</b>, clustering, <b>overfitting/regularization</b>, evaluation metrics (precision/recall/F1), intro neural nets.",
+      hook:"<strong>Viva — your home turf.</strong> Ties straight to the thesis (fine-tuning, evaluation metrics). Where you should sound like the expert in the room."},
+    {id:"compiler", name:"Compiler Design", code:"CSE-431", sem:"4-2", tier:3, goals:["w","v"], fold:"1m-uMVe15oPbLtDxoRWMjFFbAtWewG1ck",
+      files:[["1","Compiler (Review).pdf",""],["2","Q & A (C.T., Assignments & Term Final)","folder"],["3","Notes + Compiler Solution Ex","folders"]],
+      topics:"<b>Lexical analysis</b>, <b>parsing (LL, LR)</b>, syntax-directed translation, intermediate code, code generation &amp; optimization. Builds on TOC.",
+      hook:"<strong>Viva:</strong> phases of a compiler, parsing vs lexing. Study right after TOC — same automata foundation."}
+  ];
+
+  var TIER_NAME = {1:"Tier 1 · core", 2:"Tier 2 · frequent", 3:"Tier 3 · viva/depth"};
+  var GOAL_FULL = {w:"Written", d:"Demo", v:"Viva"};
+
+  var grid = document.getElementById("grid");
+  var tier="all", goal="all";
+
+  function card(s){
+    var st = store.studied[s.id];
+    var gtags = s.goals.map(function(g){return '<span class="gt '+g+'">'+GOAL_FULL[g]+'</span>';}).join("");
+    var files = s.files.map(function(f){
+      return '<li><span class="rank">'+f[0]+'</span><span class="fn">'+f[1]+(f[2]?' <em>'+f[2]+'</em>':'')+'</span></li>';
+    }).join("");
+    return '<article class="subj" data-tier="'+s.tier+'" data-goals="'+s.goals.join(",")+'" data-id="'+s.id+'">'+
+      '<div class="subj-top"><h3>'+s.name+' <span class="code">'+s.code+'</span></h3><span class="sem">'+s.sem+'</span></div>'+
+      '<div class="goaltags">'+gtags+'</div>'+
+      '<div class="block-label">Open exactly these, in order</div>'+
+      '<ul class="files">'+files+'</ul>'+
+      '<div class="block-label">Master</div>'+
+      '<p class="topics">'+s.topics+'</p>'+
+      '<p class="hook">'+s.hook+'</p>'+
+      '<div class="subj-foot"><a class="open" href="'+FOLD+s.fold+'" target="_blank" rel="noopener">Open in Drive ↗</a>'+
+      '<label class="studied"><input type="checkbox" '+(st?"checked":"")+' data-id="'+s.id+'"> studied</label></div>'+
+    '</article>';
+  }
+
+  function render(){
+    var list = SUBJ.filter(function(s){
+      if(tier!=="all" && String(s.tier)!==tier) return false;
+      if(goal!=="all" && s.goals.indexOf(goal)===-1) return false;
+      return true;
+    });
+    // sort by tier then keep declared order
+    list.sort(function(a,b){ return a.tier-b.tier; });
+    grid.innerHTML = list.map(card).join("");
+    Array.prototype.forEach.call(grid.querySelectorAll(".studied input"), function(cb){
+      cb.addEventListener("change", function(){
+        store.studied[cb.getAttribute("data-id")] = cb.checked; save(store); renderTally();
+      });
+    });
+    renderTally();
+  }
+  function renderTally(){
+    var done = SUBJ.filter(function(s){return store.studied[s.id];}).length;
+    var t1 = SUBJ.filter(function(s){return s.tier===1;}).length;
+    document.getElementById("tally").innerHTML = "<strong>"+SUBJ.length+"</strong> subjects · <strong>"+t1+"</strong> in Tier 1 · studied <strong>"+done+"</strong>";
+  }
+
+  function wire(groupId, attr, setter){
+    var g = document.getElementById(groupId);
+    Array.prototype.forEach.call(g.querySelectorAll(".chip"), function(ch){
+      ch.addEventListener("click", function(){
+        Array.prototype.forEach.call(g.querySelectorAll(".chip"), function(o){o.setAttribute("aria-pressed","false");});
+        ch.setAttribute("aria-pressed","true");
+        setter(ch.getAttribute(attr)); render();
+      });
+    });
+  }
+  wire("tierChips","data-tier",function(v){tier=v;});
+  wire("goalChips","data-goal",function(v){goal=v;});
+  render();
+})();
+</script>
