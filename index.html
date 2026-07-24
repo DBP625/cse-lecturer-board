@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Every CSE Lecturer recruitment portal at Bangladesh's private universities in one place — open circulars, rolling CV drops, deadlines, salary data, and preparation guides.">
 <title>CSE Lecturer Notice Board — BD Private Universities</title>
 <style>
   :root{
@@ -273,6 +279,8 @@
   footer.small{margin-top:44px; border-top:1px solid var(--line); padding-top:14px; font-size:12px; color:var(--muted); max-width:72ch}
   .foot-bn{font-family:var(--serif)}
 </style>
+</head>
+<body>
 
 <div class="wrap">
   <header class="masthead">
@@ -283,6 +291,7 @@
       <span class="dot" id="staleDot"></span>
       <span id="staleText">Portals verified by live check on <strong>23 July 2026</strong>.</span>
       <button class="refresh-btn" id="copyRefresh" title="Copies a ready-made refresh instruction — paste it into any Claude Code chat and the board gets re-verified and republished to this same link">⟳ Copy refresh request</button>
+      <button class="refresh-btn" id="themeToggle" title="Toggle dark / light theme">◐ Theme</button>
       <span class="refresh-hint" id="refreshHint">manual refresh — or set the auto-alerts below to get emailed automatically ↓</span>
     </div>
   </header>
@@ -879,6 +888,20 @@
     });
   })();
 
+  /* ---------------- theme toggle ---------------- */
+  (function(){
+    var btn = document.getElementById("themeToggle");
+    var root = document.documentElement;
+    var stored = localStorage.getItem("cse-board-theme");
+    if(stored) root.setAttribute("data-theme", stored);
+    btn.addEventListener("click", function(){
+      var cur = root.getAttribute("data-theme");
+      var next = cur === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      localStorage.setItem("cse-board-theme", next);
+    });
+  })();
+
   /* ---------------- Google Alert query copy buttons ---------------- */
   (function(){
     var btns = document.querySelectorAll(".qcopy");
@@ -909,6 +932,7 @@
     var sec = document.getElementById("liveSec");
     if(!sec) return;
     function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+    function safeUrl(u){ return /^https?:\/\//i.test(u) ? esc(u) : '#'; }
     fetch("notices.json", {cache:"no-store"}).then(function(r){
       if(!r.ok) throw 0; return r.json();
     }).then(function(data){
@@ -927,7 +951,7 @@
             '<div class="live-meta"><span class="live-src">'+esc(it.source||"link")+'</span>'+
             (it.published?'<span class="live-date">'+esc(it.published)+'</span>':'')+
             (it.deadline?'<span class="live-dl">deadline '+esc(it.deadline)+'</span>':'')+'</div>'+
-            '<h3><a href="'+esc(it.url)+'" target="_blank" rel="noopener">'+esc(it.title||it.url)+' ↗</a></h3>'+
+            '<h3><a href="'+safeUrl(it.url)+'" target="_blank" rel="noopener">'+esc(it.title||it.url)+' ↗</a></h3>'+
             (it.snippet?'<p class="live-snip">'+esc(it.snippet)+'</p>':'')+
           '</div>';
         }).join("");
@@ -940,3 +964,5 @@
   renderSections();
 })();
 </script>
+</body>
+</html>
