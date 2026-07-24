@@ -4,6 +4,7 @@ name: Refresh notices
 # Google crawls the sources; this just turns your Google Alerts feed into
 # notices.json, which the board reads. No Claude involved.
 
+
 on:
   schedule:
     - cron: "0 */6 * * *"    # every 6 hours (UTC)
