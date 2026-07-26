@@ -55,6 +55,8 @@
   .badge{font:700 10px var(--sans); padding:2px 7px; border-radius:4px; letter-spacing:.03em}
   .badge.s2{background:var(--star2-soft); color:var(--star2)}
   .badge.s1{background:var(--star1-soft); color:var(--star1)}
+  .badge.rf{background:var(--accent-soft); color:var(--accent); font-family:var(--mono); font-weight:400}
+  .badge.rfout{background:var(--line); color:var(--muted); font-family:var(--mono); font-weight:400}
 
   /* toolbar */
   .toolbar{position:sticky; top:0; z-index:20; background:var(--ground); padding:11px 0 9px; border-bottom:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:22px}
@@ -79,25 +81,30 @@
   .subj-title{flex:1; min-width:0}
   .subj-title h3{margin:0; font-family:var(--serif); font-size:16.5px; display:flex; align-items:baseline; gap:8px; flex-wrap:wrap}
   .subj-title .code{font-family:var(--mono); font-size:11.5px; color:var(--muted); font-weight:400}
-  .subj-title .sem{font-family:var(--mono); font-size:10.5px; color:var(--muted); border:1px solid var(--line); border-radius:4px; padding:1px 6px}
+  .subj-title .sem{font-family:var(--mono); font-size:10.5px; color:var(--muted); border:1px solid var(--line); border-radius:4px; padding:1px 6px; font-weight:400}
   .pbar{width:90px; height:6px; background:var(--line); border-radius:4px; overflow:hidden; flex:none}
   .pbar i{display:block; height:100%; background:var(--accent); width:0}
   .pcount{font:600 11.5px var(--mono); color:var(--muted); flex:none; min-width:42px; text-align:right; font-variant-numeric:tabular-nums}
 
   .subj-body{display:none; padding:2px 16px 14px}
   .subj.open .subj-body{display:block}
-  .grp{margin-top:12px}
+  .grp{margin-top:14px}
   .grp-name{font:600 11px var(--sans); letter-spacing:.06em; text-transform:uppercase; color:var(--muted); padding-bottom:5px; border-bottom:1px solid var(--line); margin-bottom:7px}
-  .grp-ref{font-weight:400; text-transform:none; letter-spacing:0; color:var(--accent); font-family:var(--mono); font-size:10.5px; margin-left:2px}
-  .refbox{background:var(--ground); border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:8px; padding:9px 12px; margin-top:11px; display:grid; gap:3px}
-  .refbox .bk{font-size:13px}
-  .refbox .bk b{font-family:var(--serif); font-weight:700}
-  .refbox .dv{font-size:12px; color:var(--muted)}
-  .refbox .dv .ok{color:var(--accent); font-weight:600}
+  .refbox{background:var(--ground); border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:8px; padding:10px 12px; margin-top:11px; display:grid; gap:4px}
+  .refbox .fold{font-size:13px}
+  .refbox .fold b{font-family:var(--serif); font-weight:700}
+  .refbox .fold a{font-weight:600; text-decoration:none}
+  .refbox .fold a:hover{text-decoration:underline}
+  .refbox .mats{font-size:12px; color:var(--muted)}
+  .refbox .bk{font-size:12px; color:var(--muted)}
+  .refbox .warn{font-size:12px; color:var(--star1); background:var(--star1-soft); border-radius:5px; padding:4px 8px; margin-top:2px}
   .topic{display:grid; grid-template-columns:20px 1fr auto; gap:9px; align-items:start; padding:5px 0; font-size:13.8px}
   .topic input{accent-color:var(--accent); width:16px; height:16px; margin-top:2px; flex:none}
   .topic.done label{text-decoration:line-through; color:var(--muted)}
   .topic label{cursor:pointer}
+  .topic .rf{font-family:var(--mono); font-size:10.5px; color:var(--accent); background:var(--accent-soft); border-radius:4px; padding:1px 6px; margin-left:7px; display:inline-block; text-decoration:none}
+  .topic .rf.out{color:var(--muted); background:var(--line)}
+  .topic.done .rf{opacity:.45}
   .topic .q{display:block; font-size:12px; color:var(--muted); font-style:italic; margin-top:2px}
   .topic .st{font:700 9.5px var(--sans); padding:2px 6px; border-radius:4px; height:fit-content; white-space:nowrap; margin-top:1px}
   .topic .st.s2{background:var(--star2-soft); color:var(--star2)}
@@ -121,14 +128,15 @@
   </nav>
 
   <header class="masthead">
-    <div class="eyebrow">নির্দিষ্ট টপিক · স্টাডি চেকলিস্ট &nbsp;<span class="bn">every topic broken to one studyable atom</span></div>
+    <div class="eyebrow">নির্দিষ্ট টপিক · স্টাডি চেকলিস্ট &nbsp;<span class="bn">every topic pinned to a file you already own</span></div>
     <h1>Exact Topics — the Study Checklist</h1>
-    <p class="standfirst">The reading roadmap said <em>which files</em>; this says <em>exactly which topics</em>. Each line is one thing to learn. Overwhelmed? Hit <b>★ Must-know only</b> — it hides everything except the topics that actually decide the marks. Tick as you go; progress saves in this browser.</p>
+    <p class="standfirst">Each line is one thing to learn, and each carries <em>the slide or note in your own Drive that teaches it</em> — not a textbook chapter you'd have to go find. Overwhelmed? Hit <b>★ Must-know only</b> — it hides everything except the topics that actually decide the marks. Tick as you go; progress saves in this browser.</p>
     <div class="legend">
       <span><span class="badge s2">★★ CORE</span> near-guaranteed on the paper — learn these first</span>
       <span><span class="badge s1">★ KEY</span> high-frequency — learn these second</span>
       <span>· unmarked = round it out if time allows</span>
-      <span>📘 = the exact textbook + chapter per topic group, tied to your Books folder</span>
+      <span><span class="badge rf">Deadlock.pdf</span> the file in your Drive that covers it</span>
+      <span><span class="badge rfout">book fallback</span> nothing in the Drive covers it — use the book</span>
     </div>
   </header>
 
@@ -151,11 +159,11 @@
   <div id="list"></div>
 
   <div class="note">
-    <b>How to use this without drowning:</b> pick <em>one</em> subject, turn on <b>★ Must-know only</b>, and learn just those 6–10 core topics — that alone clears most of a written paper. Come back for the ★ KEY layer, then the rest. The ★★ CORE topics are also your safest <b>demo-class and viva</b> answers, so they pay double.
+    <b>How to use this without drowning:</b> pick <em>one</em> subject, open its 📁 folder link, turn on <b>★ Must-know only</b>, and work down the list opening the named file for each topic. Everything you need is already in the Drive — the point of this page is that you never have to decide <em>what to open next</em>. The ★★ CORE topics double as your safest demo-class and viva answers.
   </div>
 
   <footer class="small">
-    Built 23 July 2026 from your CUET CSE’20 curriculum (chapter structure taken from your own OOP lesson set, DBMS L-1→L-14, Data Structures CH1–6, Algorithms notes) plus the standard private-uni written pattern. Topic weighting (★★/★) reflects general frequency — a specific university’s syllabus overrides it.
+    Rebuilt 26 July 2026 by walking your CUET CSE’20 Drive folder-by-folder, so that each topic points at the <b>slide or note that actually teaches it</b> rather than a textbook chapter. Where the Drive has no file for a topic, the chip turns grey and names the book instead. Course codes shown are the ones confirmed from syllabus and lecture filenames inside the Drive; subjects without a confirmed code show none. Topic weighting (★★/★) reflects general private-university frequency; a specific university’s syllabus overrides it.
     <div class="xlinks">
       <a href="https://claude.ai/code/artifact/2692002e-ff8e-494b-8ff8-8b9c98b7c669" target="_blank" rel="noopener">📌 Notice board</a>
       <a href="https://claude.ai/code/artifact/bd1795f6-e46e-419d-b83b-26181f5b46a4" target="_blank" rel="noopener">🎯 Prep roadmap</a>
@@ -173,369 +181,540 @@
   function save(s){ try{ localStorage.setItem(KEY, JSON.stringify(s)); }catch(e){} }
   var store = load(); store.done = store.done||{}; store.open = store.open||{};
 
-  // topic tuple: [text, star(0/1/2), optionalTypicalQuestion]
+  // topic tuple: [text, star(0/1/2), source, optionalTypicalQuestion]
+  // source = the file in the user's Drive that teaches this topic.
+  // Prefix with "!" when the Drive has nothing for it — renders grey, names the book.
   var SUBJ = [
-    {id:"ds", name:"Data Structures", code:"CSE-241", sem:"2-1", tier:1, groups:[
-      {g:"Foundations", t:[
-        ["Complexity: best / average / worst case; Big-O, Ω, Θ notation",2,"Give the time complexity of an operation and justify it"],
-        ["Abstract Data Type (ADT) — concept vs implementation",1]
-      ]},
-      {g:"Linear structures", t:[
-        ["Arrays — 1D/2D, row- vs column-major address calculation",1,"Find address of A[i][j] given base address"],
-        ["Linked list — singly, doubly, circular: insert / delete / traverse",2,"Write insert-at-position for a singly linked list"],
-        ["Stack — push/pop; applications: infix→postfix, balanced parentheses",2,"Convert an infix expression to postfix using a stack"],
-        ["Queue — linear, circular, priority queue, deque",2,"Why a circular queue over a linear one"]
-      ]},
-      {g:"Trees & hierarchical", t:[
-        ["Tree terminology + binary tree traversals: pre / in / post / level order",2,"Give the 3 traversals of a given tree"],
-        ["Binary Search Tree — insert, delete, search + their complexity",2,"Insert a sequence into a BST and delete a node with 2 children"],
-        ["Heap — min/max heap, heapify, heap sort",2,"Build a max-heap from an array; show heap sort steps"],
-        ["Balanced trees — AVL rotations, B-tree / B+ tree (concept)",1]
-      ]},
-      {g:"Hashing & graphs", t:[
-        ["Hashing — hash functions, collision resolution (chaining, open addressing)",2,"Insert keys with linear probing / chaining"],
-        ["Graph representation — adjacency matrix vs adjacency list",1],
-        ["Graph traversal — BFS & DFS (also in Algorithms)",1]
-      ]}
-    ]},
-    {id:"algo", name:"Algorithms", code:"CSE-243", sem:"2-2", tier:1, groups:[
-      {g:"Analysis", t:[
-        ["Asymptotic notation & growth of functions — order them",2,"Rank functions by growth rate"],
-        ["Recurrence relations — substitution, recursion tree, Master theorem",2,"Solve T(n)=2T(n/2)+n by the Master theorem"]
-      ]},
-      {g:"Design paradigms", t:[
-        ["Divide & conquer — merge sort, quick sort, binary search + complexity",2,"Derive merge sort's O(n log n)"],
-        ["Greedy — activity selection, fractional knapsack, job sequencing, Huffman",2,"Solve fractional knapsack greedily"],
-        ["Dynamic programming — 0/1 knapsack, LCS, matrix-chain, coin change",2,"Fill the DP table for 0/1 knapsack"],
-        ["Backtracking — N-Queens, subset/permutation generation",1]
-      ]},
-      {g:"Graph algorithms", t:[
-        ["BFS / DFS + applications (cycle detect, connected components)",2],
-        ["Shortest path — Dijkstra, Bellman-Ford, Floyd-Warshall",2,"Trace Dijkstra from a source node"],
-        ["Minimum spanning tree — Kruskal, Prim, Union-Find",2,"Build the MST of a weighted graph"],
-        ["Topological sort (DAG)",1]
-      ]},
-      {g:"Complexity classes", t:[
-        ["P, NP, NP-complete, NP-hard — definitions & relationship",1,"Difference between NP-complete and NP-hard"]
-      ]}
-    ]},
-    {id:"dbms", name:"Database Management Systems", code:"CSE-251", sem:"2-2", tier:1, groups:[
-      {g:"Data modeling", t:[
-        ["DBMS vs file system; three-schema architecture; DBA role",1],
-        ["ER model — entities, attributes, relationships, cardinality, keys",2,"Draw an ER diagram for a given scenario"],
-        ["Extended ER — generalization, specialization, aggregation",1],
-        ["ER → relational schema mapping",2,"Map a given ER diagram to tables"]
-      ]},
-      {g:"Relational model & SQL", t:[
-        ["Keys — super, candidate, primary, foreign",2],
-        ["Relational algebra — select, project, join, union, division",1],
-        ["SQL — joins, nested queries, aggregates, GROUP BY / HAVING",2,"Write a SQL query with a join + GROUP BY"]
-      ]},
-      {g:"Design theory (highest weight)", t:[
-        ["Functional dependencies + Armstrong's axioms",2,"Find the candidate keys from a set of FDs"],
-        ["Normalization — 1NF, 2NF, 3NF, BCNF, 4NF",2,"Normalize a table up to BCNF, step by step"]
-      ]},
-      {g:"Transactions & storage", t:[
-        ["Transactions & ACID properties",2,"Explain each ACID property with an example"],
-        ["Concurrency — schedules, serializability, locking (2PL)",1],
-        ["Indexing — B+ tree, hashing",1]
-      ]}
-    ]},
-    {id:"os", name:"Operating Systems", code:"CSE-335", sem:"3-1", tier:1, groups:[
-      {g:"Processes & scheduling", t:[
-        ["OS types & functions; kernel vs user mode",1],
-        ["Process vs thread; PCB; process states diagram",2,"Difference between process and thread"],
-        ["CPU scheduling — FCFS, SJF, SRTF, Round Robin, Priority",2,"Compute avg waiting & turnaround time for given processes"]
-      ]},
-      {g:"Synchronization", t:[
-        ["Race condition & critical-section problem",2],
-        ["Semaphores & mutex — producer-consumer, reader-writer",1,"Solve producer-consumer with semaphores"],
-        ["Deadlock — 4 necessary conditions, prevention, avoidance, Banker's algorithm",2,"Apply the Banker's algorithm to a given state"]
-      ]},
-      {g:"Memory management", t:[
-        ["Paging & segmentation; logical vs physical address",2,"Translate a logical address under paging"],
-        ["Virtual memory + page replacement — FIFO, LRU, Optimal",2,"Count page faults for a reference string under LRU"],
-        ["Thrashing & locality",1]
-      ]},
-      {g:"Storage", t:[
-        ["Disk scheduling — FCFS, SSTF, SCAN, C-SCAN",1,"Compute head movement for SCAN"],
-        ["File systems & allocation methods",0]
-      ]}
-    ]},
-    {id:"cn", name:"Computer Networks", code:"CSE-311", sem:"3-2", tier:1, groups:[
-      {g:"Reference models", t:[
-        ["OSI 7 layers vs TCP/IP — the function of each layer",2,"Name each OSI layer and one job it does"]
-      ]},
-      {g:"Network layer", t:[
-        ["IPv4 addressing — classes, private ranges, CIDR notation",2],
-        ["Subnetting — calculate subnets, hosts, subnet mask",2,"Given a network + prefix, find #subnets and #hosts"],
-        ["Routing — distance vector vs link state; RIP, OSPF",1]
-      ]},
-      {g:"Transport & application", t:[
-        ["TCP vs UDP — when to use which",2],
-        ["TCP 3-way handshake; flow & congestion control",2,"Draw the 3-way handshake; what if a SYN is lost"],
-        ["Application protocols — DNS, HTTP, DHCP, SMTP (concept)",1]
-      ]},
-      {g:"Data link / access", t:[
-        ["MAC, Ethernet, CSMA/CD",1],
-        ["Error/flow control — stop-and-wait, sliding window (also Data Com)",1]
-      ]}
-    ]},
+
+    /* ================= TIER 1 — the six that decide the written paper ================= */
+
     {id:"oop", name:"Object-Oriented Programming (C++)", code:"CSE-143", sem:"1-2", tier:1, groups:[
       {g:"Fundamentals", t:[
-        ["Procedural vs OOP; classes & objects",2],
-        ["Encapsulation & data hiding; access specifiers (public/private/protected)",2]
+        ["Procedural vs object-oriented paradigm; the four OOP principles",2,"Lesson 2-3 (Intro to OOP).ppt"],
+        ["Tokens, expressions and control structures in C++",0,"Lesson 4-6 (Tokens, Expressions and Control Structures).ppt"],
+        ["Functions in C++ — inline, default arguments, function overloading",1,"Lesson 7-8 (Functions in C++).ppt"],
+        ["Classes & objects — member functions, static members, friend functions",2,"Lesson 9-12 (Class & Objects).pptx"],
+        ["Encapsulation & data hiding; access specifiers",2,"Lesson 18 (Data Encapsulation and Hiding).ppt"]
       ]},
       {g:"Core mechanisms", t:[
-        ["Constructors & destructors — default, parameterized, copy",2,"Difference between copy constructor and assignment"],
-        ["Inheritance — single, multiple, multilevel, hierarchical, hybrid",2,"Explain the diamond problem"],
-        ["Polymorphism — compile-time (overloading) vs runtime (virtual/overriding)",2,"Overloading vs overriding, with example"],
-        ["Operator overloading",1]
+        ["Constructors & destructors — default, parameterized, copy",2,"Lesson 13-15 (Constructors).ppt","Difference between a copy constructor and assignment"],
+        ["Operator overloading — unary, binary, type conversion",1,"Lesson 16-17 (Operator Overloading).ppt"],
+        ["Inheritance — single, multiple, multilevel, hierarchical, hybrid",2,"Lesson 19-23 (Inheritance).ppt","Explain the diamond problem and how a virtual base class fixes it"],
+        ["Polymorphism — overloading vs overriding; virtual functions",2,"Lesson 24-27 (Polymorphism).ppt","Overloading vs overriding, with an example of each"],
+        ["Abstract class & pure virtual function",1,"Lesson 24-27 (Polymorphism).ppt"]
       ]},
       {g:"Advanced", t:[
-        ["Abstract class & pure virtual function",1],
-        ["Templates — function & class templates",0],
-        ["Exception handling — try / catch / throw",0],
-        ["File handling & stream I/O",0]
+        ["Console I/O and stream manipulators",0,"Lesson 28-29 (Managing Console, IO Operations).ppt"],
+        ["File handling — file streams, modes, random access",0,"Lesson 30-31 (Working with Files).ppt"],
+        ["Templates — function & class templates",0,"Lesson 32-33 (Templates).ppt"],
+        ["Exception handling & multithreaded programming",0,"Lesson 34-36 (Exception handling, Multithreaded Programming).ppt"]
       ]}
     ]},
+
+    {id:"ds", name:"Data Structures", sem:"2-1", tier:1, groups:[
+      {g:"Foundations", t:[
+        ["Abstract Data Type — the concept vs its implementation",1,"Lecture Notes Data Structures.pdf"],
+        ["Complexity: best / average / worst case; Big-O, Ω, Θ",2,"Lecture Notes Data Structures.pdf","Give the time complexity of an operation and justify it"]
+      ]},
+      {g:"Linear structures", t:[
+        ["Arrays — 1D/2D, row- vs column-major address calculation",1,"Lecture Notes Data Structures.pdf","Find the address of A[i][j] given the base address"],
+        ["Linked list — singly, doubly, circular: insert / delete / traverse",2,"Lecture Notes Data Structures.pdf","Write insert-at-position for a singly linked list"],
+        ["Stack — push/pop; infix→postfix, balanced parentheses",2,"Lecture Notes Data Structures.pdf","Convert an infix expression to postfix using a stack"],
+        ["Queue — linear, circular, priority queue, deque",2,"Lecture Notes Data Structures.pdf","Why a circular queue rather than a linear one"]
+      ]},
+      {g:"Trees & hierarchical", t:[
+        ["Tree terminology + traversals: pre / in / post / level order",2,"Lecture Notes Data Structures.pdf","Give the three traversals of a given tree"],
+        ["Binary Search Tree — insert, delete, search + complexity",2,"Lecture Notes Data Structures.pdf","Insert a sequence into a BST, then delete a node with two children"],
+        ["Heap — min/max heap, heapify, heap sort",2,"Algorithms · Lecture 8 (Heaps and Heap Sort).ppt","Build a max-heap from an array; show the heap sort steps"],
+        ["Balanced trees — AVL rotations, B-tree / B+ tree",1,"!book — CLRS Ch 13 (red-black), Ch 18 (B-tree)"]
+      ]},
+      {g:"Hashing & graphs", t:[
+        ["Hashing — hash functions, chaining, open addressing",2,"Lecture Notes Data Structures.pdf","Insert a key sequence using linear probing, then chaining"],
+        ["Graph representation — adjacency matrix vs adjacency list",1,"Algorithms · L24_Graph Introduction and BFS, DFS.pptx"],
+        ["Graph traversal — BFS & DFS",1,"Algorithms · Graph Search Algo. or Traversal Techniques.pdf"]
+      ]}
+    ]},
+
+    {id:"algo", name:"Algorithms", code:"CSE-243", sem:"2-2", tier:1, groups:[
+      {g:"Analysis", t:[
+        ["Complexity analysis basics; performance measurement",2,"Lecture 3 (Complexity Analysis Basics).ppt"],
+        ["Growth rates & growth-rate functions",2,"Lecture 4 (Algorithm Growth Rates and Growth-Rate Functions).ppt","Rank a list of functions by growth rate"],
+        ["Asymptotic notation — O, Ω, Θ",2,"Lecture 5 (Asymptotic Notation).ppt"],
+        ["Induction method and recursion",2,"L09_22.02.2021_Induction Method and Recursion.pptx"],
+        ["Solving recurrence relations — substitution, tree, Master theorem",2,"L10-11_Solving Recuurence Relations.pptx","Solve T(n)=2T(n/2)+n by the Master theorem"]
+      ]},
+      {g:"Sorting", t:[
+        ["Merge sort — divide & conquer, complexity derivation",2,"L12_Into. to Divide _ Conquer Paradigm (Merge Sort).ppt","Derive merge sort's O(n log n)"],
+        ["Quick sort — partitioning, best vs worst case",2,"L13_Divide and Conquer (quick Sort).ppt"],
+        ["Heap sort and shell sort",1,"Lecture 8 (Sorting Algorithms - Shell Sort, Heaps and Heap Sort).ppt"],
+        ["Linear-time sorting — counting, radix, bucket",1,"Lecture 9 (Sorting Algorithms - Linear Time Sorting Algorithms).ppt"],
+        ["Strassen's matrix multiplication; power of x; closest pair of points",0,"L14_Divide and Conquer_Strassen_s Method, Power of x.ppt"]
+      ]},
+      {g:"Design paradigms", t:[
+        ["Greedy approach — the exchange argument",2,"Lecture 11 (Introduction to Greedy Approach).ppt"],
+        ["Fractional knapsack",2,"L19_Greedy_Fractional Knapsack.pptx","Solve fractional knapsack greedily and justify the choice"],
+        ["Activity selection & job sequencing",2,"Lecture 11 activity_selection_problem.cpp","Schedule activities to maximise the count"],
+        ["Dynamic programming — the principle of optimality",2,"L21-22_DynamicProgramming.ppt"],
+        ["0/1 knapsack by DP",2,"L23_DP_0-1 Knapsack.pptx","Fill the DP table for 0/1 knapsack"],
+        ["Backtracking — N-Queens, permutation generation",1,"L20_Backtracking_Introduction.ppt"]
+      ]},
+      {g:"Graph algorithms", t:[
+        ["Graph introduction; BFS & DFS",2,"L24_Graph Introduction and BFS, DFS.pptx"],
+        ["Undirected vs directed graphs; graph connectivity",1,"L38-39_Graph Connectivity.ppt"],
+        ["Minimum spanning tree — Kruskal & Prim",2,"L29-31_MinimumSpanningTrees.pptx","Build the MST of a weighted graph, showing each step"],
+        ["Union-Find (disjoint sets) — the structure Kruskal runs on",1,"Minimum Spanning Trees(1.5-Union Find).pdf"],
+        ["Shortest path — Dijkstra",2,"L35-36_Shortest Path Algorithms.pptx","Trace Dijkstra from a given source node"],
+        ["Shortest path — Bellman-Ford (negative edges)",2,"L37_Shortest Path Algorithms (Bellman Ford).pptx"],
+        ["Maximum flow — Ford-Fulkerson",1,"L27-28_Maximum Flow Graph Problem.pptx"]
+      ]},
+      {g:"Complexity classes", t:[
+        ["P, NP, NP-complete, NP-hard",1,"L32-33_P, NP, NPC, NPH Problems.pptx","Difference between NP-complete and NP-hard"],
+        ["Approximation and parallel algorithms",0,"L34_Approximation and Parallel Algorithms.ppt"]
+      ]}
+    ]},
+
+    {id:"dbms", name:"Database Management Systems", sem:"2-2", tier:1, groups:[
+      {g:"Data modeling", t:[
+        ["DBMS vs file system; advantages of a database approach",1,"L-1_Intro to DBMS.pdf"],
+        ["Three-schema architecture; data independence; the DBA's role",1,"L-2_DBMS Architechture.pdf"],
+        ["ER model — entities, attributes, relationships, cardinality, keys",2,"L-3_ER Model.pdf","Draw an ER diagram for a given scenario"],
+        ["ER diagram practice — worked scenarios",2,"ER PRACTICE.pdf"],
+        ["Extended ER — generalization, specialization, aggregation",1,"L-4_Extended ER.pdf"],
+        ["ER → relational schema mapping",2,"C-8_Relational Mapping.pdf","Map a given ER diagram to relational tables"]
+      ]},
+      {g:"Relational model & SQL", t:[
+        ["Relational model — keys, integrity constraints",2,"L-7Relational Model.pdf"],
+        ["Relational algebra — select, project, join, union, division",1,"C-2_Intro. to Relational model.pdf"],
+        ["SQL — joins, nested queries, aggregates, GROUP BY / HAVING",2,"L-9_SQL.pdf","Write a SQL query using a join plus GROUP BY and HAVING"],
+        ["MySQL in practice",0,"Mysql theory.pdf"]
+      ]},
+      {g:"Design theory — the highest-weight section", t:[
+        ["Functional dependencies; Armstrong's axioms; attribute closure",2,"L-11_Normalisation.pdf","Find the candidate keys from a given set of FDs"],
+        ["Normalization — 1NF, 2NF, 3NF",2,"Normalization.pdf","Normalize a table up to 3NF, step by step"],
+        ["Boyce-Codd Normal Form",2,"BCNF.pdf","When is a 3NF table not in BCNF?"],
+        ["Multivalued dependency & 4NF",1,"Normalization-4NF.pdf"],
+        ["Normalization practice problems",2,"Normalization Practise.pdf"]
+      ]},
+      {g:"Transactions & storage", t:[
+        ["Transactions & the ACID properties",2,"L-12_Transaction.pdf","Explain each ACID property with an example"],
+        ["Schedules, serializability, concurrency control",1,"ch20.pptx"],
+        ["Indexing & hashing — B+ tree index",1,"L-14Indexing.pdf"]
+      ]}
+    ]},
+
+    {id:"os", name:"Operating Systems", code:"CSE-335", sem:"3-1", tier:1, groups:[
+      {g:"Processes & scheduling", t:[
+        ["OS functions & types; the OS as resource manager",1,"Introduction.pdf"],
+        ["Operating system structures; kernel vs user mode; system calls",1,"Operating System Structures.pdf"],
+        ["Processes — the PCB, process states, context switching",2,"Processes.pdf","Difference between a process and a thread"],
+        ["Threads & concurrency; multithreading models",2,"Threads & Concurrency.pdf"],
+        ["CPU scheduling — the criteria and the algorithms",2,"CPU Scheduling.pptx"],
+        ["FCFS, SJF, Round Robin, Priority — worked numericals",2,"CPU Scheduling (Math).pdf","Compute average waiting and turnaround time for given processes"],
+        ["Scheduling practice problems",2,"CPU Scheduling (Sample Exercises - Questions).pdf"]
+      ]},
+      {g:"Synchronization & deadlock", t:[
+        ["Race conditions, critical section, semaphores, producer-consumer",2,"Process Synchronization.pdf","Solve producer-consumer using semaphores"],
+        ["Deadlock — the four necessary conditions, prevention, avoidance",2,"Deadlocks.pdf"],
+        ["Banker's algorithm",2,"Deadlock (Banker's Algorithm).pdf","Apply the Banker's algorithm to a given state"],
+        ["Deadlock detection & recovery",1,"Deadlock (Recovery).pdf"]
+      ]},
+      {g:"Memory management", t:[
+        ["Main memory — contiguous allocation, paging, segmentation",2,"Main Memory.ppt","Translate a logical address to a physical one under paging"],
+        ["Page table structures — hierarchical, hashed, inverted",1,"Hash, Multilevel & Inverted Page Table.pdf"],
+        ["Virtual memory — demand paging, page faults",2,"Virtual Memory.pdf"],
+        ["Page replacement — FIFO, LRU, Optimal; thrashing",2,"Virtual Memory (2).pdf","Count the page faults for a reference string under LRU"]
+      ]},
+      {g:"Storage & file systems", t:[
+        ["Disk scheduling — FCFS, SSTF, SCAN, C-SCAN",1,"Disk Scheduling.pdf","Compute total head movement for SCAN"],
+        ["Secondary storage structure; RAID levels",1,"RAID.ppt"],
+        ["File-system interface — access methods, directory structure",0,"File-System Interface.pdf"],
+        ["Protection & security",0,"Protection (1).pdf"]
+      ]}
+    ]},
+
+    {id:"cn", name:"Computer Networks", sem:"3-2", tier:1, groups:[
+      {g:"Models & physical layer", t:[
+        ["OSI 7 layers vs TCP/IP — the job of each layer",2,"C.N. topics (094).pdf","Name each OSI layer and one function it performs"],
+        ["Physical layer numericals — bandwidth, data rate",1,"(Math) (Physical Layer).pdf"]
+      ]},
+      {g:"Data link layer", t:[
+        ["Framing, error and flow control; sliding window protocols",2,"Data Link Layer.pdf"],
+        ["Multiple access — CSMA/CD, CSMA/CA; Ethernet and MAC",1,"Data Link Layer.pdf"]
+      ]},
+      {g:"Network layer", t:[
+        ["IPv4 addressing — classes, private ranges, CIDR",2,"(Maths).pdf"],
+        ["Subnetting numericals",2,"(Maths).pdf","Given a network and prefix, find the number of subnets and hosts"],
+        ["Routing — distance vector vs link state; RIP, OSPF",2,"Routing & Djkstra Algo..pdf"],
+        ["Distance vector & delay calculations",1,"(Math) Distance Vector & Delay.pdf"],
+        ["Routing explained in Bangla (if the English notes fight you)",0,"Routing (Bangla).pdf"]
+      ]},
+      {g:"Transport, application & security", t:[
+        ["TCP vs UDP; the 3-way handshake; flow & congestion control",2,"Note (Short).pdf","Draw the 3-way handshake; what happens if the SYN is lost"],
+        ["Application protocols — DNS, HTTP, DHCP, SMTP",1,"Note (Short).pdf"],
+        ["Network security & access control lists",1,"Security & ACL.pdf"],
+        ["Chapterwise question bank — do this last, as a self-test",2,"C.N. Questions (sectionwise).pdf"]
+      ]}
+    ]},
+
+    /* ================= TIER 2 — asked often enough that gaps show ================= */
+
     {id:"prog", name:"Structured Programming (C)", code:"CSE-141", sem:"1-1", tier:2, groups:[
-      {g:"Core", t:[
-        ["Data types, operators, control structures (if/switch/loops)",1],
-        ["Functions — call by value vs reference; scope & storage classes",1],
-        ["Recursion — trace output & write recursive functions",2,"Trace factorial/Fibonacci recursion + the call stack"],
-        ["Pointers — arithmetic, pointer to array, pointer to function",2,"What does *(arr+i) evaluate to and why"]
+      {g:"Language core", t:[
+        ["Operators, expressions and type conversion",1,"C.S.E.-141 Chapter-3.ppt"],
+        ["Decision making & branching — if, else-if ladder, switch",1,"C.S.E.-141 Chapter-5.ppt"],
+        ["Loops — while, do-while, for; break & continue",1,"!book — Balagurusamy, Programming in ANSI C, Ch 6"],
+        ["Functions — call by value vs reference; scope & storage classes",1,"!book — Balagurusamy Ch 9.1–9.14"],
+        ["Recursion — trace the output and write recursive functions",2,"!book — Balagurusamy Ch 9.15","Trace factorial or Fibonacci recursion and draw the call stack"],
+        ["Pointers — arithmetic, pointer to array, pointer to function",2,"!book — Balagurusamy Ch 11","What does *(arr+i) evaluate to, and why"]
       ]},
       {g:"Data & memory", t:[
-        ["Arrays & strings",1],
-        ["Structures & unions",1],
-        ["Dynamic memory — malloc / calloc / free",1],
-        ["File handling in C",0]
+        ["Arrays and strings",1,"!book — Balagurusamy Ch 7–8"],
+        ["Structures & unions",1,"!book — Balagurusamy Ch 10"],
+        ["Dynamic memory — malloc / calloc / realloc / free",1,"!book — Balagurusamy Ch 13.2–13.4"],
+        ["File handling in C",0,"!book — Balagurusamy Ch 12"],
+        ["Past-paper drill",2,"C.S.E.-141 (Question).pdf"]
       ]}
     ]},
-    {id:"discrete", name:"Discrete Mathematics", code:"CSE-111", sem:"1-2", tier:2, groups:[
+
+    {id:"discrete", name:"Discrete Mathematics", sem:"1-2", tier:2, groups:[
       {g:"Logic & sets", t:[
-        ["Propositional & predicate logic; truth tables; logical equivalence",2,"Prove two propositions are equivalent"],
-        ["Set theory; relations & functions; equivalence relations",2]
+        ["Propositional logic — truth tables, equivalence, tautology",2,"Discrete Mathematics · Slides folder","Prove two propositions are logically equivalent"],
+        ["Predicate logic — quantifiers, rules of inference",2,"Discrete Mathematics · Slides folder"],
+        ["Set theory, relations and functions",2,"Discrete Mathematics · Slides folder"]
       ]},
       {g:"Proof & counting", t:[
-        ["Proof techniques — induction, contradiction, contrapositive",2,"Prove a summation formula by induction"],
-        ["Combinatorics — permutation, combination, pigeonhole principle",1]
+        ["Proof techniques — direct, contradiction, contrapositive",2,"!book — Rosen Ch 1.7–1.8","Prove √2 is irrational by contradiction"],
+        ["Mathematical induction",2,"!book — Rosen Ch 5.1–5.2","Prove a summation formula by induction"],
+        ["Counting — permutation, combination, pigeonhole",1,"!book — Rosen Ch 6.1–6.4"]
       ]},
-      {g:"Structures", t:[
-        ["Graph theory — paths, cycles, trees, Euler & Hamiltonian",1],
-        ["Recurrence relations — solving",1],
-        ["Boolean algebra (bridges to DLD)",0]
+      {g:"Relations, graphs & algebra", t:[
+        ["Relations — equivalence relations, partial orders",2,"!book — Rosen Ch 9.1, 9.5–9.6"],
+        ["Recurrence relations — solving them",1,"!book — Rosen Ch 8.1–8.2"],
+        ["Graph theory — Euler & Hamiltonian paths, trees",1,"!book — Rosen Ch 10–11"],
+        ["Boolean algebra (bridges to DLD)",0,"!book — Rosen Ch 12.1–12.3"],
+        ["Past-paper drill (2020, 2019, 2017–2007)",2,"Questions (20, 19, 17 - 07).pdf"]
       ]}
     ]},
-    {id:"dld", name:"Digital Logic Design", code:"CSE-221", sem:"2-1", tier:2, groups:[
-      {g:"Number & Boolean", t:[
-        ["Number systems & conversion; 1's & 2's complement",2,"Convert & do 2's-complement subtraction"],
-        ["Boolean algebra, laws, De Morgan's theorems",2],
-        ["Logic gates; universal gates (NAND/NOR)",1,"Implement any gate using only NAND"]
+
+    {id:"dld", name:"Digital Logic Design", sem:"2-1", tier:2, groups:[
+      {g:"Number systems & Boolean algebra", t:[
+        ["Number systems & conversion; 1's and 2's complement",2,"!book — Mano, Digital Design 5e, Ch 1.2–1.6","Convert between bases, then do a 2's-complement subtraction"],
+        ["Boolean algebra — laws and De Morgan's theorems",2,"basic logic concept.pdf"],
+        ["Logic gates; the universal gates (NAND / NOR)",1,"basic logic gate.pdf","Implement AND, OR and NOT using only NAND gates"]
       ]},
-      {g:"Combinational", t:[
-        ["K-map simplification — 2/3/4 variable, SOP & POS, don't-cares",2,"Minimize a 4-variable function with a K-map"],
-        ["Adders (half/full), subtractor",1],
-        ["Multiplexer, demultiplexer, encoder, decoder",1]
+      {g:"Combinational logic", t:[
+        ["K-map simplification — SOP & POS, don't-care conditions",2,"!book — Mano Ch 3.2–3.5","Minimize a 4-variable function using a K-map"],
+        ["Adders and subtractors — half, full, ripple-carry",1,"!book — Mano Ch 4.3–4.5"],
+        ["Multiplexer, demultiplexer, encoder, decoder",1,"!book — Mano Ch 4.9–4.11","Implement a Boolean function using an 8:1 multiplexer"]
       ]},
-      {g:"Sequential", t:[
-        ["Flip-flops — SR, JK, D, T; excitation tables",2,"Convert a JK flip-flop to a D flip-flop"],
-        ["Counters & registers (sync vs async)",1]
+      {g:"Sequential logic", t:[
+        ["Flip-flops — SR, JK, D, T; characteristic & excitation tables",2,"!book — Mano Ch 5.3–5.7","Convert a JK flip-flop into a D flip-flop"],
+        ["Registers, shift registers and counters",1,"!book — Mano Ch 6.2–6.5"]
       ]}
     ]},
-    {id:"toc", name:"Theory of Computing", code:"CSE-331", sem:"3-1", tier:2, groups:[
+
+    {id:"toc", name:"Theory of Computing", sem:"3-1", tier:2, groups:[
       {g:"Regular languages", t:[
-        ["Finite automata — DFA & NFA; NFA→DFA conversion",2,"Design a DFA for a given language"],
-        ["Regular expressions & regular languages",2],
-        ["Pumping lemma for regular languages",1,"Prove a language is not regular"]
+        ["Central concepts — alphabets, strings, languages, problems",2,"Central Concepts of Automata Theory (28).pdf"],
+        ["Deterministic finite automata",2,"Finite Automata (Deterministic Finite Automata).pdf","Design a DFA for a given language"],
+        ["Nondeterministic finite automata; NFA → DFA conversion",2,"Nondeterministic Finite Automata.pdf"],
+        ["Regular expressions and their equivalence to finite automata",2,"Regular Expression.pdf"],
+        ["Pumping lemma; closure properties; DFA minimization",1,"T.O.C. - Term Final-Q&A.pdf","Prove a given language is not regular"]
       ]},
-      {g:"Context-free & beyond", t:[
-        ["Context-free grammar — derivations, parse trees, ambiguity",2,"Write a CFG for a given language"],
-        ["Pushdown automata (concept)",1],
-        ["Turing machine (concept); Church-Turing thesis",1],
-        ["Decidability & the halting problem (concept)",0]
+      {g:"Context-free languages & beyond", t:[
+        ["Context-free grammar — derivations, parse trees, ambiguity",2,"Context-Free Grammars (70).ppt","Write a CFG for a given language"],
+        ["Chomsky Normal Form",1,"Chomsky Normal Form (23).pdf"],
+        ["Pushdown automata",1,"Pushdown Automata.pptx"],
+        ["Turing machines — the model and its variants",1,"Turing Machines.pptx"],
+        ["Undecidability & the halting problem",0,"Undecidability.pdf"]
       ]}
     ]},
-    {id:"ca", name:"Computer Architecture", code:"CSE-321", sem:"3-2", tier:2, groups:[
-      {g:"CPU & instructions", t:[
-        ["Von Neumann architecture; instruction cycle (fetch-decode-execute)",2],
-        ["Instruction formats & addressing modes",2,"Identify the addressing mode of given instructions"],
-        ["ALU, registers, control unit (hardwired vs microprogrammed)",1]
+
+    {id:"ca", name:"Computer Architecture", sem:"3-2", tier:2, groups:[
+      {g:"Instructions & performance", t:[
+        ["Computer abstractions; the role of performance; CPI and speedup",2,"Role of Performance.pdf","Compute CPU time from CPI, clock rate and instruction count"],
+        ["Instructions — the language of the machine; formats & addressing modes",2,"Instructions Language of the Machine.pdf","Identify the addressing mode of each given instruction"],
+        ["Machine-level representation and instruction encoding",1,"Computer Architecture.pdf"]
       ]},
-      {g:"Performance & memory", t:[
-        ["Pipelining — stages, hazards (data/control/structural), speedup",2,"Compute pipeline speedup / spot a hazard"],
-        ["Cache — mapping (direct, associative, set-associative); hit/miss",2,"Compute the hit ratio; map an address to a cache line"],
-        ["Memory hierarchy & locality of reference",1]
+      {g:"Arithmetic", t:[
+        ["ALU design; carry-lookahead adders",1,"Arithmetic for Computers (ALU).pdf"],
+        ["Binary multiplication and division algorithms",1,"Arithmetic for Computers (Multiplication).pdf"],
+        ["Floating point — IEEE 754, addition & multiplication",1,"Arithmetic for Computers (Floating Point).pdf"]
       ]},
-      {g:"I/O", t:[
-        ["I/O techniques — programmed, interrupt-driven, DMA",1]
+      {g:"Datapath, pipelining & memory", t:[
+        ["Processor datapath and control — single-cycle and multi-cycle",2,"Processor Datapath and Control.pdf"],
+        ["Pipelining — stages, hazards, speedup",2,"Enhancing Performance with Pipelinig.ppt","Compute the pipeline speedup, or identify the hazard in a sequence"],
+        ["Memory hierarchy — cache mapping, hit ratio, locality",2,"Large & Fast Exploiting Memory Hierarchy.ppt","Map an address to a cache line and compute the hit ratio"]
+      ]},
+      {g:"I/O & parallelism", t:[
+        ["Interfacing processors and peripherals; DMA; buses",1,"Interfacing Processors and Peripherals.pdf","Why DMA is faster than interrupt-driven I/O"],
+        ["Multiprocessors and parallel architectures",0,"Multiprocessor.pdf"],
+        ["Chapterwise question bank — self-test",2,"C.A.- (Questions- Chapterwise).pdf"]
       ]}
     ]},
-    {id:"swe", name:"Software Engineering", code:"CSE-355", sem:"3-2", tier:2, groups:[
-      {g:"Process", t:[
-        ["SDLC + process models — waterfall, iterative, spiral, agile/scrum",2,"Compare waterfall vs agile; when to use each"],
-        ["Requirements engineering; SRS; functional vs non-functional",2]
+
+    {id:"swe", name:"Software Engineering", sem:"3-2", tier:2, groups:[
+      {g:"Process & requirements", t:[
+        ["Process models — waterfall, incremental, spiral, prototyping",2,"!book — Pressman 7e Ch 2 (the 7e PDF is in your Slides folder)","Compare waterfall and agile; state when each is appropriate"],
+        ["Agile development — Scrum, XP",2,"!book — Pressman 7e Ch 3"],
+        ["Requirements engineering; SRS; functional vs non-functional",2,"!book — Pressman 7e Ch 5","Give three functional and three non-functional requirements for an ATM"]
       ]},
       {g:"Design & quality", t:[
-        ["Design concepts — cohesion & coupling, modularity",2,"Types of cohesion and coupling"],
-        ["Testing — unit/integration/system; black-box vs white-box",2,"Difference between verification and validation"],
-        ["UML — use-case, class, sequence diagrams",1]
+        ["Modular design — cohesion & coupling",2,"Modular Design (Coupling & Cohesion).pptx","List the types of cohesion and of coupling, best to worst"],
+        ["Software testing techniques — black-box vs white-box, basis path",2,"14. Software Testing Techniques.pptx","Compute the cyclomatic complexity of a given flow graph"],
+        ["Software quality management & SQA",1,"24. Software Quality Management.pptx","Difference between verification and validation"],
+        ["Metrics for process and projects",1,"15 & 22. Metrics for Process and Projects.pptx"]
       ]},
-      {g:"Management", t:[
-        ["Estimation — COCOMO, function points (concept)",1],
-        ["Risk management; SQA; SCM",0]
+      {g:"Project management", t:[
+        ["Effort estimation — LOC, function points, COCOMO",2,"26. Estimation.pptx","Estimate effort using the basic COCOMO model"],
+        ["Which questions come from which chapter — read this FIRST",2,"Set Distribution (According To Mukta Mam).pdf"],
+        ["Past-paper drill, chapterwise (2016–2023)",2,"S.W.E. (Q&A 16-23) (Mukta Mam) (094 & 098).pdf"],
+        ["Final-week suggestions",1,"Suggesstions.pdf"]
       ]}
     ]},
+
+    /* ================= TIER 3 — viva depth, and your own specialism ================= */
+
     {id:"datacom", name:"Data Communication", code:"CSE-313", sem:"3-1", tier:3, groups:[
-      {g:"Core", t:[
-        ["Error detection — parity, checksum, CRC, Hamming code",2,"Compute the CRC / Hamming code for given bits"],
-        ["Signals, bandwidth, Nyquist & Shannon capacity",1,"Find max data rate by Nyquist/Shannon"],
-        ["Encoding & modulation — line coding, ASK/FSK/PSK",1],
-        ["Flow/error control — stop-and-wait, Go-Back-N, selective repeat",1],
-        ["Multiplexing (FDM/TDM) & switching (circuit vs packet)",1]
+      {g:"Signals & transmission", t:[
+        ["Transmission media — guided and unguided",1,"Transmission Media.pdf"],
+        ["Channel capacity — Nyquist and Shannon",2,"Channel Capacity.pdf","Find the maximum data rate by Nyquist, then by Shannon"],
+        ["Data encoding — line coding and modulation schemes",1,"Data Encoding.pdf"],
+        ["Physical transmission fundamentals",0,"Physical Transmission.pptx"]
+      ]},
+      {g:"Error control coding — the heart of this course", t:[
+        ["Error detection & correction — the general problem",2,"Error Correction & Detection.pdf"],
+        ["Cyclic redundancy check (CRC) — polynomial division",2,"Cyclic Redundancy Check Codes.pdf","Compute the CRC for given data bits and a generator polynomial"],
+        ["Hamming block codes",2,"HAMMING BLOCK CODES.pdf","Find the Hamming code for given data bits, then locate a flipped bit"],
+        ["Linear block codes — generator & parity-check matrices",2,"Linear Block Codes.pdf"],
+        ["Channel coding, FEC & ARQ",1,"Channel Coding, FEC & ARQ.pptx"],
+        ["Convolutional coding & trellis-coded modulation",1,"Convolutional Coding Decoding & Trellis Code modulation.pdf"],
+        ["Worked CRC polynomial representation",2,"Polynomial Representation.png"]
+      ]},
+      {g:"Link control & sharing the medium", t:[
+        ["Data link control — flow control, stop-and-wait, sliding window",1,"Data Link Control.pdf"],
+        ["Multiplexing — FDM and TDM",1,"Multiplexing (FDM & TDM).pdf"],
+        ["Switching — circuit vs packet",1,"Circuit Switching & Packet Switching.pdf","Compare circuit switching with packet switching"],
+        ["Multiple access techniques",1,"Multiple Access Techniques.pdf"],
+        ["Optical fibre communication",0,"Optical Fiber Communication.pdf"]
       ]}
     ]},
+
     {id:"sad", name:"System Analysis & Design", code:"CSE-353", sem:"3-1", tier:3, groups:[
-      {g:"Core", t:[
-        ["SDLC phases; feasibility study (TELOS)",1],
-        ["Data Flow Diagram — level 0/1/2, rules",2,"Draw a level-1 DFD for a small system"],
-        ["ER modeling & data dictionary (overlaps DBMS)",1],
-        ["UML use-case & the design phase",1],
-        ["Requirement gathering techniques",0]
-      ]}
-    ]},
-    {id:"mpi", name:"Microprocessors & Interfacing", code:"CSE-333", sem:"3-1", tier:3, groups:[
-      {g:"Core", t:[
-        ["8086 architecture — registers, segments, flags",2,"Explain the flag register bits"],
-        ["Addressing modes of 8086",2],
-        ["Assembly instructions & simple programs",1],
-        ["Interrupts (hardware/software); interrupt vector table",1],
-        ["Interfacing — 8255 PPI, memory interfacing",1]
-      ]}
-    ]},
-    {id:"ai", name:"Artificial Intelligence", code:"CSE-345", sem:"3-2", tier:3, groups:[
-      {g:"Search", t:[
-        ["Uninformed search — BFS, DFS, uniform-cost, iterative deepening",2],
-        ["Informed search — greedy best-first, A* (heuristics, admissibility)",2,"Trace A* on a graph; is a heuristic admissible?"],
-        ["Adversarial search — minimax, alpha-beta pruning",2,"Apply alpha-beta to a game tree"]
+      {g:"Process & organisation", t:[
+        ["Systems, roles and development methodologies (SDLC)",2,"Systems, Roles & Development Methodologies.pdf"],
+        ["Understanding & modelling organizational systems",1,"Understanding & Modeling Organizational Systems (Kendall & Kendall).ppt"],
+        ["Agile modelling & prototyping",1,"Agile Modeling & Prototyping (Kendall & Kendall).ppt"]
       ]},
-      {g:"Knowledge & learning", t:[
-        ["Agents & environment types (PEAS)",1],
-        ["Logic & knowledge representation — propositional, predicate, resolution",1],
-        ["Intro to ML / expert systems; how modern AI extends classical approaches",1]
-      ]}
-    ]},
-    {id:"ml", name:"Machine Learning — your viva home turf", code:"CSE-445", sem:"4-1", tier:3, groups:[
-      {g:"Paradigms & models", t:[
-        ["Supervised vs unsupervised vs reinforcement learning",2],
-        ["Regression — linear & logistic; cost function; gradient descent",2],
-        ["Classification — KNN, decision tree, Naive Bayes, SVM",2,"How a decision tree splits (entropy / information gain)"],
-        ["Clustering — K-means",1]
+      {g:"Modelling the system", t:[
+        ["Data Flow Diagrams — logical vs physical DFD",2,"Logical DFD VS Phyical DFD.pptx","Draw a level-1 DFD for a small system"],
+        ["Capturing requirements through use-cases",2,"Capturing Requirements Through Use-Cases.pdf"],
+        ["Use-case worked examples",2,"Capturing Requirements Through Use-Cases (Examples).pdf"],
+        ["UML — introduction and the diagram families",2,"UML - Introduction (50).pptx"],
+        ["UML class diagrams",2,"UML Class Diagram.ppt"],
+        ["UML activity diagrams",1,"UML - Activity Diagram.pdf"],
+        ["Object-oriented analysis & design using UML",1,"Object-Oriented Systems Analysis & Design Using UML (Kendall & Kendall).pdf"],
+        ["Output design & prototyping",0,"Output Design & Prototyping.ppt"]
       ]},
-      {g:"Model evaluation & tuning", t:[
-        ["Overfitting vs underfitting; bias-variance; regularization",2,"How you detect and fix overfitting"],
-        ["Evaluation — accuracy, precision, recall, F1, confusion matrix",2,"Compute precision/recall from a confusion matrix"],
-        ["Neural networks & backpropagation (intro); train/val/test split",1]
+      {g:"Project management (this course actually tests it)", t:[
+        ["Project management fundamentals",2,"Project Management (99).pdf"],
+        ["CPM & PERT — critical path analysis",2,"Project Management - CPM-PERT.pdf","Find the critical path and the project duration for a given network"],
+        ["Critical path worked example (textbook pp. 101–106)",2,"Critical Path Analysis (Example 4.1 Textbook Pages 101 - 106).pdf"],
+        ["Project scheduling",1,"Project Scheduling.ppt"],
+        ["Simplex method",0,"Simplex Method.pptx"]
       ]}
     ]},
-    {id:"compiler", name:"Compiler Design", code:"CSE-431", sem:"4-2", tier:3, groups:[
-      {g:"Core", t:[
-        ["Phases of a compiler (the full pipeline)",2,"Name the 6 phases in order with what each does"],
-        ["Lexical analysis — tokens, regex, role of DFA (links to TOC)",2],
-        ["Parsing — top-down (LL(1)) vs bottom-up (LR); FIRST/FOLLOW",2,"Compute FIRST and FOLLOW sets for a grammar"],
-        ["Syntax-directed translation & intermediate code",1],
-        ["Code optimization & symbol table",0]
+
+    {id:"mpi", name:"Microprocessors & Interfacing", sem:"3-1", tier:3, groups:[
+      {g:"The processor", t:[
+        ["Introduction to microprocessors — evolution and terminology",1,"Introduction to Microprocessors.pdf"],
+        ["The microprocessor and its architecture — registers, segments, flags",2,"Microprocessor & it's Architecture.ppt","Explain the bits of the flag register"],
+        ["Addressing modes",2,"Addressing Modes.pdf","Identify the addressing mode of each given instruction"],
+        ["Machine codes and instruction encoding",1,"Machine Codes.pdf"]
+      ]},
+      {g:"Instruction set", t:[
+        ["Data movement instructions",2,"Data Movement Instructions.pdf"],
+        ["Arithmetic & logic instructions",2,"Arithmetic & Logic Instructions.ppt"],
+        ["Program control instructions — jumps, loops, procedures",1,"Program Control Instructions (80).pdf"]
+      ]},
+      {g:"Interfacing", t:[
+        ["Memory interface & address decoding",2,"Memory Interface.pdf"],
+        ["Basic I/O interface — the 8255 PPI",2,"Basic IO Interface (11-1 _ 11-6).ppt"],
+        ["Interrupts — hardware vs software, the vector table",2,"Interrupts (97).ppt"],
+        ["Direct memory access & DMA-controlled I/O",1,"Direct Memory Access & DMA Controlled IO (143).ppt"],
+        ["Bus interface",1,"Bus Interface.ppt"]
+      ]}
+    ]},
+
+    {id:"ai", name:"Artificial Intelligence", sem:"3-2", tier:3, groups:[
+      {g:"Course material", t:[
+        ["The full course deck — work through this first",2,"A.I. (Forhad sir).pptx"],
+        ["Second lecturer's treatment (useful where the first is terse)",1,"A.I. (Moshiul sir).pdf"],
+        ["The topic list your examiner works from",2,"Afroza Ma'am Topic.pdf"]
+      ]},
+      {g:"Search — the examinable core", t:[
+        ["Agents & environment types (PEAS)",1,"!book — AIMA 3e Ch 2.3–2.4"],
+        ["Uninformed search — BFS, DFS, uniform-cost, iterative deepening",2,"!book — AIMA 3e Ch 3.4","Compare BFS and DFS on completeness, optimality and space"],
+        ["Informed search — greedy best-first and A*; admissibility",2,"!book — AIMA 3e Ch 3.5–3.6","Trace A* on a graph; show that the heuristic is admissible"],
+        ["Adversarial search — minimax and alpha-beta pruning",2,"!book — AIMA 3e Ch 5.2–5.3","Apply alpha-beta pruning to a given game tree"],
+        ["Local search — hill climbing, simulated annealing, genetic algorithms",1,"!book — AIMA 3e Ch 4.1–4.2"]
+      ]},
+      {g:"Knowledge representation", t:[
+        ["Propositional & first-order logic; resolution",1,"!book — AIMA 3e Ch 7.4–7.5, 9.5"],
+        ["Constraint satisfaction problems",1,"!book — AIMA 3e Ch 6.1–6.3"],
+        ["Sectionwise past questions — self-test",2,"A.I. Questions (sectionwise).pdf"]
+      ]}
+    ]},
+
+    {id:"ml", name:"Machine Learning", sem:"4-1", tier:3, groups:[
+      {g:"Course material", t:[
+        ["Classifiers — the lecturer's own treatment",2,"sir Iqbal (Classifiers).pdf"],
+        ["ML algorithms, real-world applications & research directions",2,"sir Iqbal (Algorithms, Real-World Applications and Research Directions).pdf"],
+        ["The year's theory Q&A — the highest-yield single file",2,"ML Year Theory (Q & A) (Murad vai).pdf"],
+        ["The mathematics you'll be asked to do on paper",2,"ML Year (Maths).pdf"],
+        ["Topicwise past questions",2,"Questions (Topicwise).pdf"]
+      ]},
+      {g:"Concepts you must be able to explain aloud", t:[
+        ["Supervised vs unsupervised vs reinforcement learning",2,"Top 50 Machine Learning Interview Questions & Answers.pdf","Give one real problem suited to each of the three"],
+        ["Linear & logistic regression; cost function; gradient descent",2,"ML Year (Maths).pdf"],
+        ["Decision trees — entropy and information gain",2,"sir Iqbal (Classifiers).pdf","Compute the information gain of a candidate split"],
+        ["Naive Bayes and K-nearest neighbours",2,"sir Iqbal (Classifiers).pdf"],
+        ["Support vector machines & K-means clustering",1,"sir Iqbal (Algorithms, Real-World Applications and Research Directions).pdf"],
+        ["Overfitting, bias-variance tradeoff, regularization",2,"Top 50 Machine Learning Interview Questions & Answers.pdf","How you detect overfitting, and three ways to fix it"],
+        ["Confusion matrix — accuracy, precision, recall, F1",2,"Top 50 Machine Learning Interview Questions & Answers.pdf","Compute precision and recall from a given confusion matrix"],
+        ["Neural networks & backpropagation",1,"ML Year (Maths).pdf"]
+      ]}
+    ]},
+
+    {id:"compiler", name:"Compiler Design", sem:"4-2", tier:3, groups:[
+      {g:"Front end", t:[
+        ["The phases of a compiler — the whole pipeline in one pass",2,"Compiler (Review).pdf","Name the phases in order, and say what each one produces"],
+        ["Basic concepts (Dr. Masroor Ali's notes)",1,"Basic Concepts (Dr. Muhammad Masroor Ali) 2009.pdf"],
+        ["Lexical analysis — tokens, and the DFA/NFA/regex machinery",2,"Lexical Analysis, DFA, NFA & R.E..pdf"],
+        ["DFA, NFA and regular expressions — the TOC overlap",2,"DFA, NFA & R.E..pdf"],
+        ["Parsing — LL(1), FIRST & FOLLOW, shift-reduce, LR",2,"Year Solve.pdf","Compute the FIRST and FOLLOW sets for a given grammar"]
+      ]},
+      {g:"Back end", t:[
+        ["Syntax-directed translation",2,"SDT (12).pdf"],
+        ["Type checking",1,"Type Checking (11).pdf"],
+        ["Intermediate code generation — three-address code",1,"Intermidiate Code Generation (15).pdf"],
+        ["Code generation",1,"Code Generation.pdf"],
+        ["The numerical problems that actually appear",2,"Maths (Mitul mam).pdf"]
       ]}
     ]}
   ];
 
-  // exact references: primary textbook (BD-standard) + what's in the user's Drive + per-group chapter map.
-  // "✓ confirmed" = book seen directly in the Drive during enumeration.
+  // Per subject: the Drive folder that holds everything, the highest-value files,
+  // and the fallback textbook for the handful of topics the Drive doesn't cover.
   var REF = {
-    ds:{book:"Lipschutz — Data Structures (Schaum's); Tenenbaum — Data Structures Using C",
-      drive:"<span class='ok'>✓</span> your “Lecture Notes Data Structures CSC-214.pdf” is the primary; Books folder for depth",
-      g:["Schaum's Ch 1–2","Ch 3–4 (lists, stacks, queues)","Ch 6–7 (trees, heaps)","Ch 8–9 (hashing, graphs)"]},
-    algo:{book:"Cormen, Leiserson, Rivest & Stein — Introduction to Algorithms (CLRS)",
-      drive:"<span class='ok'>✓ confirmed in your Drive</span> — files C-1…C-4 (Coreman) + ADA Class Note.pdf",
-      g:["CLRS Ch 2–4","Ch 4 (D&C), 15 (DP), 16 (greedy)","Ch 22 (BFS/DFS), 23 (MST), 24–25 (shortest paths)","Ch 34 (NP-completeness)"]},
-    dbms:{book:"Elmasri & Navathe — Fundamentals of Database Systems",
-      drive:"<span class='ok'>✓ confirmed</span> (“Fundamentals of Database System”) + your L-1…L-14 note PDFs",
-      g:["Navathe Ch 3–4 (ER/EER), 9 (mapping)","Ch 5–7 (relational model, algebra, SQL)","Ch 14–15 (FD & normalization)","Ch 20–22 (transactions), 17 (indexing)"]},
-    os:{book:"Silberschatz, Galvin & Gagne — Operating System Concepts",
-      drive:"your “O.S. - Term Final-Q&A.pdf” + Books & Solution Books",
-      g:["Ch 3–5 (processes, threads, scheduling)","Ch 6 (synchronization), 8 (deadlock)","Ch 9–10 (paging, virtual memory)","Ch 11 (disk scheduling), 13–14 (file system)"]},
-    cn:{book:"Forouzan — Data Communications & Networking; Kurose & Ross — Top-Down Approach",
-      drive:"<span class='ok'>✓</span> your “Computer Network (Chapterwise)…Most Important Q” mega-PDF + sir-Mahfuz/Rashad notes",
-      g:["Forouzan Ch 2 (network models)","Ch 19 (IPv4/subnetting), 20–22 (routing)","Ch 23–24 (TCP/UDP) / Kurose Ch 3","Ch 11–12 (MAC, Ethernet)"]},
-    oop:{book:"E. Balagurusamy — Object-Oriented Programming with C++",
-      drive:"<span class='ok'>✓</span> your Lesson 1–36 PPTs follow Balagurusamy chapter-for-chapter",
-      g:["Ch 1–3 (principles) + 6 (classes & objects)","Ch 6 (constructors), 7 (operator overloading), 8 (inheritance), 9 (virtual/polymorphism)","Ch 11 (templates), 12 (exceptions), 13 (files)"]},
-    prog:{book:"E. Balagurusamy — Programming in ANSI C; Kernighan & Ritchie — The C Programming Language",
-      drive:"your “C.S.E.-141 (Question).pdf” + Books & Solution Books",
-      g:["Ch 3–5 (control), 9 (functions/recursion), 11 (pointers)","Ch 7 (arrays), 8 (strings), 10 (structures), 12 (files), 13 (dynamic memory)"]},
-    discrete:{book:"Kenneth H. Rosen — Discrete Mathematics and Its Applications",
-      drive:"Books folder + “Questions (20, 19, 17–07).pdf”",
-      g:["Rosen Ch 1 (logic), 2 (sets/functions)","Ch 5 (induction), 6 (counting)","Ch 9 (relations), 10 (graphs), 8 (recurrences)"]},
-    dld:{book:"M. Morris Mano — Digital Design",
-      drive:"your “basic logic concept/gate.pdf” + Books & Solution Books",
-      g:["Mano Ch 1 (number systems), 2 (Boolean algebra)","Ch 3–4 (K-map, combinational: adders/mux)","Ch 5–6 (flip-flops, counters, registers)"]},
-    toc:{book:"Hopcroft, Motwani & Ullman — Automata Theory; Sipser — Theory of Computation",
-      drive:"<span class='ok'>✓</span> your “T.O.C. - Term Final-Q&A.pdf” + Lectures/Notes folders",
-      g:["HMU Ch 2 (FA), 3 (regex), 4 (properties/pumping)","Ch 5 (CFG), 6 (PDA), 8 (TM), 9 (decidability)"]},
-    ca:{book:"William Stallings — Computer Organization & Architecture; Mano — Computer System Architecture",
-      drive:"your “C.A. (Chapterwise).pdf” + গুরুত্ব.docx + Notes/Slides",
-      g:["Stallings Ch 12–13 (instruction sets/addressing)","Ch 14 (pipelining), 4 (cache), 5 (memory)","Ch 7 (I/O, DMA)"]},
-    swe:{book:"Roger Pressman — Software Engineering: A Practitioner's Approach; Ian Sommerville — Software Engineering",
-      drive:"<span class='ok'>✓</span> your “S.W.E. (Q&A 16-23) (Mukta Mam)” + Suggesstions.pdf",
-      g:["Pressman — process models & requirements","design concepts (cohesion/coupling) & testing chapters","estimation (COCOMO), risk & SQA"]},
-    datacom:{book:"Behrouz A. Forouzan — Data Communications & Networking",
-      drive:"your “Data Com. - Term Final-Q&A.pdf” + Polynomial Representation.png (CRC)",
-      g:["Forouzan Ch 10 (CRC/Hamming), 3–5 (signals/encoding), 11 (flow control), 6 (multiplexing), 8 (switching)"]},
-    sad:{book:"Kendall & Kendall — Systems Analysis and Design",
-      drive:"your “S.A.D. - Term Final-Q&A.pdf” + Worked Examples / Suggestions folders",
-      g:["Kendall — SDLC, DFD, ER & UML chapters"]},
-    mpi:{book:"Douglas V. Hall — Microprocessors & Interfacing; Barry B. Brey — The Intel Microprocessors",
-      drive:"your “Microprocessor + Interfacing - Term Final-Q&A.pdf” + Suggestions",
-      g:["8086 architecture, addressing modes, interrupts, 8255 interfacing"]},
-    ai:{book:"Stuart Russell & Peter Norvig — Artificial Intelligence: A Modern Approach (AIMA)",
-      drive:"your “A.I. Questions (sectionwise)” + Afroza Ma'am Topic.pdf + Notes",
-      g:["AIMA Ch 3 (uninformed + A*), 5 (adversarial/minimax)","Ch 2 (agents/PEAS), 7–9 (logic), 18 (learning intro)"]},
-    ml:{book:"Tom Mitchell — Machine Learning; Bishop — Pattern Recognition & ML (for depth)",
-      drive:"<span class='ok'>✓</span> your “Top 50 ML Interview Q&A.pdf” + ML Year Theory Q&A (Murad vai) + ML Year (Maths).pdf",
-      g:["Mitchell Ch 3 (decision trees), 6 (Bayes), 8 (instance/KNN)","Ch 4 (neural nets/backprop), 5 (evaluating hypotheses)"]},
-    compiler:{book:"Aho, Lam, Sethi & Ullman — Compilers: Principles, Techniques & Tools (Dragon Book)",
-      drive:"your “Compiler (Review).pdf” + Q&A folder + Notes",
-      g:["Dragon Ch 1 (phases), 3 (lexical), 4 (parsing), 5 (SDT), 6 (intermediate), 8 (code gen)"]}
+    oop:{fold:"1-2 › O.O.P", id:"13qmSo8acaO3oby19B2dGit6oZ1nq5awC",
+      mats:"36 lesson decks, named by topic — the cleanest set in your whole Drive. Syllabus: Course Syllabus for CSE-143_20batch.pdf",
+      book:"Balagurusamy — Object-Oriented Programming with C++ (the decks follow it)"},
+    ds:{fold:"2-1 › Data Struct", id:"1EOs0re5XgAnKcgtlQdNrp1nSLK5x64CV",
+      mats:"Lecture Notes Data Structures.pdf (full course, use this) · CH1-L1 … CH6-L5 slide decks · Books, Questions &amp; Ans folders",
+      warn:"The CH1–CH6 decks are numbered but not topic-labelled, so I could not map them topic-by-topic. Tell me what CH1–CH6 each cover and I'll wire them in.",
+      book:"Lipschutz — Data Structures (Schaum's Outline)"},
+    algo:{fold:"2-2 › Algorithm › Slides", id:"1d9KuTwytJyu3TkwAsduKcvc3TWO_RJfy",
+      mats:"44 lecture decks L01–L39, each named for its topic · runnable .cpp solutions for greedy, N-Queens, DFS · ADA Class Note.pdf · Questions (22-18, 16-14, 12, 11, 09, 08).pdf",
+      book:"CLRS — the C-1…C-4 PDFs in the folder are its reference chapters"},
+    dbms:{fold:"2-2 › D.B.M.S", id:"1Hwa_QHVGjnCoRoSYq1pSiy6pUT7vS1BF",
+      mats:"L-1 … L-14 lecture PDFs, topic-named · a dedicated PDF per normalization form · TOPIC LISTS.pdf · Theoretical-Question-Analysis-for-DBMS 2021-2016.pdf (shows what repeats)",
+      book:"Elmasri &amp; Navathe — Fundamentals of Database Systems"},
+    os:{fold:"3-1 › Operating Systems › Slides", id:"14sOQgbxCa_NLdNpJw24vG0SgnPjaBU1m",
+      mats:"36 topic-named slide PDFs · a separate Notes folder with Murad sir's and Forhad sir's class notes · O.S. - Term Final-Q&amp;A.pdf · Syllabus: Course Syllabus for CSE-335.pdf",
+      book:"Silberschatz, Galvin &amp; Gagne — Operating System Concepts (the slides are its official deck)"},
+    cn:{fold:"3-2 › Computer Networks › Notes", id:"1PIq8Wp0pgLKOYsWgASQB8jYAeJpACDtW",
+      mats:"Notes by topic + per-teacher folders (Provath sir, Rizvi sir, Sharif sir, Murad vai, Rifat vai, Saiful vai) · separate sir-Mahfuz and sir-Rashad folders at subject root · Youtube Video Links.xlsx",
+      warn:"This subject's notes are named by note-number rather than topic, so several chips point at the best general file rather than an exact match. The sectionwise question bank is the reliable index.",
+      book:"Forouzan — Data Communications and Networking; Kurose &amp; Ross for TCP"},
+    prog:{fold:"1-1 › C.S.E.-141", id:"1Cia_amAdRFAHG25DxO9vmrKhKQBHhF2a",
+      mats:"Only two chapter decks (Ch 3, Ch 5) plus the question paper — the thinnest folder in the Drive",
+      warn:"Most of this subject has no slides in the Drive, so most chips fall back to the book. That's a real gap, not an oversight.",
+      book:"Balagurusamy — Programming in ANSI C (8th ed)"},
+    discrete:{fold:"1-2 › Discrete Mathematics", id:"1o8jhYoMY99m7TkViNyB8-Um0U9eTia7p",
+      mats:"a Slides folder and a Books folder · Questions (20, 19, 17-07).pdf",
+      warn:"The Slides folder contents weren't individually named in the listing, so chips point at the folder. Open it once and tell me the filenames if you want them pinned exactly.",
+      book:"Rosen — Discrete Mathematics and Its Applications (7th ed)"},
+    dld:{fold:"2-1 › D.L.D", id:"1FWNbGCXOwacvjDz8FUJNIcxtykamWuVz",
+      mats:"basic logic concept.pdf and basic logic gate.pdf, plus Books and Questions folders",
+      warn:"Only two note PDFs here — this subject leans on the book more than any other Tier-2 course.",
+      book:"M. Morris Mano — Digital Design (5th ed)"},
+    toc:{fold:"3-1 › Theory of Computing › Lectures", id:"16C0F6chj9pVLEBwbT9G4HpbXpc3798cM",
+      mats:"13 lecture files, each named for its automaton or concept · Notes folder · T.O.C. - Term Final-Q&amp;A.pdf with its own index",
+      book:"Hopcroft, Motwani &amp; Ullman — Automata Theory; Sipser for cleaner proofs"},
+    ca:{fold:"3-2 › Computer Architecture › Slides", id:"1nkeE9iBk_rlxk01J-Us1JRxWMUsgqjyA",
+      mats:"14 topic-named decks · C.A.- (Questions- Chapterwise).pdf · গুরুত্ব.docx (weightings) · Notes folder",
+      warn:"These slide titles are Patterson &amp; Hennessy chapter names, not Stallings. Your course follows P&amp;H — study from that book if you need a text.",
+      book:"Patterson &amp; Hennessy — Computer Organization and Design"},
+    swe:{fold:"3-2 › Software Engineering › Slides", id:"13d6mHMlQ89wzOGjrk95J07kWJUkk1eyv",
+      mats:"5 numbered decks (14, 15 &amp; 22, 24, 26) matching Pressman chapter numbers · full Pressman 7e AND 9e PDFs sit in the same folder · Set Distribution (Mukta Mam).pdf maps questions to chapters",
+      warn:"Slides exist only for testing, metrics, quality and estimation. Process models and requirements have no deck — use the Pressman 7e PDF that's already in the folder.",
+      book:"Pressman — Software Engineering: A Practitioner's Approach (7e, in your folder)"},
+    datacom:{fold:"3-1 › Data Communication › Slides", id:"1m3-B5gUIPh2BJEMPqNn4MyJ9Gll9oVTz",
+      mats:"65 files, heavily weighted to error-control coding — a dozen separate treatments of linear block codes alone · Data Com. - Term Final-Q&amp;A.pdf · lesson plan (CSE 313).pdf",
+      warn:"This course is taught as coding/telecom theory, not as Forouzan networking. Error-control coding is the centre of gravity — weight your revision accordingly.",
+      book:"Stallings — Data and Computer Communications (matches the deck titles)"},
+    sad:{fold:"3-1 › System Analysis &amp; Design › Slides", id:"1QoZ2kiV2-oVJEHFZTN8z8xixTIPu9HW_",
+      mats:"26 decks, several explicitly labelled Kendall &amp; Kendall · Worked Examples and Suggestions folders · S.A.D. - Term Final-Q&amp;A.pdf · CSE-353 Syllabus Overview.docx",
+      warn:"Project management (CPM/PERT, scheduling, simplex) is a large part of this course's slides — the earlier version of this checklist missed it entirely.",
+      book:"Kendall &amp; Kendall — Systems Analysis and Design"},
+    mpi:{fold:"3-1 › Microprocessors &amp; Interfacing › Slides", id:"15jdsDDCEuO07_7wL8HlcXP7FkHI0egV5",
+      mats:"26 topic-named decks · Flag register values.jpg · Microprocessor and Interfacing Term Final-Q&amp;A PDFs · Suggestions folder",
+      warn:"The section numbers in the filenames (11-1, 11-3, 11-4) are Brey chapter sections — your course follows Brey, not Hall.",
+      book:"Barry B. Brey — The Intel Microprocessors"},
+    ai:{fold:"3-2 › Artificial Intelligence", id:"19OmWDzKxuFPAQY5-DU7QuRjygCNSmxkY",
+      mats:"three whole-course decks (Forhad sir, Moshiul sir) · Afroza Ma'am Topic.pdf · A.I. Questions (sectionwise).pdf · Sessional with Python folder",
+      warn:"The decks are whole-course, not per-topic, so the search topics fall back to AIMA chapters for precision. Read Afroza Ma'am Topic.pdf first — it scopes the exam.",
+      book:"Russell &amp; Norvig — AIMA (3rd ed)"},
+    ml:{fold:"4-1 › Machine Learning", id:"1OM2i0DAzZ0BV5zlduFYj40dfLGQCqV6K",
+      mats:"sir Iqbal's three research-grade PDFs · ML Year Theory Q&amp;A (Murad vai) · ML Year (Maths).pdf · Top 50 ML Interview Questions · Questions (Topicwise).pdf · Course Slides and per-batch Slides folders",
+      book:"Mitchell — Machine Learning; your own Ng Coursera specialization covers the modern gaps"},
+    compiler:{fold:"4-2 › Compiler Design › Notes", id:"1uCWAu95h-oqBoExk8oCI4OnCQ8nf1ruQ",
+      mats:"topic-named notes (SDT, Type Checking, Intermediate Code, Code Generation) · class lectures from four different teachers · Year Solve.pdf · Maths (Mitul mam).pdf · Compiler Solution Ex folder",
+      warn:"No dedicated parsing note — Year Solve.pdf is where the FIRST/FOLLOW and LR table questions are worked.",
+      book:"Aho, Lam, Sethi &amp; Ullman — the Dragon Book (2nd ed)"}
   };
 
+  var DRIVE = "https://drive.google.com/drive/folders/";
   var listEl = document.getElementById("list");
   var tier="all", mustOnly=false;
+
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
 
   function topicRow(subjId, gi, ti, tp){
     var tid = subjId+"-"+gi+"-"+ti;
     var star = tp[1]||0;
+    var raw = tp[2]||"";
+    var outside = raw.charAt(0)==="!";
+    var srcTxt = outside ? raw.slice(1) : raw;
+    var src = srcTxt ? '<span class="rf'+(outside?" out":"")+'" title="'+
+      (outside ? "no file in your Drive covers this — use the book" : "open this file in your Drive")+'">'+esc(srcTxt)+'</span>' : '';
     var stTag = star===2 ? '<span class="st s2">★★ CORE</span>' : (star===1 ? '<span class="st s1">★ KEY</span>' : '<span></span>');
-    var q = tp[2] ? '<span class="q">e.g. '+tp[2]+'</span>' : '';
+    var q = tp[3] ? '<span class="q">e.g. '+esc(tp[3])+'</span>' : '';
     var done = store.done[tid] ? " done" : "";
     return '<div class="topic'+done+'" data-star="'+star+'" data-tid="'+tid+'">'+
       '<input type="checkbox" '+(store.done[tid]?"checked":"")+' aria-label="mark studied">'+
-      '<label>'+tp[0]+q+'</label>'+stTag+'</div>';
+      '<label>'+esc(tp[0])+src+q+'</label>'+stTag+'</div>';
   }
 
   function subjCard(s){
-    var r = REF[s.id] || {g:[]};
+    var r = REF[s.id] || {};
     var groups = s.groups.map(function(gp, gi){
       var rows = gp.t.map(function(tp, ti){ return topicRow(s.id, gi, ti, tp); }).join("");
-      var gref = (r.g && r.g[gi]) ? ' <span class="grp-ref">'+r.g[gi]+'</span>' : '';
-      return '<div class="grp" data-gi="'+gi+'"><div class="grp-name">'+gp.g+gref+'</div>'+rows+'</div>';
+      return '<div class="grp" data-gi="'+gi+'"><div class="grp-name">'+gp.g+'</div>'+rows+'</div>';
     }).join("");
-    var refbox = r.book ? '<div class="refbox"><div class="bk">📘 <b>'+r.book+'</b></div><div class="dv">'+r.drive+'</div></div>' : '';
+    var refbox = r.fold ? '<div class="refbox">'+
+        '<div class="fold">📁 <a href="'+DRIVE+r.id+'" target="_blank" rel="noopener">'+r.fold+'</a> <span style="color:var(--muted);font-size:11.5px">— open in Drive</span></div>'+
+        (r.mats ? '<div class="mats">'+r.mats+'</div>' : '')+
+        (r.book ? '<div class="bk">📘 fallback book: '+r.book+'</div>' : '')+
+        (r.warn ? '<div class="warn">⚠ '+r.warn+'</div>' : '')+
+      '</div>' : '';
+    var code = s.code ? ' <span class="code">'+s.code+'</span>' : '';
     var open = store.open[s.id] ? " open" : "";
     return '<div class="subj t'+s.tier+open+'" data-id="'+s.id+'" data-tier="'+s.tier+'">'+
       '<div class="subj-head">'+
         '<span class="caret">▶</span>'+
-        '<div class="subj-title"><h3>'+s.name+' <span class="code">'+s.code+'</span> <span class="sem">'+s.sem+'</span></h3></div>'+
+        '<div class="subj-title"><h3>'+s.name+code+' <span class="sem">'+s.sem+'</span></h3></div>'+
         '<span class="pbar"><i></i></span><span class="pcount"></span>'+
       '</div>'+
       '<div class="subj-body">'+refbox+groups+'</div>'+
@@ -544,7 +723,7 @@
 
   function render(){
     var list = SUBJ.filter(function(s){ return tier==="all" || String(s.tier)===tier; });
-    list.sort(function(a,b){ return a.tier-b.tier; });
+    list.sort(function(a,b){ return (a.tier-b.tier) || a.sem.localeCompare(b.sem); });
     listEl.innerHTML = list.map(subjCard).join("");
     listEl.classList.toggle("mustonly", mustOnly);
     wire();
@@ -596,7 +775,6 @@
     });
   }
 
-  // toolbar
   var tg = document.getElementById("tierChips");
   Array.prototype.forEach.call(tg.querySelectorAll(".chip"), function(ch){
     ch.addEventListener("click", function(){
