@@ -12,6 +12,10 @@ newline-separated). As a fallback it reads a local feeds.txt file
 
 Get a feed URL: create a Google Alert, set "Deliver to" = RSS feed, then
 copy the feed link from the RSS icon on your alerts page.
+
+Note on the alert queries themselves: do NOT use the site: operator.
+Google Alerts almost never fires for site-restricted queries, so those feeds
+stay permanently empty even though plain web search finds plenty of matches.
 """
 
 import os
@@ -19,6 +23,7 @@ import re
 import sys
 import json
 import html
+import time
 import urllib.request
 import urllib.parse
 from datetime import datetime, timezone
@@ -27,16 +32,27 @@ from xml.etree import ElementTree as ET
 ATOM = "{http://www.w3.org/2005/Atom}"
 
 # Keep an entry only if it looks like an actual job posting, not news that
-# merely mentions a CSE department. Rule: a hiring ROLE word on its own is
-# enough (e.g. "Lecturer"), OR a FIELD mention together with a JOB_INTENT word.
-# This drops event/news articles that name "Computer Science" but no vacancy.
-# Note: bare "professor" is deliberately NOT a role word here -- news articles
-# quote professors constantly.
-ROLE = re.compile(r"lecturer|faculty|assistant professor|senior lecturer|প্রভাষক", re.I)
+# merely mentions a CSE department or quotes a lecturer.
+#
+# Rule: a hiring ROLE word AND a JOB_INTENT word must BOTH appear.
+# ROLE on its own is far too weak -- "lecturer" and "faculty" turn up in
+# ordinary news constantly ("CUET lecturer arrested", "faculty members
+# protest"), and on a labelled sample that alone let through half the noise.
+# Bare "professor" is deliberately excluded: news quotes professors all day.
+ROLE = re.compile(
+    r"lecturer|senior lecturer|assistant professor|associate professor|"
+    r"faculty|adjunct|teaching position|প্রভাষক|সহকারী অধ্যাপক", re.I)
+
+# "appl" not "apply" -- job ads say "Applications are invited", and
+# apply/applications diverge at the fourth letter, so "apply" never fired.
 JOB_INTENT = re.compile(
-    r"recruit|vacan|circular|apply|hiring|appointment|position|career|"
+    r"recruit|vacan|circular|appl|invit|hiring|appointment|position|career|"
     r"walk-?in|wanted|opening|নিয়োগ|বিজ্ঞপ্তি", re.I)
-FIELD = re.compile(r"\bC\.?\s?S\.?\s?E\.?\b|computer science|software engineering|ict", re.I)
+
+# \bict\b, not bare "ict" -- otherwise it matches inside District, conflict,
+# verdict, strict, prediction.
+FIELD = re.compile(
+    r"\bC\.?\s?S\.?\s?E\.?\b|computer science|software engineering|\bict\b", re.I)
 
 # Best-effort deadline sniff from the headline/snippet. Often finds nothing --
 # that's fine; the card just shows the posted date instead.
@@ -48,6 +64,7 @@ DEADLINE_RE = re.compile(
 
 MAX_ITEMS = 50
 TIMEOUT = 30
+RETRIES = 2          # one retry covers the usual transient blip
 
 
 def read_feed_urls():
@@ -63,102 +80,21 @@ def read_feed_urls():
 
 
 def fetch(url):
-    req = urllib.request.Request(url, headers={"User-Agent": "notice-board-bot/1.0"})
-    with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
-        return resp.read()
+    last = None
+    for attempt in range(RETRIES):
+        try:
+            req = urllib.request.Request(
+                url, headers={"User-Agent": "notice-board-bot/1.0"})
+            with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
+                return resp.read()
+        except Exception as exc:
+            last = exc
+            if attempt + 1 < RETRIES:
+                time.sleep(3)
+    raise last
 
 
 def clean(text):
     if not text:
         return ""
     text = re.sub(r"<[^>]+>", "", text)        # strip the <b> tags Google adds around matches
-    text = html.unescape(text)
-    return re.sub(r"\s+", " ", text).strip()
-
-
-def real_url(link):
-    # Google Alerts wraps links: https://www.google.com/url?...&url=REAL_URL&...
-    if not link:
-        return ""
-    m = re.search(r"[?&]url=([^&]+)", link)
-    return urllib.parse.unquote(m.group(1)) if m else link
-
-
-def host(url):
-    m = re.match(r"https?://([^/]+)", url or "")
-    h = m.group(1) if m else ""
-    return h[4:] if h.startswith("www.") else h
-
-
-def sniff_deadline(text):
-    m = DEADLINE_RE.search(text or "")
-    return m.group(1).strip() if m else None
-
-
-def parse_feed(data):
-    items = []
-    root = ET.fromstring(data)
-    for e in root.findall(ATOM + "entry"):
-        title = clean(e.findtext(ATOM + "title"))
-        link_el = e.find(ATOM + "link")
-        url = real_url(link_el.get("href") if link_el is not None else "")
-        published = (e.findtext(ATOM + "published") or e.findtext(ATOM + "updated") or "")[:10]
-        snippet = clean(e.findtext(ATOM + "content") or e.findtext(ATOM + "summary"))
-        blob = title + " " + snippet
-        relevant = ROLE.search(blob) or (FIELD.search(blob) and JOB_INTENT.search(blob))
-        if not url or not relevant:
-            continue
-        items.append({
-            "title": title,
-            "url": url,
-            "source": host(url),
-            "published": published,
-            "deadline": sniff_deadline(blob),
-            "snippet": snippet[:240],
-        })
-    return items
-
-
-def main():
-    urls = read_feed_urls()
-    if not urls:
-        sys.stderr.write("No feed URLs. Set FEED_URLS or create feeds.txt.\n")
-        # Still write an empty-but-valid file so the board shows a clean state.
-        write([], note="no feed configured")
-        return 0
-
-    seen, items = set(), []
-    for url in urls:
-        try:
-            found = parse_feed(fetch(url))
-            print(f"  {len(found):>3} items from {url[:60]}...")
-        except Exception as exc:  # one bad feed shouldn't kill the run
-            print(f"  !! failed {url[:60]}...: {exc}")
-            continue
-        for it in found:
-            if it["url"] in seen:
-                continue
-            seen.add(it["url"])
-            items.append(it)
-
-    items.sort(key=lambda it: it.get("published") or "", reverse=True)
-    items = items[:MAX_ITEMS]
-    write(items)
-    print(f"Wrote notices.json with {len(items)} items.")
-    return 0
-
-
-def write(items, note=None):
-    payload = {
-        "generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "count": len(items),
-        "items": items,
-    }
-    if note:
-        payload["note"] = note
-    with open("notices.json", "w", encoding="utf-8") as fh:
-        json.dump(payload, fh, ensure_ascii=False, indent=2)
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
